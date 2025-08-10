@@ -2,10 +2,9 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Github, Linkedin, Twitter } from "lucide-react";
 import SocialLinks from "@/components/SocialLinks";
 
-const Footer: React.FC = () => {
+export const Footer: React.FC = () => {
     const currentYear = new Date().getFullYear();
 
     return (
@@ -34,5 +33,3 @@ const Footer: React.FC = () => {
         </motion.footer>
     );
 };
-
-export default Footer;
