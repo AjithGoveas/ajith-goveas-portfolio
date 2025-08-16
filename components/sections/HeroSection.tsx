@@ -10,41 +10,8 @@ import {Card, CardContent, CardHeader} from '@/components/ui/card';
 import {Badge} from '@/components/ui/badge';
 import SocialLinks from "@/components/SocialLinks";
 import SimpleTypingAnimation from "@/components/SimpleTypingAnimation";
-
-// --- Simple Reusable Components ---
-
-// const SimpleTypingAnimation: React.FC<{ text: string; delay?: number }> = ({text, delay = 0}) => {
-//     const [displayText, setDisplayText] = useState('');
-//     const [currentIndex, setCurrentIndex] = useState(0);
-//     const [showCursor, setShowCursor] = useState(true);
-//
-//     useEffect(() => {
-//         if (currentIndex < text.length) {
-//             const timer = setTimeout(() => {
-//                 setDisplayText(prev => prev + text[currentIndex]);
-//                 setCurrentIndex(prev => prev + 1);
-//             }, delay);
-//             return () => clearTimeout(timer);
-//         }
-//     }, [currentIndex, text]);
-//
-//     useEffect(() => {
-//         const cursorTimer = setInterval(() => {
-//             setShowCursor(prev => !prev);
-//         }, 530);
-//         return () => clearInterval(cursorTimer);
-//     }, []);
-//
-//     return (
-//         <span className="font-mono">
-//             {displayText}
-//             {currentIndex < text.length && (
-//                 <span
-//                     className={`inline-block w-0.5 h-12 bg-primary ml-1 ${showCursor ? 'opacity-100' : 'opacity-0'} transition-opacity duration-75`}/>
-//             )}
-//         </span>
-//     );
-// };
+import {useIsMobile} from "@/hooks/use-mobile";
+import ScrollButton from "@/components/ScrollButton"; // Import the new hook
 
 const TechBadge: React.FC<{ name: string; color: string }> = ({name, color}) => (
     <Badge
@@ -55,8 +22,6 @@ const TechBadge: React.FC<{ name: string; color: string }> = ({name, color}) => 
     </Badge>
 );
 
-// --- Main Hero Section Component ---
-
 interface HeroProps {
     name: string;
 }
@@ -64,8 +29,15 @@ interface HeroProps {
 const HeroSection: React.FC<HeroProps> = ({name}) => {
     const scrollTargetRef = useRef<HTMLDivElement>(null);
     const {scrollY} = useScroll();
-    const y = useTransform(scrollY, [0, 500], [0, 150]);
-    const opacity = useTransform(scrollY, [0, 300], [1, 0.75]);
+
+    const isMobile = useIsMobile();
+
+    // Set animation ranges based on device type for better control
+    const yRange = isMobile ? [0, 250] : [0, 500];
+    const opacityRange = isMobile ? [0, 250] : [0, 300];
+
+    const y = useTransform(scrollY, yRange, [0, isMobile ? 50 : 150]); // Smaller vertical movement on mobile
+    const opacity = useTransform(scrollY, opacityRange, [1, isMobile ? 0.75 : 0.55]);
 
     const handleScrollToProjects = () => {
         scrollTargetRef.current?.scrollIntoView({behavior: 'smooth'});
@@ -93,8 +65,50 @@ const HeroSection: React.FC<HeroProps> = ({name}) => {
                     className="container relative z-10 px-6 mx-auto"
                 >
                     <div className="max-w-6xl mx-auto">
-                        <div className="grid items-center gap-12 lg:grid-cols-2">
-                            {/* LEFT CONTENT */}
+                        <div className="grid items-center gap-8 grid-cols-1 lg:grid-cols-2">
+                            {/* RIGHT IMAGE - Responsive on mobile */}
+                            <motion.div
+                                className="flex items-center justify-center lg:justify-end order-first lg:order-last"
+                                initial={{opacity: 0, scale: 0.9}}
+                                animate={{opacity: 1, scale: 1}}
+                                transition={{duration: 0.6, delay: 0.3}}
+                            >
+                                <div
+                                    className="relative group cursor-pointer w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80">
+                                    {/* Rotating border */}
+                                    <motion.div
+                                        className="absolute inset-0 rounded-full border border-primary/30"
+                                        animate={{rotate: 360}}
+                                        transition={{duration: 20, repeat: Infinity, ease: 'linear'}}
+                                    />
+                                    {/* Outer ring */}
+                                    <motion.div
+                                        className="absolute inset-0 rounded-full border border-border scale-110"
+                                        animate={{rotate: -360}}
+                                        transition={{duration: 25, repeat: Infinity, ease: 'linear'}}
+                                    />
+                                    {/* Glow */}
+                                    <div className="absolute inset-0 rounded-full bg-primary/5 blur-2xl scale-105"/>
+
+                                    {/* Image */}
+                                    <motion.div
+                                        whileHover={{scale: 1.05}}
+                                        transition={{type: 'spring', stiffness: 300, damping: 10}}
+                                        className="w-full h-full"
+                                    >
+                                        <Image
+                                            src="/ajith.webp"
+                                            alt={`${name} - Android & Frontend Developer`}
+                                            width={400}
+                                            height={400}
+                                            className="relative object-cover p-2 rounded-full border-2 border-border group-hover:border-primary/50 group-hover:border-8 transition-colors duration-300 w-full h-full"
+                                            priority
+                                        />
+                                    </motion.div>
+                                </div>
+                            </motion.div>
+
+                            {/* LEFT CONTENT - now appears below the image on mobile */}
                             <div className="space-y-8">
                                 <motion.div
                                     initial={{opacity: 0, x: -50}}
@@ -187,86 +201,12 @@ const HeroSection: React.FC<HeroProps> = ({name}) => {
                                     <SocialLinks/>
                                 </motion.div>
                             </div>
-
-                            {/* RIGHT IMAGE - Responsive */}
-                            <motion.div
-                                className="flex items-center justify-center lg:justify-end"
-                                initial={{opacity: 0, scale: 0.9}}
-                                animate={{opacity: 1, scale: 1}}
-                                transition={{duration: 0.6, delay: 0.3}}
-                            >
-                                <div
-                                    className="relative group cursor-pointer w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80">
-                                    {/* Rotating border */}
-                                    <motion.div
-                                        className="absolute inset-0 rounded-full border border-primary/30"
-                                        animate={{rotate: 360}}
-                                        transition={{duration: 20, repeat: Infinity, ease: 'linear'}}
-                                    />
-                                    {/* Outer ring */}
-                                    <motion.div
-                                        className="absolute inset-0 rounded-full border border-white/10 scale-110"
-                                        animate={{rotate: -360}}
-                                        transition={{duration: 25, repeat: Infinity, ease: 'linear'}}
-                                    />
-                                    {/* Glow */}
-                                    <div className="absolute inset-0 rounded-full bg-primary/5 blur-2xl scale-105"/>
-
-                                    {/* Image */}
-                                    <motion.div
-                                        whileHover={{scale: 1.05}}
-                                        transition={{type: 'spring', stiffness: 300, damping: 10}}
-                                        className="w-full h-full"
-                                    >
-                                        <Image
-                                            src="/api/placeholder/400/400"
-                                            alt={`${name} - Android & Frontend Developer`}
-                                            width={400}
-                                            height={400}
-                                            className="relative object-cover rounded-full border-2 border-white/20 group-hover:border-primary/50 transition-colors duration-300 w-full h-full"
-                                            priority
-                                        />
-                                    </motion.div>
-                                </div>
-                            </motion.div>
                         </div>
-
-                        {/* --- Scroll Indicator (JetBrains Minimalist Premium) --- */}
-                        <motion.div
-                            className="absolute bottom-8 left-1/2 -translate-x-1/2"
-                            initial={{opacity: 0}}
-                            animate={{opacity: 1}}
-                            transition={{duration: 0.6, delay: 1}}
-                        >
-                            <button
-                                onClick={handleScrollToProjects}
-                                className="group flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors duration-300 focus:outline-none"
-                            >
-                                {/* Label */}
-                                <span
-                                    className="text-[11px] uppercase tracking-[0.15em] opacity-80 group-hover:opacity-100 transition-opacity duration-300">
-      Scroll
-    </span>
-
-                                {/* Sleek track with gradient fade */}
-                                <div className="relative w-[2px] h-8 overflow-hidden">
-                                    {/* Faint track */}
-                                    <div
-                                        className="absolute inset-0 bg-gradient-to-b from-transparent via-current/30 to-transparent"/>
-
-                                    {/* Moving dot */}
-                                    <motion.div
-                                        className="absolute left-1/2 -translate-x-1/2 w-[6px] h-[6px] bg-current rounded-full shadow-[0_0_4px_currentColor]"
-                                        animate={{y: [0, 28, 0]}}
-                                        transition={{duration: 1.5, repeat: Infinity, ease: "easeInOut"}}
-                                    />
-                                </div>
-                            </button>
-                        </motion.div>
                     </div>
                 </motion.div>
 
                 <div ref={scrollTargetRef} id="achievements"/>
+                <ScrollButton/>
             </section>
 
             {/* Modern Stats Section */}
@@ -334,7 +274,6 @@ const HeroSection: React.FC<HeroProps> = ({name}) => {
                     </div>
                 </div>
             </section>
-
         </>
     );
 };

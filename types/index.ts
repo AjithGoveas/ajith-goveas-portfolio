@@ -1,11 +1,24 @@
 // File: src/types/index.ts
+import React from "react";
+
 export interface Project {
+    id: string;
     title: string;
     description: string;
+    year: number;
     tech: string[];
-    type: 'Android' | 'Web' | 'Cross-Platform' | 'Frontend';
+    type: ProjectType;
     githubUrl?: string;
     liveUrl?: string;
+}
+
+export enum ProjectType {
+    Android = 'Android',
+    Web = 'Web',
+    CrossPlatform = 'CrossPlatform',
+    Frontend = 'Frontend',
+    FullStack = 'FullStack',
+    Miscellaneous = 'Miscellaneous',
 }
 
 export interface SkillCategory {
@@ -19,9 +32,10 @@ export interface NavItem {
     href: string;
 }
 
-export interface Links{
+export interface Links {
     id: string;
     label: string;
     href: string;
+    username: string;
     order: number;
 }

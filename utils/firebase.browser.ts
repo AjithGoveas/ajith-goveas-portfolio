@@ -20,9 +20,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 const socialLinksCollection = collection(db, "social_links");
+const projectsCollection = collection(db, "projects");
 
 export {
     app,
     db,
     socialLinksCollection,
+    projectsCollection,
 }

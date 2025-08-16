@@ -8,8 +8,9 @@ const interSans = Inter({
     subsets: ["latin"],
 });
 
-const sofiaSans = Sofia({
+const sofia = Sofia({
     variable: "--font-sofia",
+    style: "normal",
     weight: "400",
     subsets: ["latin"],
 });
@@ -32,7 +33,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
         <body
-            className={`${interSans.variable} ${sofiaSans.variable} ${jetBrainsMono.variable} antialiased`}
+            className={`${interSans.variable} ${sofia.variable} ${jetBrainsMono.variable} antialiased`}
         >
         <ThemeProvider
             attribute="class"

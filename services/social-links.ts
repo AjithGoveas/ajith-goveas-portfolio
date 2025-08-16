@@ -1,9 +1,7 @@
-import { Links } from "@/types";
-import { getDocs, query, orderBy } from "firebase/firestore";
-import { socialLinksCollection } from "@/utils/firebase.browser";
+import {Links} from "@/types";
+import {getDocs, orderBy, query} from "firebase/firestore";
+import {socialLinksCollection} from "@/utils/firebase.browser";
 
-// This function fetches all social links and returns them as a sorted array.
-// It is intended for use in a Next.js Server Component.
 export async function loadAllSocialLinks(): Promise<Links[] | null> {
     try {
         const linksQuery = query(socialLinksCollection, orderBy("order", "asc"));
@@ -17,9 +15,9 @@ export async function loadAllSocialLinks(): Promise<Links[] | null> {
         const links = snapshot.docs.map(doc => ({
             id: doc.id,
             ...doc.data(),
-        })) as Links[];
+        }));
 
-        return links;
+        return links as Links[];
     } catch (error) {
         console.error("Failed to fetch social links:", error);
         return null;

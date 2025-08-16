@@ -26,7 +26,7 @@ export function useSocialLinks(): UseSocialLinksResult {
                 setIsLoading(false);
             }
         };
-        fetchLinks();
+        fetchLinks().catch(err => console.error(err));
     }, []);
 
     return { socialLinks, isLoading, error };
