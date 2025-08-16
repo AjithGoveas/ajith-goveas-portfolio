@@ -1,60 +1,90 @@
 // File: src/components/sections/ProjectsSection.tsx
 'use client';
 
-import React, {JSX, useState} from 'react';
-import {motion} from 'framer-motion';
-import {Code2, ExternalLink, Github, Globe, Monitor, Smartphone} from 'lucide-react';
+import React, {JSX, memo, useMemo, useState} from 'react';
+import {AnimatePresence, motion} from 'framer-motion';
+import {Code2, ExternalLink, Globe, Monitor, Smartphone} from 'lucide-react';
 import {Card, CardContent} from '@/components/ui/card';
 import {Button} from '@/components/ui/button';
-import {projects} from '@/constants/data';
-import {Project} from '@/types';
+import {Project, ProjectType} from '@/types'; // Assumed from your previous prompt
+import {IconBrandGithub, IconDotsCircleHorizontal, IconStack2} from "@tabler/icons-react";
+import {useProjects} from "@/hooks/useProjects";
 
-type ProjectType = "android" | "web" | "fullstack" | string;
+// --- Utility Functions and Memos ---
 
-const ICON_STYLES: Record<string, { bg: string; icon: JSX.Element }> = {
-    android: {
-        bg: "bg-green-100 dark:bg-green-950/30",
-        icon: <Smartphone className="w-5 h-5 text-green-400" />,
-    },
-    web: {
-        bg: "bg-cyan-100 dark:bg-cyan-950/30",
-        icon: <Globe className="w-5 h-5 text-cyan-400" />,
-    },
-    fullstack: {
-        bg: "bg-blue-100 dark:bg-blue-950/30",
-        icon: <Code2 className="w-5 h-5 text-blue-400" />,
-    },
-    default: {
-        bg: "bg-primary/20 dark:bg-primary/30",
-        icon: <Monitor className="w-5 h-5 text-primary" />,
-    },
+const ICON_MAP: Record<ProjectType, JSX.Element> = {
+    Android: <Smartphone className="w-5 h-5 text-green-400"/>,
+    Web: <Globe className="w-5 h-5 text-cyan-400"/>,
+    CrossPlatform: <Smartphone className="w-5 h-5 text-purple-400"/>,
+    Frontend: <Monitor className="w-5 h-5 text-orange-400"/>,
+    FullStack: <IconStack2 className="w-5 h-5 text-blue-400"/>,
+    Miscellaneous: <IconDotsCircleHorizontal className="w-5 h-5 text-amber-400"/>,
+};
+
+const COLOR_MAP: Record<ProjectType, { bg: string; text: string; border: string }> = {
+    Android: {bg: "bg-green-100 dark:bg-green-950/30", text: "text-green-400", border: "border-green-400/20"},
+    Web: {bg: "bg-cyan-100 dark:bg-cyan-950/30", text: "text-cyan-400", border: "border-cyan-400/20"},
+    CrossPlatform: {bg: "bg-purple-100 dark:bg-purple-950/30", text: "text-purple-400", border: "border-purple-400/20"},
+    Frontend: {bg: "bg-orange-100 dark:bg-orange-950/30", text: "text-orange-400", border: "border-orange-400/20"},
+    FullStack: {bg: "bg-blue-100 dark:bg-blue-950/30", text: "text-blue-400", border: "border-blue-400/20"},
+    Miscellaneous: {bg: "bg-amber-100 dark:bg-amber-950/30", text: "text-amber-400", border: "border-amber-400/20"},
 };
 
 const getProjectIcon = (type: ProjectType) => {
-    const { bg, icon } = ICON_STYLES[type.toLowerCase()] || ICON_STYLES.default;
-
+    const {bg} = COLOR_MAP[type] || "";
+    const icon = ICON_MAP[type] || "";
     return (
-        <div
-            className={`p-3 rounded-xl flex items-center justify-center shadow-sm ${bg}`}
-        >
+        <div className={`p-3 rounded-xl flex items-center justify-center shadow-sm ${bg}`}>
             {icon}
         </div>
     );
 };
 
-const ProjectCard: React.FC<{ project: Project; index: number }> = ({project, index}) => {
+// --- Child Components ---
+
+interface FilterButtonProps {
+    active: boolean;
+    onClick: () => void;
+    label: string;
+    icon: JSX.Element;
+}
+
+const FilterButton: React.FC<FilterButtonProps> = memo(({active, onClick, label, icon}) => (
+    <Button
+        variant={active ? 'default' : 'outline'}
+        size="sm"
+        onClick={onClick}
+        className={`px-3 sm:px-4 py-2 mx-1 text-sm transition-colors ${
+            active
+                ? 'bg-primary text-primary-foreground hover:bg-primary/90'
+                : 'text-secondary-foreground hover:text-foreground border-primary/20 hover:border-primary/40'
+        }`}
+    >
+        {icon}
+        {label}
+    </Button>
+));
+
+interface ProjectCardProps {
+    project: Project;
+    index: number;
+}
+
+const ProjectCard: React.FC<ProjectCardProps> = memo(({project, index}) => {
     const [isHovered, setIsHovered] = useState(false);
 
-    const getTypeColor = (type: string) => {
-        switch (type.toLowerCase()) {
-            case 'android':
-                return 'text-green-400 bg-green-400/10 border-green-400/20';
-            case 'web':
-                return 'text-cyan-400 bg-cyan-400/10 border-cyan-400/20';
-            case 'fullstack':
-                return 'text-blue-400 bg-blue-400/10 border-blue-400/20';
-            default:
-                return 'text-primary bg-primary/10 border-primary/20';
+    const typeColors = useMemo(() => COLOR_MAP[project.type] || COLOR_MAP.FullStack, [project.type]);
+
+    const buttonTextVariants = {
+        visible: {
+            opacity: 1,
+            x: 0,
+            transition: {duration: 0.3}
+        },
+        hidden: {
+            opacity: 0,
+            x: -10,
+            transition: {duration: 0.3}
         }
     };
 
@@ -67,8 +97,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({project, in
             onHoverStart={() => setIsHovered(true)}
             onHoverEnd={() => setIsHovered(false)}
         >
-            <Card
-                className="h-full bg-card/50 hover:bg-card/10 transition-all ease-linear duration-300 group">
+            <Card className="h-full bg-card/50 hover:bg-card/10 transition-all ease-linear duration-300 group">
                 <CardContent className="p-6 space-y-6">
                     {/* Project Header */}
                     <div className="space-y-3">
@@ -80,7 +109,7 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({project, in
                                 </h3>
                             </div>
                             <span
-                                className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium border ${getTypeColor(project.type)}`}>
+                                className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium border ${typeColors.text} ${typeColors.border}`}>
                                 {project.type}
                             </span>
                         </div>
@@ -106,68 +135,103 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({project, in
 
                     {/* Project Links */}
                     <div className="flex gap-3 pt-2">
-                        <Button
-                            size="sm"
-                            variant="outline"
-                            className="flex-1 border-border/70 text-secondary-foreground transition-all ease-in duration-600"
-                            asChild
-                        >
-                            <a href={project.githubUrl || '#'} target="_blank" rel="noopener noreferrer">
-                                <Github className="w-4 h-4 mr-2"/>
-                                {isHovered ? 'View Code' : 'Code'}
-                            </a>
-                        </Button>
-                        <Button
-                            size="sm"
-                            className="flex-1 bg-primary hover:bg-primary/90 text-white transition-all ease-in duration-600"
-                            asChild
-                        >
-                            <a href={project.liveUrl || '#'} target="_blank" rel="noopener noreferrer">
-                                <ExternalLink className="w-4 h-4 mr-2"/>
-                                {isHovered ? 'Live Demo' : 'Demo'}
-                            </a>
-                        </Button>
+                        {project.githubUrl && (
+                            <Button
+                                size="sm"
+                                variant="outline"
+                                className="flex-1 border-border/70 text-secondary-foreground transition-all ease-in duration-600 overflow-hidden"
+                                asChild
+                            >
+                                <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                                    <IconBrandGithub size={16} className="w-4 h-4 mr-2"/>
+                                    <AnimatePresence mode="wait">
+                                        <motion.span
+                                            key={isHovered ? 'hovered-github' : 'initial-github'}
+                                            variants={buttonTextVariants}
+                                            initial="hidden"
+                                            animate="visible"
+                                            exit="hidden"
+                                        >
+                                            {isHovered ? 'View Code' : 'Code'}
+                                        </motion.span>
+                                    </AnimatePresence>
+                                </a>
+                            </Button>
+                        )}
+                        {project.liveUrl && (
+                            <Button
+                                size="sm"
+                                className="flex-1 bg-primary hover:bg-primary/90 text-white transition-all ease-in duration-600 overflow-hidden"
+                                asChild
+                            >
+                                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                                    <ExternalLink className="w-4 h-4 mr-2"/>
+                                    <AnimatePresence mode="wait">
+                                        <motion.span
+                                            key={isHovered ? 'hovered-live' : 'initial-live'}
+                                            variants={buttonTextVariants}
+                                            initial="hidden"
+                                            animate="visible"
+                                            exit="hidden"
+                                        >
+                                            {isHovered ? 'Live Demo' : 'Demo'}
+                                        </motion.span>
+                                    </AnimatePresence>
+                                </a>
+                            </Button>
+                        )}
                     </div>
                 </CardContent>
             </Card>
         </motion.div>
     );
-};
+});
 
-const FilterButton: React.FC<{
-    active: boolean;
-    onClick: () => void;
-    children: React.ReactNode;
-    icon: React.ReactNode;
-}> = ({active, onClick, children, icon}) => (
-    <Button
-        variant={active ? 'default' : 'outline'}
-        size="sm"
-        onClick={onClick}
-        className={`px-3 sm:px-4 py-2 mx-1 text-sm transition-colors ${
-            active
-                ? 'bg-primary text-primary-foreground hover:bg-primary/90'
-                : 'text-secondary-foreground hover:text-foreground border-primary/20 hover:border-primary/40'
-        }`}
-    >
-        {icon}
-        {children}
-    </Button>
-);
+// --- Main Section Component ---
 
 const ProjectsSection: React.FC = () => {
-    const [activeFilter, setActiveFilter] = useState('all');
+    const [activeFilter, setActiveFilter] = useState<string>('all');
+    const {projects, isLoading, error} = useProjects();
 
     const filters = [
-        {id: 'all', label: 'All Projects', icon: <Code2 className="w-4 h-4"/>},
-        {id: 'android', label: 'Android', icon: <Smartphone className="w-4 h-4"/>},
-        {id: 'web', label: 'Web', icon: <Globe className="w-4 h-4"/>},
-        {id: 'frontend', label: 'Frontend', icon: <Monitor className="w-4 h-4"/>},
+        {id: 'all', label: 'All Projects', icon: <Code2 className="w-4 h-4 mr-2"/>},
+        {id: 'android', label: 'Android', icon: <Smartphone className="w-4 h-4 mr-2"/>},
+        {id: 'web', label: 'Web', icon: <Globe className="w-4 h-4 mr-2"/>},
+        {id: 'frontend', label: 'Frontend', icon: <Monitor className="w-4 h-4 mr-2"/>},
+        {id: 'fullstack', label: 'FullStack', icon: <IconStack2 className="w-4 h-4 mr-2"/>},
+        {id: 'miscellaneous', label: 'Miscellaneous', icon: <IconDotsCircleHorizontal className="w-4 h-4 mr-2"/>},
     ];
 
-    const filteredProjects = activeFilter === 'all'
-        ? projects
-        : projects.filter(project => project.type.toLowerCase() === activeFilter);
+    const filteredProjects = useMemo(() => {
+        // 1. First, handle the initial null/undefined state of the projects array.
+        if (!projects) {
+            return [];
+        }
+
+        // 2. Filter the projects, but add a robust check for 'project.type'.
+        return activeFilter === 'all'
+            ? projects
+            : projects.filter(project => {
+                // Check if the project.type property is a valid string.
+                // This handles cases where the database data is malformed or null.
+                const projectTypeString = project.type?.toString();
+                return projectTypeString
+                    ? projectTypeString.toLowerCase() === activeFilter
+                    : false;
+            });
+    }, [activeFilter, projects]);
+
+    if (isLoading) {
+        return <div>Loading projects...</div>;
+    }
+
+    if (error) {
+        return <div>Error loading projects.</div>;
+    }
+
+    if (!projects || projects.length === 0) {
+        return <div>No projects found.</div>;
+    }
 
     return (
         <section id="projects" className="py-20 border-t border-border">
@@ -183,7 +247,7 @@ const ProjectsSection: React.FC = () => {
                     >
                         <h2 className="text-3xl font-bold text-primary mb-4">Featured Projects</h2>
                         <p className="text-muted-foreground max-w-2xl mb-8">
-                            A showcase of mobile apps and web applications I've built using modern technologies
+                            A showcase of mobile apps and web applications I've built using modern technologies.
                         </p>
 
                         {/* Project Filters */}
@@ -193,10 +257,9 @@ const ProjectsSection: React.FC = () => {
                                     key={filter.id}
                                     active={activeFilter === filter.id}
                                     onClick={() => setActiveFilter(filter.id)}
+                                    label={filter.label}
                                     icon={filter.icon}
-                                >
-                                    {filter.label}
-                                </FilterButton>
+                                />
                             ))}
                         </div>
                     </motion.div>
@@ -206,22 +269,24 @@ const ProjectsSection: React.FC = () => {
                         layout
                         className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
                     >
-                        {filteredProjects.map((project, index) => (
-                            <ProjectCard key={`${project.title}-${index}`} project={project} index={index}/>
-                        ))}
+                        <AnimatePresence>
+                            {filteredProjects.length > 0 ? (
+                                filteredProjects.map((project, index) => (
+                                    <ProjectCard key={project.id} project={project} index={index}/>
+                                ))
+                            ) : (
+                                <motion.div
+                                    key="empty-state"
+                                    initial={{opacity: 0}}
+                                    animate={{opacity: 1}}
+                                    className="col-span-full text-center py-16"
+                                >
+                                    <Code2 className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4"/>
+                                    <p className="text-muted-foreground">No projects found for this category yet.</p>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
                     </motion.div>
-
-                    {/* Empty State */}
-                    {filteredProjects.length === 0 && (
-                        <motion.div
-                            initial={{opacity: 0}}
-                            animate={{opacity: 1}}
-                            className="text-center py-16"
-                        >
-                            <Code2 className="w-12 h-12 text-muted-foreground/30 mx-auto mb-4"/>
-                            <p className="text-muted-foreground">No projects found for this category yet.</p>
-                        </motion.div>
-                    )}
 
                     {/* Bottom CTA */}
                     <motion.div
@@ -233,7 +298,7 @@ const ProjectsSection: React.FC = () => {
                     >
                         <div
                             className="inline-flex items-center gap-2 px-4 py-2 bg-white/[0.02] border border-border/50 rounded-full">
-                            <Github className="w-4 h-4 text-muted-foreground"/>
+                            <IconBrandGithub size={16} className="text-muted-foreground"/>
                             <span
                                 className="text-sm text-muted-foreground/70 italic">More projects available on GitHub</span>
                         </div>
