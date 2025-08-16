@@ -2,12 +2,13 @@
 
 import React, {useState} from 'react';
 import {motion} from 'framer-motion';
-import {ArrowRight, Calendar, Clock, Github, Linkedin, Mail, MapPin, MessageSquare, Send, User} from 'lucide-react';
+import {ArrowRight, Calendar, Clock, MessageSquare, Send, User} from 'lucide-react';
 import {Card, CardHeader} from '@/components/ui/card';
 import {Button} from '@/components/ui/button';
 import {Input} from '@/components/ui/input';
 import {Textarea} from '@/components/ui/textarea';
 import {Label} from "@/components/ui/label";
+import {IconBrandGithub, IconBrandLinkedin, IconMail, IconMapPin} from "@tabler/icons-react";
 
 const ContactSection = () => {
     const [formData, setFormData] = useState({
@@ -42,13 +43,13 @@ const ContactSection = () => {
 
     const contactInfo = [
         {
-            icon: Mail,
+            icon: IconMail,
             label: 'Email',
             value: 'your.email@example.com',
             description: 'Drop me a line anytime'
         },
         {
-            icon: MapPin,
+            icon: IconMapPin,
             label: 'Location',
             value: 'San Francisco, CA',
             description: 'Available for remote work'
@@ -63,14 +64,14 @@ const ContactSection = () => {
 
     const socialLinks = [
         {
-            icon: Github,
+            icon: IconBrandGithub,
             label: 'GitHub',
             username: '@yourusername',
             href: 'https://github.com',
             color: 'hover:text-gray-300'
         },
         {
-            icon: Linkedin,
+            icon: IconBrandLinkedin,
             label: 'LinkedIn',
             username: '/in/yourname',
             href: 'https://linkedin.com',
@@ -212,7 +213,7 @@ const ContactSection = () => {
                                                 <div className="space-y-2">
                                                     <Label className="text-sm font-medium text-primary">Email *</Label>
                                                     <div className="relative">
-                                                        <Mail
+                                                        <IconMail
                                                             className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"/>
                                                         <Input
                                                             name="email"
@@ -306,7 +307,8 @@ const ContactSection = () => {
                             <Calendar className="w-4 h-4 text-muted-foreground"/>
                             <span className="text-sm text-muted-foreground italic">
                                 Prefer a call?
-                                <a href="#" className="ml-1 text-primary not-italic hover:underline">Schedule a meeting</a>
+                                <a href="#"
+                                   className="ml-1 text-primary not-italic hover:underline">Schedule a meeting</a>
                             </span>
                         </div>
                     </motion.div>

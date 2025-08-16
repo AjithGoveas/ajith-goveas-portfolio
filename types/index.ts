@@ -18,3 +18,10 @@ export interface NavItem {
     name: string;
     href: string;
 }
+
+export interface Links{
+    id: string;
+    label: string;
+    href: string;
+    order: number;
+}
