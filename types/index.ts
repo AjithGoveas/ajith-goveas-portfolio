@@ -6,6 +6,7 @@ export interface Project {
     title: string;
     description: string;
     year: number;
+    order: number;
     tech: string[];
     type: ProjectType;
     githubUrl?: string;
@@ -18,7 +19,11 @@ export enum ProjectType {
     CrossPlatform = 'CrossPlatform',
     Frontend = 'Frontend',
     FullStack = 'FullStack',
-    Miscellaneous = 'Miscellaneous',
+    Backend = 'Backend',
+    Desktop = 'Desktop',
+    DataScience = 'DataScience',
+    MachineLearning = 'MachineLearning',
+    AI = 'AI',
 }
 
 export interface SkillCategory {

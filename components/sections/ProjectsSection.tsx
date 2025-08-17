@@ -3,32 +3,13 @@
 
 import React, {JSX, memo, useMemo, useState} from 'react';
 import {AnimatePresence, motion} from 'framer-motion';
-import {Code2, ExternalLink, Globe, Monitor, Smartphone} from 'lucide-react';
+import {Code2, ExternalLink} from 'lucide-react';
 import {Card, CardContent} from '@/components/ui/card';
 import {Button} from '@/components/ui/button';
-import {Project, ProjectType} from '@/types'; // Assumed from your previous prompt
-import {IconBrandGithub, IconDotsCircleHorizontal, IconStack2} from "@tabler/icons-react";
+import {Project, ProjectType} from '@/types';
+import {IconBrandGithub} from "@tabler/icons-react";
 import {useProjects} from "@/hooks/useProjects";
-
-// --- Utility Functions and Memos ---
-
-const ICON_MAP: Record<ProjectType, JSX.Element> = {
-    Android: <Smartphone className="w-5 h-5 text-green-400"/>,
-    Web: <Globe className="w-5 h-5 text-cyan-400"/>,
-    CrossPlatform: <Smartphone className="w-5 h-5 text-purple-400"/>,
-    Frontend: <Monitor className="w-5 h-5 text-orange-400"/>,
-    FullStack: <IconStack2 className="w-5 h-5 text-blue-400"/>,
-    Miscellaneous: <IconDotsCircleHorizontal className="w-5 h-5 text-amber-400"/>,
-};
-
-const COLOR_MAP: Record<ProjectType, { bg: string; text: string; border: string }> = {
-    Android: {bg: "bg-green-100 dark:bg-green-950/30", text: "text-green-400", border: "border-green-400/20"},
-    Web: {bg: "bg-cyan-100 dark:bg-cyan-950/30", text: "text-cyan-400", border: "border-cyan-400/20"},
-    CrossPlatform: {bg: "bg-purple-100 dark:bg-purple-950/30", text: "text-purple-400", border: "border-purple-400/20"},
-    Frontend: {bg: "bg-orange-100 dark:bg-orange-950/30", text: "text-orange-400", border: "border-orange-400/20"},
-    FullStack: {bg: "bg-blue-100 dark:bg-blue-950/30", text: "text-blue-400", border: "border-blue-400/20"},
-    Miscellaneous: {bg: "bg-amber-100 dark:bg-amber-950/30", text: "text-amber-400", border: "border-amber-400/20"},
-};
+import {COLOR_MAP, filters, ICON_MAP} from "@/constants/projects";
 
 const getProjectIcon = (type: ProjectType) => {
     const {bg} = COLOR_MAP[type] || "";
@@ -98,88 +79,95 @@ const ProjectCard: React.FC<ProjectCardProps> = memo(({project, index}) => {
             onHoverEnd={() => setIsHovered(false)}
         >
             <Card className="h-full bg-card/50 hover:bg-card/10 transition-all ease-linear duration-300 group">
-                <CardContent className="p-6 space-y-6">
-                    {/* Project Header */}
-                    <div className="space-y-3">
-                        <div className="flex items-start justify-between space-x-1">
-                            <div className="flex items-center gap-4">
-                                {getProjectIcon(project.type)}
-                                <h3 className="text-lg font-semibold text-primary group-hover:text-secondary-foreground transition-colors duration-300">
-                                    {project.title}
-                                </h3>
-                            </div>
-                            <span
-                                className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium border ${typeColors.text} ${typeColors.border}`}>
-                                {project.type}
-                            </span>
-                        </div>
-                        <p className="text-sm text-muted-foreground leading-relaxed">
-                            {project.description}
-                        </p>
-                    </div>
-
-                    {/* Tech Stack */}
-                    <div className="space-y-2">
-                        <p className="text-xs font-medium text-muted-foreground/80">Built with</p>
-                        <div className="flex flex-wrap gap-2">
-                            {project.tech.map((tech, techIndex) => (
+                <CardContent className="p-6 h-full flex flex-col justify-between">
+                    <div>
+                        {/* Project Header */}
+                        <div className="space-y-3">
+                            <div className="flex items-start justify-between space-x-1">
+                                <div className="flex items-center gap-4">
+                                    {getProjectIcon(project.type)}
+                                    <h3 className="text-lg font-semibold text-primary group-hover:text-secondary-foreground transition-colors duration-300">
+                                        {project.title}
+                                    </h3>
+                                </div>
                                 <span
-                                    key={techIndex}
-                                    className="inline-flex items-center px-2 py-1 text-xs font-mono border border-border rounded text-muted-foreground hover:text-white hover:border-white/20 transition-all duration-200"
-                                >
-                                    {tech}
+                                    className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium border ${typeColors.text} ${typeColors.border}`}>
+                                    {project.type}
                                 </span>
-                            ))}
+                            </div>
+                            <p className="text-sm text-muted-foreground leading-relaxed">
+                                {project.description}
+                            </p>
+                        </div>
+
+                        {/* Tech Stack */}
+                        <div className="space-y-2 mt-4">
+                            <p className="text-xs font-medium text-muted-foreground/80">Built with</p>
+                            <div className="flex flex-wrap gap-2">
+                                {project.tech.map((tech, techIndex) => (
+                                    <span
+                                        key={techIndex}
+                                        className="inline-flex items-center px-2 py-1 text-xs font-mono border border-border rounded text-muted-foreground hover:text-white hover:border-white/20 transition-all duration-200"
+                                    >
+                                        {tech}
+                                    </span>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
-                    {/* Project Links */}
-                    <div className="flex gap-3 pt-2">
-                        {project.githubUrl && (
-                            <Button
-                                size="sm"
-                                variant="outline"
-                                className="flex-1 border-border/70 text-secondary-foreground transition-all ease-in duration-600 overflow-hidden"
-                                asChild
-                            >
-                                <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
-                                    <IconBrandGithub size={16} className="w-4 h-4 mr-2"/>
-                                    <AnimatePresence mode="wait">
-                                        <motion.span
-                                            key={isHovered ? 'hovered-github' : 'initial-github'}
-                                            variants={buttonTextVariants}
-                                            initial="hidden"
-                                            animate="visible"
-                                            exit="hidden"
-                                        >
-                                            {isHovered ? 'View Code' : 'Code'}
-                                        </motion.span>
-                                    </AnimatePresence>
-                                </a>
-                            </Button>
-                        )}
-                        {project.liveUrl && (
-                            <Button
-                                size="sm"
-                                className="flex-1 bg-primary hover:bg-primary/90 text-white transition-all ease-in duration-600 overflow-hidden"
-                                asChild
-                            >
-                                <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
-                                    <ExternalLink className="w-4 h-4 mr-2"/>
-                                    <AnimatePresence mode="wait">
-                                        <motion.span
-                                            key={isHovered ? 'hovered-live' : 'initial-live'}
-                                            variants={buttonTextVariants}
-                                            initial="hidden"
-                                            animate="visible"
-                                            exit="hidden"
-                                        >
-                                            {isHovered ? 'Live Demo' : 'Demo'}
-                                        </motion.span>
-                                    </AnimatePresence>
-                                </a>
-                            </Button>
-                        )}
+                    {/* Project Links & Year */}
+                    <div>
+                        <div className="flex gap-3 pt-6 mt-auto">
+                            {project.githubUrl && (
+                                <Button
+                                    size="sm"
+                                    variant="outline"
+                                    className="flex-1 border-border/70 text-secondary-foreground transition-all ease-in duration-600 overflow-hidden"
+                                    asChild
+                                >
+                                    <a href={project.githubUrl} target="_blank" rel="noopener noreferrer">
+                                        <IconBrandGithub size={16} className="w-4 h-4 mr-2"/>
+                                        <AnimatePresence mode="wait">
+                                            <motion.span
+                                                key={isHovered ? 'hovered-github' : 'initial-github'}
+                                                variants={buttonTextVariants}
+                                                initial="hidden"
+                                                animate="visible"
+                                                exit="hidden"
+                                            >
+                                                {isHovered ? 'View Code' : 'Code'}
+                                            </motion.span>
+                                        </AnimatePresence>
+                                    </a>
+                                </Button>
+                            )}
+                            {project.liveUrl && (
+                                <Button
+                                    size="sm"
+                                    className="flex-1 bg-primary hover:bg-primary/90 text-white transition-all ease-in duration-600 overflow-hidden"
+                                    asChild
+                                >
+                                    <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                                        <ExternalLink className="w-4 h-4 mr-2"/>
+                                        <AnimatePresence mode="wait">
+                                            <motion.span
+                                                key={isHovered ? 'hovered-live' : 'initial-live'}
+                                                variants={buttonTextVariants}
+                                                initial="hidden"
+                                                animate="visible"
+                                                exit="hidden"
+                                            >
+                                                {isHovered ? 'Live Demo' : 'Demo'}
+                                            </motion.span>
+                                        </AnimatePresence>
+                                    </a>
+                                </Button>
+                            )}
+                        </div>
+                        <div className="text-right text-xs text-muted-foreground/50 mt-2">
+                            Developed in {project.year}
+                        </div>
                     </div>
                 </CardContent>
             </Card>
@@ -192,15 +180,6 @@ const ProjectCard: React.FC<ProjectCardProps> = memo(({project, index}) => {
 const ProjectsSection: React.FC = () => {
     const [activeFilter, setActiveFilter] = useState<string>('all');
     const {projects, isLoading, error} = useProjects();
-
-    const filters = [
-        {id: 'all', label: 'All Projects', icon: <Code2 className="w-4 h-4 mr-2"/>},
-        {id: 'android', label: 'Android', icon: <Smartphone className="w-4 h-4 mr-2"/>},
-        {id: 'web', label: 'Web', icon: <Globe className="w-4 h-4 mr-2"/>},
-        {id: 'frontend', label: 'Frontend', icon: <Monitor className="w-4 h-4 mr-2"/>},
-        {id: 'fullstack', label: 'FullStack', icon: <IconStack2 className="w-4 h-4 mr-2"/>},
-        {id: 'miscellaneous', label: 'Miscellaneous', icon: <IconDotsCircleHorizontal className="w-4 h-4 mr-2"/>},
-    ];
 
     const filteredProjects = useMemo(() => {
         // 1. First, handle the initial null/undefined state of the projects array.

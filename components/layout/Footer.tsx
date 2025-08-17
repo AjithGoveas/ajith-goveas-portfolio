@@ -30,7 +30,7 @@ export const Footer: React.FC = () => {
                 */}
                 <div className="flex flex-col items-center sm:items-end text-center sm:text-right space-y-2">
                     <p className="text-sm">
-                        <span className="text-foreground font-medium">Developer Portfolio</span> &copy;{currentYear}
+                        <span className="text-xl font-sofia text-foreground">myBio</span> &copy;{currentYear}
                     </p>
                     <p className="text-xs">
                         Built with <span className="text-primary font-mono">Next.js</span> &{" "}

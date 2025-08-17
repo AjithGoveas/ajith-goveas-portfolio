@@ -41,3 +41,29 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Log files
+*.log
+.log
+
+# Node.js
+# yarn.lock (or package-lock.json) if you're managing dependencies outside of Git
+# For most projects, you'll want to commit yarn.lock or package-lock.json,
+# but it's listed here as an option if your team has a different workflow.
+# yarn.lock
+# package-lock.json
+
+# If you use Bun
+/bun.lockb
+
+# If you use pnpm
+/pnpm-lock.yaml
+
+# If you use the Vercel CLI (optional)
+.vercel/
+.vercel/output/
+
+# Editor/IDE-specific (can vary by user)
+.editorconfig
+*.sublime-project
+*.sublime-workspace

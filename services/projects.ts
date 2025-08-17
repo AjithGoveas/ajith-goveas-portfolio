@@ -4,7 +4,7 @@ import {projectsCollection} from "@/utils/firebase.browser";
 
 export async function loadAllProjects(): Promise<Project[] | null> {
     try {
-        const projectsQuery = query(projectsCollection, orderBy("year", "asc"));
+        const projectsQuery = query(projectsCollection, orderBy("year", "desc"), orderBy("order", "asc"));
         const snapshot = await getDocs(projectsQuery);
 
         if (snapshot.empty) {
