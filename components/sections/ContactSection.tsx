@@ -12,86 +12,85 @@ import {ArrowRight, Calendar, MessageSquare, Send, User} from "lucide-react";
 import {IconMail} from "@tabler/icons-react";
 import SocialLinks from "@/components/SocialLinks";
 import useIsLargeScreen from "@/hooks/useIsLargeScreen";
-
-// --- Type Definitions ---
-interface ContactInfo {
-    label: string;
-    value: string;
-    description: string;
-    icon: React.ElementType;
-}
-
-interface FormData {
-    name: string;
-    email: string;
-    subject: string;
-    message: string;
-}
-
-const contactInfo: ContactInfo[] = [
-    {label: "Email", value: "your.email@example.com", description: "Send me a message anytime!", icon: IconMail},
-    {label: "Phone", value: "+1 (123) 456-7890", description: "Prefer to talk? Give me a call.", icon: User},
-];
+import {ContactInfo, FormData} from "@/types";
+import {getIcon} from "@/utils/get-icon";
+import {useContactInfo} from "@/hooks/useContactInfo";
 
 // --- Sub-components for better modularity ---
 
-// Correctly define props for both sub-components
+// Correctly define props for both subcomponents
 interface ContactCardProps {
     cardVariants: any;
     isLargeScreen: boolean;
 }
 
-const ContactInfoCard: React.FC<ContactCardProps> = ({cardVariants, isLargeScreen}) => (
-    <motion.div
-        key="contact"
-        className="p-6 sm:p-8 lg:p-12 bg-gradient-to-br from-white/[0.03] to-white/[0.01] flex flex-col"
-        variants={cardVariants}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        transition={{duration: 0.5}}
-    >
-        <CardHeader className="mb-6 sm:mb-8 p-0">
-            <h3 className="text-xl sm:text-2xl font-semibold text-secondary-foreground mb-2 sm:mb-3">Get in Touch</h3>
-            <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                I'm always excited to work on new projects and collaborate with amazing people. Let's create something
-                extraordinary together.
-            </p>
-        </CardHeader>
-        <div className="space-y-4 sm:space-y-6 mb-6 sm:mb-8">
-            {contactInfo.map((info, index) => (
-                <motion.div
-                    key={info.label}
-                    initial={{opacity: 0, x: -20}}
-                    whileInView={{opacity: 1, x: 0}}
-                    viewport={{once: true}}
-                    transition={{duration: 0.5, delay: index * 0.1}}
-                    className="flex items-start gap-4 group"
-                >
-                    <div
-                        className="w-10 h-10 sm:w-12 sm:h-12 border border-border/70 rounded-lg sm:rounded-xl flex items-center justify-center group-hover:border-primary/40 transition-all duration-300">
-                        <info.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary"/>
-                    </div>
-                    <div>
-                        <div
-                            className="text-sm sm:text-base text-secondary-foreground font-medium mb-1">{info.label}</div>
-                        <div className="text-primary text-sm sm:text-base font-medium mb-1">{info.value}</div>
-                        <div className="text-xs sm:text-sm text-muted-foreground">{info.description}</div>
-                    </div>
-                </motion.div>
-            ))}
-        </div>
-        <div className="mt-auto">
-            <h4 className="text-sm sm:text-base text-secondary-foreground font-medium mb-4">Connect with me</h4>
-            <SocialLinks fullStyle={isLargeScreen}/>
-        </div>
-        <div
-            className="mt-4 sm:mt-6 flex items-center gap-3 px-3 sm:px-4 py-2 sm:py-3 bg-green-500/10 border border-green-500/20 rounded-md sm:rounded-lg">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="text-xs sm:text-sm text-green-400 font-medium">Available for new projects</span>
-        </div>
-    </motion.div>
-);
+interface ContactInfoProps extends ContactCardProps {
+    contactInfo: ContactInfo[];
+}
+
+function ContactInfoCard({cardVariants, isLargeScreen, contactInfo}: ContactInfoProps) {
+    const displayedSocials = contactInfo.map(info => ({
+        ...info,
+        icon: getIcon(info.label),
+    }))
+    return (
+        <motion.div
+            key="contact"
+            className="p-6 sm:p-8 lg:p-12 flex flex-col"
+            variants={cardVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            transition={{duration: 0.5}}
+        >
+            <CardHeader className="mb-6 sm:mb-8 p-0">
+                <h3 className="text-xl sm:text-2xl font-semibold text-secondary-foreground mb-2 sm:mb-3">Get in
+                    Touch</h3>
+                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
+                    I'm always excited to work on new projects and collaborate with amazing people. Let's create
+                    something
+                    extraordinary together.
+                </p>
+            </CardHeader>
+            <div className="space-y-4 sm:space-y-6 mb-6 sm:mb-8">
+                {displayedSocials.map((info, index) => {
+                    const IconComponent = info.icon;
+                    if (!IconComponent) return null;
+                    return (
+                        <motion.div
+                            key={info.label}
+                            initial={{opacity: 0, x: -20}}
+                            whileInView={{opacity: 1, x: 0}}
+                            viewport={{once: true}}
+                            transition={{duration: 0.5, delay: index * 0.1}}
+                            className="flex items-start gap-4 group"
+                        >
+                            <div
+                                className="w-10 h-10 sm:w-12 sm:h-12 border border-border/70 rounded-lg sm:rounded-xl flex items-center justify-center group-hover:border-primary/40 transition-all duration-300">
+                                <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 text-primary"/>
+                            </div>
+                            <div>
+                                <div
+                                    className="text-sm sm:text-base text-secondary-foreground font-medium mb-1">{info.label}</div>
+                                <div className="text-primary text-sm sm:text-base font-medium mb-1">{info.value}</div>
+                                <div className="text-xs sm:text-sm text-muted-foreground">{info.description}</div>
+                            </div>
+                        </motion.div>
+                    );
+                })}
+            </div>
+            <div className="mt-auto">
+                <h4 className="text-sm sm:text-base text-secondary-foreground font-medium mb-4">Connect with me</h4>
+                <SocialLinks fullStyle={isLargeScreen}/>
+            </div>
+            <div
+                className="mt-4 sm:mt-6 flex items-center gap-3 px-3 sm:px-4 py-2 sm:py-3 bg-green-500/10 border border-green-500/20 rounded-md sm:rounded-lg">
+                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                <span className="text-xs sm:text-sm text-green-400 font-medium">Available for new projects</span>
+            </div>
+        </motion.div>
+    );
+}
 
 interface FormCardProps extends ContactCardProps {
     formData: FormData;
@@ -217,6 +216,7 @@ const ContactFormCard: React.FC<FormCardProps> = ({
 // --- Main Component ---
 export default function ContactSection(): JSX.Element {
     const isLargeScreen = useIsLargeScreen();
+
     const [activeCard, setActiveCard] = useState<"contact" | "form">("contact");
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [formData, setFormData] = useState<FormData>({
@@ -226,6 +226,20 @@ export default function ContactSection(): JSX.Element {
         message: "",
     });
 
+    const {contactInfo, isLoading, error} = useContactInfo();
+
+    if (isLoading) {
+        return <div>Loading social links...</div>;
+    }
+
+    if (error) {
+        return <div>Error loading social links.</div>;
+    }
+
+    if (!contactInfo || contactInfo.length === 0) {
+        return <div>No social links available.</div>;
+    }
+    // Forms
     const handleInputChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
         const {name, value} = e.target;
         setFormData({...formData, [name]: value});
@@ -239,6 +253,13 @@ export default function ContactSection(): JSX.Element {
         setIsSubmitting(false);
         alert("Thank you for your message!");
     };
+
+    // Contact Info
+    // Perform data enrichment only if the full style is needed
+    const displayedSocials = contactInfo.map(info => ({
+        ...info,
+        icon: getIcon(info.label),
+    }))
 
     const cardVariants = {
         hidden: {opacity: 0, x: -100},
@@ -272,15 +293,15 @@ export default function ContactSection(): JSX.Element {
                         viewport={{once: true}}
                         transition={{duration: 0.8, delay: 0.2}}
                     >
-                        <Card className="overflow-hidden border border-white/10 bg-white/[0.02] backdrop-blur-sm">
+                        <Card className="overflow-hidden border border-white/10 bg-background backdrop-blur-sm">
                             <div className="flex justify-center p-4 lg:hidden">
                                 <div
-                                    className="flex w-full max-w-sm overflow-hidden rounded-full border border-border/70 bg-white/[0.05]">
+                                    className="flex w-full max-w-sm overflow-hidden rounded-full border border-border/70 bg-secondary">
                                     <Button
                                         onClick={() => setActiveCard("contact")}
                                         className={`flex-1 rounded-full px-6 py-2 text-sm font-medium transition-colors ${
                                             activeCard === "contact"
-                                                ? "bg-white/10 text-primary-foreground"
+                                                ? "bg-primary text-primary-foreground"
                                                 : "bg-transparent text-muted-foreground hover:bg-white/[0.05]"
                                         }`}
                                     >
@@ -290,7 +311,7 @@ export default function ContactSection(): JSX.Element {
                                         onClick={() => setActiveCard("form")}
                                         className={`flex-1 rounded-full px-6 py-2 text-sm font-medium transition-colors ${
                                             activeCard === "form"
-                                                ? "bg-white/10 text-primary-foreground"
+                                                ? "bg-primary text-primary-foreground"
                                                 : "bg-transparent text-muted-foreground hover:bg-white/[0.05]"
                                         }`}
                                     >
@@ -302,7 +323,8 @@ export default function ContactSection(): JSX.Element {
                             <div className="grid lg:grid-cols-2 gap-0 min-h-[600px]">
                                 {isLargeScreen ? (
                                     <>
-                                        <ContactInfoCard cardVariants={cardVariants} isLargeScreen={true}/>
+                                        <ContactInfoCard cardVariants={cardVariants} isLargeScreen={true}
+                                                         contactInfo={displayedSocials}/>
                                         <ContactFormCard
                                             cardVariants={cardVariants}
                                             isLargeScreen={true}
@@ -315,7 +337,8 @@ export default function ContactSection(): JSX.Element {
                                 ) : (
                                     <AnimatePresence mode="wait">
                                         {activeCard === 'contact' ? (
-                                            <ContactInfoCard cardVariants={cardVariants} isLargeScreen={false}/>
+                                            <ContactInfoCard cardVariants={cardVariants} isLargeScreen={false}
+                                                             contactInfo={displayedSocials}/>
                                         ) : (
                                             <ContactFormCard
                                                 cardVariants={cardVariants}

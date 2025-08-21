@@ -10,6 +10,7 @@ import {Project, ProjectType} from '@/types';
 import {IconBrandGithub} from "@tabler/icons-react";
 import {useProjects} from "@/hooks/useProjects";
 import {COLOR_MAP, filters, ICON_MAP} from "@/constants/projects";
+import {Badge} from "@/components/ui/badge";
 
 const getProjectIcon = (type: ProjectType) => {
     const {bg} = COLOR_MAP[type] || "";
@@ -90,10 +91,11 @@ const ProjectCard: React.FC<ProjectCardProps> = memo(({project, index}) => {
                                         {project.title}
                                     </h3>
                                 </div>
-                                <span
+                                <Badge
+                                    variant={"outline"}
                                     className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium border ${typeColors.text} ${typeColors.border}`}>
                                     {project.type}
-                                </span>
+                                </Badge>
                             </div>
                             <p className="text-sm text-muted-foreground leading-relaxed">
                                 {project.description}

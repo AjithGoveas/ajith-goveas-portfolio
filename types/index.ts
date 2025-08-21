@@ -44,3 +44,19 @@ export interface Links {
     username: string;
     order: number;
 }
+
+// --- Type Definitions ---
+export interface ContactInfo {
+    id: string;
+    label: string;
+    value: string;
+    description: string;
+    order: number;
+}
+
+export interface FormData {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+}

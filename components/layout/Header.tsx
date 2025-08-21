@@ -74,6 +74,7 @@ const Header = ({className = ''}) => {
                         </div>
                     </motion.div>
 
+                    <div className="flex justify-between items-center gap-2 h-16">
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center gap-1">
                         <div
@@ -94,7 +95,6 @@ const Header = ({className = ''}) => {
                                 </Button>
                             ))}
                         </div>
-                        <ModeToggle/>
                     </div>
 
                     {/* Mobile Menu */}
@@ -163,11 +163,13 @@ const Header = ({className = ''}) => {
                                             <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"/>
                                             Available
                                         </Badge>
-                                        <ModeToggle/>
                                     </div>
                                 </div>
                             </SheetContent>
                         </Sheet>
+                    </div>
+
+                    <ModeToggle/>
                     </div>
                 </div>
             </nav>
