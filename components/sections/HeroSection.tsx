@@ -11,7 +11,8 @@ import {Badge} from '@/components/ui/badge';
 import SocialLinks from "@/components/SocialLinks";
 import SimpleTypingAnimation from "@/components/SimpleTypingAnimation";
 import {useIsMobile} from "@/hooks/use-mobile";
-import ScrollButton from "@/components/ScrollButton"; // Import the new hook
+import ScrollButton from "@/components/ScrollButton";
+import {useProjects} from "@/hooks/useProjects"; // Import the new hook
 
 const TechBadge: React.FC<{ name: string; color: string }> = ({name, color}) => (
     <Badge
@@ -39,6 +40,9 @@ const HeroSection: React.FC<HeroProps> = ({name}) => {
     const y = useTransform(scrollY, yRange, [0, isMobile ? 50 : 150]); // Smaller vertical movement on mobile
     const opacity = useTransform(scrollY, opacityRange, [1, isMobile ? 0.75 : 0.55]);
 
+    const projectCount = useProjects().projects?.length || 0;
+    const experienceYears = new Date().getFullYear() - 2023;
+
     const handleScrollToProjects = () => {
         scrollTargetRef.current?.scrollIntoView({behavior: 'smooth'});
     };
@@ -54,7 +58,7 @@ const HeroSection: React.FC<HeroProps> = ({name}) => {
         <>
             <section
                 id="hero"
-                className="relative flex items-center justify-center min-h-screen bg-background"
+                className="relative flex items-center justify-center min-h-screen"
             >
                 {/* Subtle background pattern */}
                 <div className="absolute inset-0 bg-grid-white/5 bg-grid-16"/>
@@ -218,12 +222,12 @@ const HeroSection: React.FC<HeroProps> = ({name}) => {
                             {[
                                 {
                                     icon: <Code2 className="w-6 h-6 text-primary"/>,
-                                    count: "3+",
+                                    count: experienceYears.toString(),
                                     label: "Years of Development",
                                 },
                                 {
                                     icon: <Smartphone className="w-6 h-6 text-primary"/>,
-                                    count: "50+",
+                                    count: (projectCount-1).toString(),
                                     label: "Projects Delivered",
                                 },
                                 {

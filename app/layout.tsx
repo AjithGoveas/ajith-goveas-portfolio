@@ -1,11 +1,18 @@
 import type {Metadata} from "next";
-import {Inter, JetBrains_Mono, Sofia} from "next/font/google";
+import {Inter, JetBrains_Mono, Sofia, Cal_Sans} from "next/font/google";
 import "./globals.css";
 import {ThemeProvider} from "@/components/theme-provider";
+import React from "react";
 
-const interSans = Inter({
-    variable: "--font-inter-sans",
+const inter = Inter({
+    variable: "--font-inter",
     subsets: ["latin"],
+});
+
+const calSans = Cal_Sans({
+    weight: "400",
+    variable: "--font-cal-sans",
+    subsets: ["latin"]
 });
 
 const sofia = Sofia({
@@ -33,7 +40,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
         <body
-            className={`${interSans.variable} ${sofia.variable} ${jetBrainsMono.variable} antialiased`}
+            className={`${calSans.variable} ${inter.variable} ${sofia.variable} ${jetBrainsMono.variable} antialiased`}
         >
         <ThemeProvider
             attribute="class"
