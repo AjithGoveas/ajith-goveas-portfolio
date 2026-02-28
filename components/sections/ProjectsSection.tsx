@@ -127,8 +127,18 @@ export default function ProjectsSection() {
                 <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-24 md:mb-36">
                     <div className="space-y-6">
                         <div className="h-1 w-16 bg-primary rounded-full"/>
-                        <h2 className="text-7xl md:text-9xl font-bold tracking-tighter leading-[0.8]">
-                            Selected<br/>Work<span className="text-muted-foreground/20">.</span>
+                        <h2 className="text-7xl md:text-[10vw] font-bold tracking-tighter leading-[0.8] mb-2">
+                            Selected<br/>
+                            <span className="relative">
+                            Work
+                            <span className="text-primary/20">.</span>
+                            <motion.span
+                                initial={{scaleX: 0}}
+                                whileInView={{scaleX: 1}}
+                                transition={{delay: 0.5, duration: 0.8}}
+                                className="absolute bottom-4 left-0 w-full h-1 bg-primary/10 origin-left hidden md:block"
+                            />
+                        </span>
                         </h2>
                     </div>
 

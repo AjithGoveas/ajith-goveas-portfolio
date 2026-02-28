@@ -124,8 +124,18 @@ export default function ContactSection() {
                         <div className="space-y-6 md:space-y-8">
                             <div
                                 className="h-1 w-12 md:w-20 bg-primary rounded-full shadow-[0_0_20px_rgba(var(--primary),0.3)]"/>
-                            <h2 className="text-6xl md:text-8xl lg:text-[7.5vw] font-bold tracking-tighter leading-[0.8]">
-                                Reach<br/>Out<span className="text-primary/30">.</span>
+                            <h2 className="text-7xl md:text-[10vw] font-bold tracking-tighter leading-[0.8] mb-2">
+                                Reach<br/>
+                                <span className="relative">
+                            Out
+                            <span className="text-primary/20">.</span>
+                            <motion.span
+                                initial={{scaleX: 0}}
+                                whileInView={{scaleX: 1}}
+                                transition={{delay: 0.5, duration: 0.8}}
+                                className="absolute bottom-4 left-0 w-full h-1 bg-primary/10 origin-left hidden md:block"
+                            />
+                        </span>
                             </h2>
                         </div>
 
