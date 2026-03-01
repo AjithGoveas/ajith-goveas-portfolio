@@ -60,15 +60,14 @@ export default function AboutSection() {
             <div className="container mx-auto px-6 relative z-10">
 
                 <div className="flex flex-col mb-16 md:mb-24">
-                    <div className="flex items-center gap-4 mb-4">
+                    <div className="flex items-center gap-3 mb-4">
                         <motion.div
                             initial={{width: 0}}
                             whileInView={{width: 48}}
-                            className="h-[1px] bg-primary"
+                            className="h-1 w-16 bg-primary rounded-full"
                         />
-                        <span className="text-[10px] font-mono uppercase tracking-[0.4em] text-primary">
-                            Introduction
-                        </span>
+                        <span
+                            className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary/80">INTRODUCTION</span>
                     </div>
                     <h2 className="text-7xl md:text-[10vw] font-bold tracking-tighter leading-[0.8] mb-2">
                         Behind The<br/>

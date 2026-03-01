@@ -68,12 +68,10 @@ export default function SkillsSection() {
                         <motion.div
                             initial={{width: 0}}
                             whileInView={{width: 48}}
-                            viewport={{once: true}}
-                            className="h-1 bg-primary rounded-full"
+                            className="h-1 w-16 bg-primary rounded-full"
                         />
-                        <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary/80">
-                            Technical_Capabilities
-                        </span>
+                        <span
+                            className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary/80">TECHNICAL_CAPABILITIES</span>
                     </div>
                     <h2
                         id="skills-heading"
