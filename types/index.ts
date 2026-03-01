@@ -1,5 +1,4 @@
-// File: src/types/index.ts
-import React from "react";
+import {LucideIcon} from "lucide-react";
 
 export interface Project {
     id: string;
@@ -28,8 +27,12 @@ export enum ProjectType {
 
 export interface SkillCategory {
     title: string;
-    icon: React.ReactNode;
+    icon: LucideIcon;
     skills: string[];
+    description: string;
+    accent: string;
+    glow: string;
+    span: string;
 }
 
 export interface NavItem {

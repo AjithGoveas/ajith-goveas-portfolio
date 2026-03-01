@@ -125,12 +125,20 @@ export default function ProjectsSection() {
             <div className="container mx-auto px-6">
 
                 <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-24 md:mb-36">
-                    <div className="space-y-6">
-                        <div className="h-1 w-16 bg-primary rounded-full"/>
+                    <div className="flex flex-col mb-16 md:mb-28">
+                        <div className="flex items-center gap-3 mb-4">
+                            <motion.div
+                                initial={{width: 0}}
+                                whileInView={{width: 48}}
+                                className="h-1 w-16 bg-primary rounded-full"
+                            />
+                            <span
+                                className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary/80">PROJECTS</span>
+                        </div>
                         <h2 className="text-7xl md:text-[10vw] font-bold tracking-tighter leading-[0.8] mb-2">
                             Selected<br/>
                             <span className="relative">
-                            Work
+                            Works
                             <span className="text-primary/20">.</span>
                             <motion.span
                                 initial={{scaleX: 0}}
@@ -143,7 +151,7 @@ export default function ProjectsSection() {
                     </div>
 
                     <nav
-                        className="flex flex-wrap gap-2 p-3.5 bg-secondary/40 backdrop-blur-md rounded-[2rem] border border-border/40 max-w-2xl">
+                        className="flex flex-wrap gap-1 p-3.5 bg-secondary/40 backdrop-blur-md rounded-[2rem] border border-border/40 max-w-2xl">
                         {filters.map((f) => {
                             const isActive = filter === f.id;
                             return (
