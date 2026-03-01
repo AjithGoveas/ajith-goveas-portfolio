@@ -1,285 +1,199 @@
-// File: src/components/sections/HeroSection.tsx
 'use client';
 
-import React, {useRef} from 'react';
+import React, {useMemo, useRef} from 'react';
 import Image from 'next/image';
-import {motion, useScroll, useTransform} from 'framer-motion';
-import {ArrowUpRight, Code2, Cog, Download, Eye, Monitor, Smartphone, Sparkles} from 'lucide-react';
+import {motion, useScroll, useSpring, useTransform} from 'framer-motion';
+import {ArrowUpRight, Code2, Download, Globe, Smartphone, Zap} from 'lucide-react';
 import {Button} from '@/components/ui/button';
-import {Card, CardContent, CardHeader} from '@/components/ui/card';
-import {Badge} from '@/components/ui/badge';
 import SocialLinks from "@/components/SocialLinks";
-import SimpleTypingAnimation from "@/components/SimpleTypingAnimation";
+import {useProjects} from "@/hooks/useProjects";
 import {useIsMobile} from "@/hooks/use-mobile";
-import ScrollButton from "@/components/ScrollButton";
-import {useProjects} from "@/hooks/useProjects"; // Import the new hook
-
-const TechBadge: React.FC<{ name: string; color: string }> = ({name, color}) => (
-    <Badge
-        variant={"outline"}
-        className={`inline-flex items-center px-3 py-1 rounded-md text-sm font-medium bg-background/50 border border-border ${color}`}
-    >
-        {name}
-    </Badge>
-);
 
 interface HeroProps {
     name: string;
 }
 
-const HeroSection: React.FC<HeroProps> = ({name}) => {
-    const scrollTargetRef = useRef<HTMLDivElement>(null);
-    const {scrollY} = useScroll();
-
+export default function HeroSection({name}: HeroProps) {
+    const targetRef = useRef<HTMLDivElement>(null);
     const isMobile = useIsMobile();
+    const {projects} = useProjects();
 
-    // Set animation ranges based on device type for better control
-    const yRange = isMobile ? [0, 250] : [0, 500];
-    const opacityRange = isMobile ? [0, 250] : [0, 300];
+    const {scrollYProgress} = useScroll({
+        target: targetRef,
+        offset: ["start start", "end start"],
+    });
 
-    const y = useTransform(scrollY, yRange, [0, isMobile ? 50 : 150]); // Smaller vertical movement on mobile
-    const opacity = useTransform(scrollY, opacityRange, [1, isMobile ? 0.75 : 0.55]);
+    const smoothYProgress = useSpring(scrollYProgress, {stiffness: 100, damping: 30});
 
-    const projectCount = useProjects().projects?.length || 0;
-    const experienceYears = new Date().getFullYear() - 2023;
+    const textY = useTransform(smoothYProgress, [0, 0.5], [0, isMobile ? 0 : 80]);
+    const imageY = useTransform(smoothYProgress, [0, 0.5], [0, isMobile ? 0 : -60]);
+    const opacityFade = useTransform(smoothYProgress, [0, 0.3], [1, isMobile ? 1 : 0]);
+    const footerOpacity = useTransform(smoothYProgress, [0, 0.7, 0.9], [1, 1, isMobile ? 1 : 0]);
+    const footerY = useTransform(smoothYProgress, [0, 1], [0, isMobile ? 0 : -30]);
 
-    const handleScrollToProjects = () => {
-        scrollTargetRef.current?.scrollIntoView({behavior: 'smooth'});
-    };
+    const currentYear = new Date().getFullYear();
+    const projectCount = useMemo(() => (projects?.length || 0), [projects]);
+    const experienceYears = useMemo(() => currentYear - 2023, []);
 
-    const handleDownloadResume = () => {
-        const link = document.createElement('a');
-        link.href = '/resume.pdf';
-        link.download = 'resume.pdf';
-        link.click();
-    };
+    const [firstName, ...lastNameParts] = name.split(' ');
+    const lastName = lastNameParts.join(' ');
+
+    const HERO_FOOTER = [
+        {label: "ENGINEERING", value: "Kotlin & React", icon: <Code2 size={12} aria-hidden="true"/>},
+        {
+            label: "PORTFOLIO",
+            value: `${Math.max(0, projectCount - 1)} Selected`,
+            icon: <Smartphone size={12} aria-hidden="true"/>
+        },
+        {label: "EXPERIENCE", value: `${experienceYears} Years+`, icon: <Zap size={12} aria-hidden="true"/>},
+        {label: "LOCATION", value: "India / Remote", icon: <Globe size={12} aria-hidden="true"/>},
+    ];
 
     return (
-        <>
-            <section
-                id="hero"
-                className="relative flex items-center justify-center min-h-screen"
-            >
-                {/* Subtle background pattern */}
-                <div className="absolute inset-0 bg-grid-white/5 bg-grid-16"/>
-                <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background"/>
+        <section
+            ref={targetRef}
+            id="hero"
+            className="relative min-h-[100dvh] flex flex-col bg-background pt-[clamp(1.5rem,5vh,3rem)] pb-[clamp(1.5rem,3vh,2.5rem)] overflow-hidden"
+        >
+            <div className="absolute inset-0 z-0 select-none pointer-events-none" aria-hidden="true">
+                <div
+                    className="absolute inset-0 bg-[grid_30px_30px] md:bg-[grid_60px_60px] bg-[linear-gradient(to_right,#808080_0.05,transparent_0.5px),linear-gradient(to_bottom,#808080_0.05,transparent_0.5px)] opacity-[0.12]"/>
+            </div>
 
-                <motion.div
-                    style={{y, opacity}}
-                    className="container relative z-10 px-6 mx-auto"
-                >
-                    <div className="max-w-6xl mx-auto">
-                        <div className="grid items-center gap-8 grid-cols-1 lg:grid-cols-2">
-                            {/* RIGHT IMAGE - Responsive on mobile */}
-                            <motion.div
-                                className="flex items-center justify-center lg:justify-end order-first lg:order-last"
-                                initial={{opacity: 0, scale: 0.9}}
-                                animate={{opacity: 1, scale: 1}}
-                                transition={{duration: 0.6, delay: 0.3}}
-                            >
-                                <div
-                                    className="relative group cursor-pointer w-48 h-48 sm:w-64 sm:h-64 lg:w-80 lg:h-80">
-                                    {/* Rotating border */}
-                                    <motion.div
-                                        className="absolute inset-0 rounded-full border border-primary/30"
-                                        animate={{rotate: 360}}
-                                        transition={{duration: 20, repeat: Infinity, ease: 'linear'}}
-                                    />
-                                    {/* Outer ring */}
-                                    <motion.div
-                                        className="absolute inset-0 rounded-full border border-border scale-110"
-                                        animate={{rotate: -360}}
-                                        transition={{duration: 25, repeat: Infinity, ease: 'linear'}}
-                                    />
-                                    {/* Glow */}
-                                    <div className="absolute inset-0 rounded-full bg-primary/5 blur-2xl scale-105"/>
+            <div className="container mx-auto px-6 relative z-10 flex flex-col flex-grow">
+                <div className="max-w-7xl mx-auto w-full flex flex-col flex-grow">
 
-                                    {/* Image */}
-                                    <motion.div
-                                        whileHover={{scale: 1.05}}
-                                        transition={{type: 'spring', stiffness: 300, damping: 10}}
-                                        className="w-full h-full"
-                                    >
-                                        <Image
-                                            src="/ajith.webp"
-                                            alt={`${name} - Android & Frontend Developer`}
-                                            width={400}
-                                            height={400}
-                                            className="relative object-cover p-2 rounded-full border-2 border-border group-hover:border-primary/50 group-hover:border-8 transition-colors duration-300 w-full h-full"
-                                            priority
-                                        />
-                                    </motion.div>
-                                </div>
-                            </motion.div>
-
-                            {/* LEFT CONTENT - now appears below the image on mobile */}
-                            <div className="space-y-8">
-                                <motion.div
-                                    initial={{opacity: 0, x: -50}}
-                                    animate={{opacity: 1, x: 0}}
-                                    transition={{duration: 0.8, delay: 0.2}}
-                                >
-                                    <Badge
-                                        variant="secondary"
-                                        className="bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 text-primary border border-primary/20 backdrop-blur-xl rounded-full px-4 py-2 w-fit"
-                                    >
-                                        <Sparkles className="w-4 h-4 mr-2 fill-yellow-300"/>
-                                        Available for opportunities
-                                        <ArrowUpRight className="w-3 h-3 ml-2"/>
-                                    </Badge>
-                                </motion.div>
-
-                                <motion.div
-                                    initial={{opacity: 0, y: 20}}
-                                    animate={{opacity: 1, y: 0}}
-                                    transition={{duration: 0.6, delay: 0.1}}
-                                >
-                                    <h1 className="text-5xl font-bold leading-tight md:text-6xl lg:text-7xl">
-                                        Hi, I'm <br/>
-                                        <span className="text-primary">
-                                            <SimpleTypingAnimation text={name} startDelay={100}/>
-                                        </span>
-                                    </h1>
-                                </motion.div>
-
-                                <motion.div
-                                    initial={{opacity: 0, y: 20}}
-                                    animate={{opacity: 1, y: 0}}
-                                    transition={{duration: 0.6, delay: 0.2}}
-                                    className="space-y-4"
-                                >
-                                    <h2 className="text-xl md:text-2xl text-muted-foreground">
-                                        Android Developer & Frontend Engineer
-                                    </h2>
-                                    <p className="text-lg text-muted-foreground leading-relaxed max-w-2xl">
-                                        I build native mobile applications and modern web experiences.
-                                        Passionate about clean code, user experience, and solving real-world problems
-                                        through technology.
-                                    </p>
-                                </motion.div>
-
-                                <motion.div
-                                    initial={{opacity: 0, y: 20}}
-                                    animate={{opacity: 1, y: 0}}
-                                    transition={{duration: 0.6, delay: 0.3}}
-                                    className="flex flex-wrap gap-2"
-                                >
-                                    <TechBadge name="Android" color="text-green-400"/>
-                                    <TechBadge name="Kotlin" color="text-purple-400"/>
-                                    <TechBadge name="React" color="text-cyan-400"/>
-                                    <TechBadge name="TypeScript" color="text-blue-400"/>
-                                    <TechBadge name="JavaScript" color="text-yellow-400"/>
-                                </motion.div>
-
-                                <motion.div
-                                    className="flex flex-col sm:flex-row gap-4"
-                                    initial={{opacity: 0, y: 20}}
-                                    animate={{opacity: 1, y: 0}}
-                                    transition={{duration: 0.6, delay: 0.4}}
-                                >
-                                    <Button
-                                        size="lg"
-                                        onClick={handleScrollToProjects}
-                                        className="bg-primary hover:bg-primary/90"
-                                    >
-                                        <Eye className="w-4 h-4 mr-2"/>
-                                        View My Work
-                                    </Button>
-
-                                    <Button
-                                        variant="outline"
-                                        size="lg"
-                                        onClick={handleDownloadResume}
-                                        className="border-primary/20 hover:border-primary/40"
-                                    >
-                                        <Download className="w-4 h-4 mr-2"/>
-                                        Download Resume
-                                    </Button>
-                                </motion.div>
-
-                                <motion.div
-                                    initial={{opacity: 0, y: 20}}
-                                    animate={{opacity: 1, y: 0}}
-                                    transition={{duration: 0.6, delay: 0.5}}
-                                >
-                                    <SocialLinks/>
-                                </motion.div>
-                            </div>
-                        </div>
-                    </div>
-                </motion.div>
-
-                <div ref={scrollTargetRef} id="achievements"/>
-                <ScrollButton/>
-            </section>
-
-            {/* Modern Stats Section */}
-            <section id="achievements" className="py-20">
-                <div className="container px-6 mx-auto">
-                    <div className="max-w-6xl mx-auto">
-                        {/* Stats Grid */}
-                        <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                            {[
-                                {
-                                    icon: <Code2 className="w-6 h-6 text-primary"/>,
-                                    count: experienceYears.toString(),
-                                    label: "Years of Development",
-                                },
-                                {
-                                    icon: <Smartphone className="w-6 h-6 text-primary"/>,
-                                    count: (projectCount-1).toString(),
-                                    label: "Projects Delivered",
-                                },
-                                {
-                                    icon: <Monitor className="w-6 h-6 text-primary"/>,
-                                    count: "25+",
-                                    label: "Happy Clients",
-                                },
-                            ].map((stat, i) => (
-                                <motion.div
-                                    key={stat.label}
-                                    initial={{opacity: 0, y: 20}}
-                                    whileInView={{opacity: 1, y: 0}}
-                                    viewport={{once: true}}
-                                    transition={{duration: 0.5, delay: i * 0.1}}
-                                >
-                                    <Card
-                                        className="bg-background/70 border border-white/10 hover:border-primary/20 backdrop-blur-xl transition-colors duration-300 shadow-sm rounded-xl">
-                                        <CardHeader
-                                            className="flex flex-col items-center justify-center space-y-2 pb-2">
-                                            <div
-                                                className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
-                                                {stat.icon}
-                                            </div>
-                                            <div className="text-3xl font-bold text-primary">{stat.count}</div>
-                                        </CardHeader>
-                                        <CardContent className="text-center pt-0">
-                                            <p className="text-sm text-muted-foreground">{stat.label}</p>
-                                        </CardContent>
-                                    </Card>
-                                </motion.div>
-                            ))}
-                        </div>
-
-                        {/* Bottom tagline */}
+                    <header className="flex flex-row justify-between items-center mb-[clamp(2rem,8vh,6rem)] w-full">
                         <motion.div
-                            initial={{opacity: 0}}
-                            whileInView={{opacity: 1}}
-                            viewport={{once: true}}
-                            transition={{duration: 0.6, delay: 0.3}}
-                            className="text-center mt-16"
+                            initial={{opacity: 0, y: -10}}
+                            animate={{opacity: 1, y: 0}}
+                            className="flex items-center gap-2"
                         >
+                            {/* Version Tag */}
                             <div
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-white/[0.02] border border-border/50 rounded-full">
-                                <Cog className="w-4 h-4 text-muted-foreground"/>
-                                <span className="text-sm text-muted-foreground/70 italic">Focused on building quality software and meaningful digital experiences</span>
+                                className="group flex items-center bg-secondary/20 hover:bg-secondary/40 border border-border/40 backdrop-blur-md rounded-full px-3 py-1 transition-all duration-300">
+                                <span
+                                    className="text-[9px] font-bold font-mono tracking-tighter text-muted-foreground/50 mr-2">Yr</span>
+                                <span
+                                    className="text-[10px] font-mono tracking-[0.15em] text-foreground/80">{currentYear}</span>
+                            </div>
+
+                            <div className="w-[1px] h-4 bg-primary/40 mx-1"/>
+
+                            {/* Status Tag */}
+                            <div
+                                className="flex items-center bg-emerald-500/5 border border-emerald-500/20 backdrop-blur-md rounded-full px-3 py-1 shadow-[0_0_15px_-5px_rgba(16,185,129,0.2)]">
+                                <div className="relative flex mr-2">
+                                    <span
+                                        className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500 opacity-40"></span>
+                                    <span
+                                        className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+                                </div>
+                                <span
+                                    className="text-[9px] font-mono font-bold tracking-[0.2em] text-emerald-500/90 uppercase">
+                ENGINEERING
+            </span>
                             </div>
                         </motion.div>
-                    </div>
-                </div>
-            </section>
-        </>
-    );
-};
 
-export default HeroSection;
+                        <nav className="flex items-center">
+                            <SocialLinks/>
+                        </nav>
+                    </header>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-12 items-center flex-grow">
+                        <motion.div
+                            style={isMobile ? {} : {y: textY, opacity: opacityFade}}
+                            className="lg:col-span-7 z-20 order-2 lg:order-1"
+                        >
+                            <h1 className="text-[14vw] sm:text-[12vw] lg:text-[9.5vw] font-bold tracking-[-0.04em] leading-[0.85] mb-6 md:mb-10 text-foreground">
+                                {firstName}<br/>
+                                <span className="text-primary italic font-serif font-light">{lastName}</span>
+                                <span className="text-primary/20">.</span>
+                            </h1>
+                            <div className="space-y-6 md:space-y-8 max-w-xl">
+                                <h2 className="text-xl md:text-3xl lg:text-4xl font-medium tracking-tight leading-tight text-foreground/90">
+                                    Engineering <span className="text-primary font-semibold">Native Android</span> & <br
+                                    className="hidden sm:block"/> High-Performance Web logic.
+                                </h2>
+                                <div className="flex flex-col sm:flex-row gap-4">
+                                    <Button size="lg"
+                                            onClick={() => {
+                                                document.getElementById('projects')?.scrollIntoView({behavior: 'smooth'});
+                                            }}
+                                            className="w-full sm:w-auto h-14 px-10 rounded-full bg-foreground text-background hover:bg-foreground/90 font-bold group shadow-lg transition-transform active:scale-95">
+                                        View Projects
+                                        <ArrowUpRight
+                                            className="ml-2 w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"/>
+                                    </Button>
+                                    <Button variant="outline" size="lg"
+                                            asChild
+                                            className="w-full sm:w-auto h-14 px-10 rounded-full border-border/80 font-mono text-[10px] uppercase tracking-widest hover:bg-secondary/20 transition-colors">
+                                        <a
+                                            href="/resume.pdf"
+                                            download="Ajith_Goveas_Resume.pdf"
+                                        >
+                                            Download CV <Download className="ml-2 w-4 h-4"/>
+                                        </a>
+                                    </Button>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        <div className="lg:col-span-5 relative order-1 lg:order-2 flex justify-center lg:justify-end">
+                            <motion.div
+                                style={isMobile ? {} : {y: imageY}}
+                                className="relative aspect-[4/5] w-full max-w-[260px] sm:max-w-[320px] md:max-w-[420px] group"
+                            >
+                                <div
+                                    className="absolute inset-0 rounded-[2.5rem] md:rounded-[4rem] border border-white/5 bg-gradient-to-br from-white/10 to-transparent backdrop-blur-3xl -rotate-2 md:-rotate-6 transition-transform group-hover:rotate-0 duration-700"/>
+                                <div
+                                    className="relative h-full w-full rounded-[2.3rem] md:rounded-[3.5rem] overflow-hidden border border-white/10 shadow-2xl">
+                                    <Image
+                                        src="/ajith.webp"
+                                        alt={name}
+                                        fill
+                                        sizes="(max-width: 768px) 280px, (max-width: 1024px) 320px, 420px"
+                                        className={`object-cover transition-all duration-1000 group-hover:scale-110 ${isMobile ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`}
+                                        priority
+                                    />
+                                    <div
+                                        className={`absolute bottom-4 left-4 right-4 flex flex-col gap-2 transition-all duration-700 ${isMobile ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0'}`}>
+                                        <div
+                                            className="flex items-center gap-2 p-2 backdrop-blur-xl bg-black/40 border border-white/10 rounded-xl text-[8px] font-mono text-white uppercase font-bold tracking-widest">
+                                            <Smartphone size={12} className="text-primary"/> Mobile Architecture
+                                        </div>
+                                        <div
+                                            className="flex items-center gap-2 p-2 backdrop-blur-xl bg-black/40 border border-white/10 rounded-xl text-[8px] font-mono text-white uppercase font-bold tracking-widest">
+                                            <Globe size={12} className="text-primary"/> Web Ecosystems
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        </div>
+                    </div>
+
+                    <motion.footer
+                        style={isMobile ? {} : {opacity: footerOpacity, y: footerY}}
+                        className="w-full mt-[clamp(2.5rem,10vh,6rem)]"
+                    >
+                        <dl className="border-t border-border/20 pt-8 grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-10">
+                            {HERO_FOOTER.map((stat) => (
+                                <div key={stat.label}
+                                     className="flex flex-col items-center md:items-start text-center md:text-left">
+                                    <dt className="flex items-center gap-2 mb-2 text-muted-foreground/40 uppercase tracking-[0.3em] font-bold text-[8px] md:text-[9px] font-mono">
+                                        {stat.icon}
+                                        {stat.label}
+                                    </dt>
+                                    <dd className="text-lg md:text-2xl font-bold tracking-tighter text-foreground/80 leading-none">
+                                        {stat.value}
+                                    </dd>
+                                </div>
+                            ))}
+                        </dl>
+                    </motion.footer>
+                </div>
+            </div>
+        </section>
+    );
+}
