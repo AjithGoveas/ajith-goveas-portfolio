@@ -1,4 +1,4 @@
-import {LucideIcon} from "lucide-react";
+import {TablerIcon} from "@tabler/icons-react";
 
 export interface Project {
     id: string;
@@ -27,7 +27,7 @@ export enum ProjectType {
 
 export interface SkillCategory {
     title: string;
-    icon: LucideIcon;
+    icon: TablerIcon;
     skills: string[];
     description: string;
     accent: string;

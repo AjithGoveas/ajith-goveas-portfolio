@@ -156,12 +156,19 @@ const SystemClock = () => {
     );
 };
 
-const InteractionPlate = ({info, index}: { info: any; index: number }) => {
-    const [copied, setCopied] = useState(false);
-    const IconComponent = info.icon || (info.label.toLowerCase().includes('email') ? IconMail : IconWorld);
-    const isEmail = info.label.toLowerCase().includes('email');
+interface InteractionInfo {
+    label: string;
+    value: string;
+    description?: string;
+    icon?: React.ComponentType<{ size?: number; strokeWidth?: number }>;
+}
 
+const InteractionPlate = ({ info, index }: { info: InteractionInfo; index: number }) => {
+    const [copied, setCopied] = useState(false);
+    const isEmail = info.label.toLowerCase().includes("email");
     const isLead = index === 0;
+    const IconComponent = info.icon || (isEmail ? IconMail : IconWorld);
+    const href = isEmail ? `mailto:${info.value}` : info.value;
 
     const handleAction = (e: React.MouseEvent) => {
         if (isEmail) {
@@ -174,47 +181,53 @@ const InteractionPlate = ({info, index}: { info: any; index: number }) => {
 
     return (
         <motion.a
-            href={isEmail ? `mailto:${info.value}` : info.value}
+            href={href}
             target={isEmail ? undefined : "_blank"}
             onClick={handleAction}
-            initial={{opacity: 0, scale: 0.98}}
-            whileInView={{opacity: 1, scale: 1}}
-            whileHover={{y: -6}}
-            viewport={{once: true}}
-            transition={{duration: 0.4, delay: index * 0.05}}
-            className={`group relative flex flex-col justify-between overflow-hidden border transition-all duration-500
-                ${isLead
-                ? 'p-8 md:p-12 rounded-[3rem] md:col-span-2 row-span-2 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 border-transparent shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)]'
-                : 'p-6 md:p-8 rounded-[2rem] bg-secondary/20 dark:bg-zinc-900/40 backdrop-blur-md border-border/50 hover:bg-secondary/40'
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            whileHover={{ y: -10 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: index * 0.1, ease: [0.23, 1, 0.32, 1] }}
+            aria-label={info.label}
+            className={`group relative flex flex-col justify-between overflow-hidden border transition-all duration-700 h-full 
+        min-h-[420px] lg:min-h-[360px]
+        ${isLead
+                ? "p-10 md:p-16 rounded-[4rem] md:col-span-2 bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 border-transparent shadow-2xl"
+                : "p-10 rounded-[3rem] bg-zinc-100/50 dark:bg-zinc-900/40 backdrop-blur-2xl border-zinc-200/50 dark:border-zinc-800/50 hover:bg-white dark:hover:bg-zinc-800"
             }`}
         >
+            {/* Header */}
             <div className="flex justify-between items-start z-10">
-                <div className={`flex items-center gap-4 ${isLead ? 'opacity-100' : 'opacity-60'}`}>
-                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-transform duration-500 group-hover:rotate-6
-                        ${isLead ? 'bg-white/10 dark:bg-black/5' : 'bg-background border border-border/50'}`}>
-                        <IconComponent size={24} strokeWidth={1.5}/>
+                <div className="flex flex-col gap-6">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-700 group-hover:shadow-[0_0_30px_rgba(var(--primary),0.3)]
+            ${isLead ? "bg-white/10 dark:bg-zinc-100" : "bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-sm"}`}>
+                        <IconComponent size={26} strokeWidth={1.2} />
                     </div>
-                    {isLead && (
-                        <div className="flex flex-col">
-                            <span
-                                className="text-[10px] font-mono leading-none tracking-widest text-emerald-500 mb-1.5 flex items-center gap-2">
-                                <span className="relative flex h-2 w-2">
-                                    <span
-                                        className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                                </span>
-                                ACTIVE_SYSTEM_NODE
-                            </span>
-                            <span
-                                className="text-[11px] font-mono leading-none opacity-40 uppercase tracking-tight">{info.label}</span>
+
+                    <div className="flex flex-col gap-1.5">
+                        <div className="flex items-center gap-2">
+                            {isLead && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />}
+                            <span className={`text-[10px] font-mono leading-none tracking-[0.4em] font-bold uppercase
+                ${isLead ? "text-emerald-500" : "text-zinc-400"}`}>
+                {isLead ? "Primary_Uplink" : `Node_0${index + 1}`}
+              </span>
                         </div>
-                    )}
+                        <span className="text-[11px] font-mono opacity-30 uppercase tracking-[0.2em] font-medium">
+              {info.label}
+            </span>
+                    </div>
                 </div>
 
                 <AnimatePresence mode="wait">
                     {copied ? (
-                        <motion.div key="check" initial={{y: 5, opacity: 0}} animate={{y: 0, opacity: 1}}>
-                            <IconCircleCheck size={24} className="text-emerald-500"/>
+                        <motion.div
+                            key="check"
+                            initial={{ scale: 0.8, opacity: 0 }}
+                            animate={{ scale: 1, opacity: 1 }}
+                            exit={{ scale: 0.8, opacity: 0 }}
+                        >
+                            <IconCircleCheck size={32} className="text-emerald-500" strokeWidth={1.5} />
                         </motion.div>
                     ) : (
                         <div
@@ -225,33 +238,28 @@ const InteractionPlate = ({info, index}: { info: any; index: number }) => {
                 </AnimatePresence>
             </div>
 
-            <div className={`z-10 ${isLead ? 'mt-16 md:mt-24' : 'mt-12 md:mt-20'}`}>
-                {!isLead && (
-                    <span className="text-[9px] font-mono uppercase tracking-[0.4em] opacity-30 block mb-2">
-                        NODE_0{index + 1}
-                    </span>
-                )}
-                <h4 className={`tracking-tighter leading-[0.85] truncate py-3
-                    ${isLead ? 'text-5xl md:text-7xl font-calSans' : 'text-xl md:text-2xl font-inter font-semibold'}`}>
-                    {isEmail ? info.value : info.description || info.label}
+            {/* Content */}
+            <div className="z-10 mt-8 md:mt-16">
+                <h4 className={`font-calSans tracking-tight leading-[0.9] break-words
+          ${isLead ? "text-5xl md:text-[5vw] lg:text-[5.5rem] truncate py-3" : "text-3xl md:text-4xl"}`}>
+                    {isEmail ? info.value : info.description}
                 </h4>
             </div>
 
             {isLead && (
-                <span
-                    className="absolute -bottom-10 -right-6 text-[22rem] font-calSans opacity-[0.04] dark:opacity-[0.07] pointer-events-none select-none leading-none -rotate-12 transition-transform duration-1000 group-hover:rotate-0 group-hover:scale-110">
-                    @
-                </span>
+                <span className="absolute -bottom-10 -right-6 text-[22rem] font-calSans opacity-[0.04] dark:opacity-[0.07] pointer-events-none select-none leading-none -rotate-12 transition-transform duration-1000 group-hover:rotate-0 group-hover:scale-110">
+          @
+        </span>
             )}
 
-            <div className="absolute inset-0 opacity-[0.04] dark:opacity-[0.06] pointer-events-none"
-                 style={{
-                     backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
-                     backgroundSize: '32px 32px'
-                 }}/>
-
+            {/* Background Pattern */}
             <div
-                className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"/>
+                className="absolute inset-0 opacity-[0.03] dark:opacity-[0.07] pointer-events-none"
+                style={{
+                    backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
+                    backgroundSize: "40px 40px",
+                }}
+            />
         </motion.a>
     );
 };

@@ -2,27 +2,41 @@
 
 import React, {memo, useMemo, useState} from 'react';
 import {AnimatePresence, motion} from 'framer-motion';
-import {ArrowUpRight, Code2, Cpu, Database, Github, Globe, Layers, Layout, Monitor, Smartphone} from 'lucide-react';
+import {
+    IconArrowUpRight,
+    IconBrandAndroid,
+    IconBrandGithub,
+    IconCode,
+    IconCpu,
+    IconDatabase,
+    IconDeviceDesktop,
+    IconDeviceMobile,
+    IconWorld,
+    IconStackFront,
+    IconLayoutDashboard
+} from '@tabler/icons-react';
 import {Project, ProjectType} from '@/types';
 import {useProjects} from "@/hooks/useProjects";
 import {filters} from "@/constants/projects";
 
 const TYPE_CONFIG: Record<ProjectType, { icon: React.ReactNode; label: string }> = {
-    [ProjectType.Android]: {icon: <Smartphone className="w-3.5 h-3.5"/>, label: "Android"},
-    [ProjectType.Web]: {icon: <Globe className="w-3.5 h-3.5"/>, label: "Web"},
-    [ProjectType.CrossPlatform]: {icon: <Smartphone className="w-3.5 h-3.5"/>, label: "Cross-Platform"},
-    [ProjectType.Frontend]: {icon: <Layout className="w-3.5 h-3.5"/>, label: "Frontend"},
-    [ProjectType.FullStack]: {icon: <Layers className="w-3.5 h-3.5"/>, label: "FullStack"},
-    [ProjectType.Backend]: {icon: <Database className="w-3.5 h-3.5"/>, label: "Backend"},
-    [ProjectType.Desktop]: {icon: <Monitor className="w-3.5 h-3.5"/>, label: "Desktop"},
-    [ProjectType.DataScience]: {icon: <Code2 className="w-3.5 h-3.5"/>, label: "Data"},
-    [ProjectType.MachineLearning]: {icon: <Cpu className="w-3.5 h-3.5"/>, label: "ML"},
-    [ProjectType.AI]: {icon: <Cpu className="w-3.5 h-3.5"/>, label: "AI"},
+    [ProjectType.Android]: {icon: <IconBrandAndroid size={18} stroke={1.5}/>, label: "Android"},
+    [ProjectType.Web]: {icon: <IconWorld size={18} stroke={1.5}/>, label: "Web"},
+    [ProjectType.CrossPlatform]: {icon: <IconDeviceMobile size={18} stroke={1.5}/>, label: "KMM/CMP"},
+    [ProjectType.Frontend]: {icon: <IconLayoutDashboard size={18} stroke={1.5}/>, label: "Frontend"},
+    [ProjectType.FullStack]: {icon: <IconStackFront size={18} stroke={1.5}/>, label: "FullStack"},
+    [ProjectType.Backend]: {icon: <IconDatabase size={18} stroke={1.5}/>, label: "Backend"},
+    [ProjectType.Desktop]: {icon: <IconDeviceDesktop size={18} stroke={1.5}/>, label: "Desktop"},
+    [ProjectType.DataScience]: {icon: <IconCode size={18} stroke={1.5}/>, label: "Data"},
+    [ProjectType.MachineLearning]: {icon: <IconCpu size={18} stroke={1.5}/>, label: "ML"},
+    [ProjectType.AI]: {icon: <IconCpu size={18} stroke={1.5}/>, label: "AI"},
 };
 
 const ProjectTile = memo(({project, index}: { project: Project; index: number }) => {
-    const isHero = project.order === 1;
-    const isWide = project.order === 4;
+
+    const isHero = index === 0;
+    const isWide = index === 3;
+
     const config = TYPE_CONFIG[project.type] || TYPE_CONFIG[ProjectType.Web];
 
     return (
@@ -34,43 +48,49 @@ const ProjectTile = memo(({project, index}: { project: Project; index: number })
             transition={{duration: 0.4, ease: [0.23, 1, 0.32, 1]}}
             className={`
                 relative group flex
-                ${isHero ? 'md:col-span-2 md:row-span-2 min-h-[450px] md:min-h-[600px]' : 'col-span-1 min-h-[350px]'}
-                ${isWide ? 'md:col-span-2 min-h-[350px]' : ''}
+                ${isHero ? 'lg:col-span-2 lg:row-span-2 min-h-[500px] lg:min-h-[700px]' : 'col-span-1 min-h-[400px]'}
+                ${isWide ? 'lg:col-span-2 min-h-[400px]' : ''}
             `}
         >
             <div className={`
-                relative h-full w-full p-8 md:p-10 rounded-[2.5rem] flex flex-col justify-between
-                border transition-all duration-700
+                relative h-full w-full p-8 md:p-12 rounded-[3rem] flex flex-col justify-between
+                border transition-all duration-700 overflow-hidden
                 ${isHero
-                ? 'bg-foreground text-background dark:bg-zinc-100 dark:text-zinc-900 border-transparent shadow-2xl'
+                ? 'bg-zinc-950 text-white dark:bg-zinc-50 dark:text-zinc-950 border-transparent shadow-2xl'
                 : 'bg-card/40 backdrop-blur-xl border-border/40 hover:border-primary/50 shadow-sm'}
             `}>
+
                 <div className="flex justify-between items-start z-10">
-                    <div
-                        className={`flex items-center gap-2 px-3 py-1.5 rounded-full border border-current/10 bg-current/5`}>
+                    <div className="flex items-center gap-2 px-4 py-2 rounded-xl border border-current/10 bg-current/5">
                         {config.icon}
                         <span className="text-[10px] font-bold uppercase tracking-[0.2em]">
                             {config.label}
                         </span>
                     </div>
-                    <span className="text-[10px] font-mono opacity-40 font-bold tracking-tighter">
-                        {project.year}
-                    </span>
+
+                    <div className="flex flex-col items-end">
+                        <span className="text-[10px] font-mono opacity-40 font-bold tracking-widest uppercase">
+                            Rel_Year
+                        </span>
+                        <span className="text-sm font-mono font-bold tracking-tighter">
+                            {project.year}
+                        </span>
+                    </div>
                 </div>
 
-                <div className="mt-10 z-10">
-                    <h3 className={`font-bold tracking-tighter leading-[0.9] mb-6
-                        ${isHero ? 'text-6xl md:text-8xl' : 'text-3xl md:text-4xl'}`}>
+                <div className={`${isHero ? 'mt-20' : 'mt-10'} z-10`}>
+                    <h3 className={`font-bold tracking-tighter leading-[0.85] mb-6
+                        ${isHero ? 'text-6xl md:text-[6.5rem] font-calSans' : 'text-3xl md:text-5xl font-inter'}`}>
                         {project.title}
                     </h3>
-                    <p className={`font-serif leading-relaxed opacity-70 max-w-[450px]
+                    <p className={`font-inter leading-relaxed opacity-60 max-w-[450px]
                         ${isHero ? 'text-lg md:text-xl' : 'text-sm'}`}>
                         {project.description}
                     </p>
 
-                    <div className="flex flex-wrap gap-x-4 gap-y-2 mt-8">
+                    <div className="flex flex-wrap gap-x-6 gap-y-3 mt-10">
                         {project.tech.map((t) => (
-                            <span key={t} className="text-[10px] font-mono uppercase tracking-widest opacity-40">
+                            <span key={t} className="text-[10px] font-mono uppercase tracking-[0.3em] opacity-40">
                                 // {t}
                             </span>
                         ))}
@@ -78,30 +98,35 @@ const ProjectTile = memo(({project, index}: { project: Project; index: number })
                 </div>
 
                 <div className="mt-12 pt-8 border-t border-current/10 flex items-center justify-between z-10">
-                    <div className="flex gap-6 items-center">
+                    <div className="flex gap-8 items-center">
                         {project.githubUrl && (
                             <a href={project.githubUrl} target="_blank"
-                               className="transition-transform hover:scale-110 opacity-70 hover:opacity-100">
-                                <Github className="w-6 h-6"/>
+                               className="transition-all hover:scale-110 opacity-60 hover:opacity-100 hover:text-primary">
+                                <IconBrandGithub size={28} stroke={1.5}/>
                             </a>
                         )}
                         {project.liveUrl && (
-                            <a href={project.liveUrl} target="_blank" className="flex items-center gap-1 group/link">
-                                <span className="text-[10px] font-bold uppercase tracking-tighter">View Project</span>
-                                <ArrowUpRight
-                                    className="w-4 h-4 transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1"/>
+                            <a href={project.liveUrl} target="_blank" className="flex items-center gap-2 group/link">
+                                <span className="text-[10px] font-bold uppercase tracking-widest">Live_Deploy</span>
+                                <IconArrowUpRight
+                                    size={20}
+                                    className="transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1 text-primary"/>
                             </a>
                         )}
                     </div>
-                    <span className="text-5xl font-bold opacity-5 italic pointer-events-none select-none">
-                        0{project.order}
+
+                    {/* Ghost Number remains tied to Index for visual progression */}
+                    <span className={`absolute -bottom-6 right-6 font-mono italic font-bold opacity-[0.04] dark:opacity-[0.07] select-none pointer-events-none leading-none group-hover:opacity-[0.08] group-hover:-translate-y-4 transition-all duration-700
+                        ${isHero ? 'text-[15rem]' : 'text-9xl'}`}>
+                        {index + 1}
                     </span>
                 </div>
 
-                {isHero && (
-                    <div
-                        className="absolute top-0 right-0 w-64 h-64 bg-background/5 blur-[100px] -mr-32 -mt-32 pointer-events-none"/>
-                )}
+                <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
+                     style={{
+                         backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
+                         backgroundSize: '32px 32px'
+                     }}/>
             </div>
         </motion.div>
     );
@@ -112,28 +137,42 @@ export default function ProjectsSection() {
     const [filter, setFilter] = useState('all');
 
     const displayData = useMemo(() => {
-        if (!projects) return [];
-        return (filter === 'all' ? projects : projects.filter(p => p.type?.toLowerCase() === filter.toLowerCase()))
-            .sort((a, b) => a.order - b.order);
+        if (!projects?.length) return [];
+
+        // 1. Perform filtering and sorting in a single pass to reduce iterations
+        return projects
+            .filter((project) => {
+                if (filter === 'all') return true;
+                return project.type?.toLowerCase() === filter.toLowerCase();
+            })
+            .sort((a, b) => {
+                // Defensive sort: handles missing 'order' by pushing them to the end
+                const orderA = a.order ?? Number.MAX_SAFE_INTEGER;
+                const orderB = b.order ?? Number.MAX_SAFE_INTEGER;
+                return orderA - orderB;
+            });
     }, [filter, projects]);
 
-    if (isLoading) return <div
-        className="py-40 text-center font-mono opacity-20 text-4xl tracking-tighter animate-pulse">SYSTEM_LOADING_PROJECTS...</div>;
+    if (isLoading) return (
+        <div className="py-60 text-center font-mono opacity-20 text-4xl tracking-tighter animate-pulse uppercase">
+            System_Sync_Projects...
+        </div>
+    );
 
     return (
         <section id="projects" className="py-32 md:py-48 bg-background relative overflow-hidden">
             <div className="container mx-auto px-6">
 
                 <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-24 md:mb-36">
-                    <div className="flex flex-col mb-16 md:mb-28">
-                        <div className="flex items-center gap-3 mb-4">
+                    <div className="flex flex-col">
+                        <div className="flex items-center gap-3 mb-6">
                             <motion.div
                                 initial={{width: 0}}
                                 whileInView={{width: 48}}
-                                className="h-1 w-16 bg-primary rounded-full"
+                                className="h-1 bg-primary rounded-full"
                             />
                             <span
-                                className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary/80">PROJECTS</span>
+                                className="text-[10px] font-mono uppercase tracking-[0.4em] text-primary">PORTFOLIO_INDEX</span>
                         </div>
                         <h2 className="text-7xl md:text-[10vw] font-bold tracking-tighter leading-[0.8] mb-2">
                             Selected<br/>
@@ -151,21 +190,21 @@ export default function ProjectsSection() {
                     </div>
 
                     <nav
-                        className="flex flex-wrap gap-1 p-3.5 bg-secondary/40 backdrop-blur-md rounded-[2rem] border border-border/40 max-w-2xl">
+                        className="flex flex-wrap gap-1 p-2 bg-secondary/20 backdrop-blur-xl rounded-[2.5rem] border border-border/40">
                         {filters.map((f) => {
                             const isActive = filter === f.id;
                             return (
                                 <button
                                     key={f.id}
                                     onClick={() => setFilter(f.id)}
-                                    className={`relative px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] transition-colors duration-500 z-10
+                                    className={`relative px-8 py-4 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-500 z-10
                                     ${isActive ? 'text-primary-foreground' : 'text-muted-foreground hover:text-primary'}`}
                                 >
                                     {isActive && (
                                         <motion.div
                                             layoutId="activeFilter"
                                             className="absolute inset-0 bg-primary rounded-full z-[-1]"
-                                            transition={{type: 'spring', bounce: 0.15, duration: 0.6}}
+                                            transition={{type: 'spring', bounce: 0.1, duration: 0.6}}
                                         />
                                     )}
                                     {f.label}
@@ -175,10 +214,8 @@ export default function ProjectsSection() {
                     </nav>
                 </div>
 
-                <motion.div
-                    layout
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10"
-                >
+                {/* Bento Grid: 3 Columns on Large Screens */}
+                <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                     <AnimatePresence mode="popLayout">
                         {displayData.map((project, index) => (
                             <ProjectTile key={project.id} project={project} index={index}/>

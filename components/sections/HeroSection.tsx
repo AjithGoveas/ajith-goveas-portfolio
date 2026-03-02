@@ -69,7 +69,6 @@ export default function HeroSection({name}: HeroProps) {
                             animate={{opacity: 1, y: 0}}
                             className="flex items-center gap-2"
                         >
-                            {/* Version Tag */}
                             <div
                                 className="group flex items-center bg-secondary/20 hover:bg-secondary/40 border border-border/40 backdrop-blur-md rounded-full px-3 py-1 transition-all duration-300">
                                 <span
@@ -113,8 +112,64 @@ export default function HeroSection({name}: HeroProps) {
                             </h1>
                             <div className="space-y-6 md:space-y-8 max-w-xl">
                                 <h2 className="text-xl md:text-3xl lg:text-4xl font-medium tracking-tight leading-tight text-foreground/90">
-                                    Engineering <span className="text-primary font-semibold">Native Android</span> & <br
-                                    className="hidden sm:block"/> High-Performance Web logic.
+                                    Engineering{" "}
+                                    <span className="relative inline-block">
+                                        <span className="text-primary font-semibold">Native Android</span>
+                                        {/* Double Underline for "Native Android" */}
+                                        <svg className="absolute -bottom-2.5 left-0 w-full h-3 text-purple-500/70"
+                                             viewBox="0 0 100 15" preserveAspectRatio="none">
+                                            {/* Top thicker freestyle line */}
+                                            <motion.path
+                                                initial={{pathLength: 0}}
+                                                whileInView={{pathLength: 1}}
+                                                transition={{duration: 1.2, delay: 0.5}}
+                                                d="M0,5 C20,2 80,8 100,5"
+                                                fill="transparent"
+                                                stroke="currentColor"
+                                                strokeWidth="2.5" // Increased thickness
+                                                strokeLinecap="round"
+                                            />
+                                            {/* Bottom thinner freestyle line */}
+                                            <motion.path
+                                                initial={{pathLength: 0}}
+                                                whileInView={{pathLength: 1}}
+                                                transition={{duration: 1, delay: 0.7}}
+                                                d="M5,10 C30,13 70,7 95,10"
+                                                fill="transparent"
+                                                stroke="currentColor"
+                                                strokeWidth="1.5"
+                                                strokeLinecap="round"
+                                            />
+                                        </svg>
+                                    </span>{" "}& <br className="hidden sm:block"/>{" "}
+                                    <span className="relative inline-block">High-Performance{" "}
+                                        <span className="relative">
+                                            Web logic
+                                            <svg className="absolute -bottom-2.5 left-0 w-full h-3 text-purple-500/70"
+                                                 viewBox="0 0 100 15" preserveAspectRatio="none">
+                                                <motion.path
+                                                    initial={{pathLength: 0}}
+                                                    whileInView={{pathLength: 1}}
+                                                    transition={{duration: 1.2, delay: 0.8}}
+                                                    d="M0,5 Q30,10 60,5 T100,5"
+                                                    fill="transparent"
+                                                    stroke="currentColor"
+                                                    strokeWidth="2.5"
+                                                    strokeLinecap="round"
+                                                />
+                                                <motion.path
+                                                    initial={{pathLength: 0}}
+                                                    whileInView={{pathLength: 1}}
+                                                    transition={{duration: 1, delay: 1}}
+                                                    d="M5,10 C25,12 75,8 95,10"
+                                                    fill="transparent"
+                                                    stroke="currentColor"
+                                                    strokeWidth="1.5"
+                                                    strokeLinecap="round"
+                                                />
+                                            </svg>
+                                        </span>
+                                    </span>.
                                 </h2>
                                 <div className="flex flex-col sm:flex-row gap-4">
                                     <Button size="lg"
@@ -143,32 +198,49 @@ export default function HeroSection({name}: HeroProps) {
                         <div className="lg:col-span-5 relative order-1 lg:order-2 flex justify-center lg:justify-end">
                             <motion.div
                                 style={isMobile ? {} : {y: imageY}}
-                                className="relative aspect-[4/5] w-full max-w-[260px] sm:max-w-[320px] md:max-w-[420px] group"
+                                className="relative aspect-[4/5] w-full max-w-[280px] sm:max-w-[320px] md:max-w-[420px] group"
                             >
                                 <div
-                                    className="absolute inset-0 rounded-[2.5rem] md:rounded-[4rem] border border-white/5 bg-gradient-to-br from-white/10 to-transparent backdrop-blur-3xl -rotate-2 md:-rotate-6 transition-transform group-hover:rotate-0 duration-700"/>
-                                <div
-                                    className="relative h-full w-full rounded-[2.3rem] md:rounded-[3.5rem] overflow-hidden border border-white/10 shadow-2xl">
+                                    className="absolute inset-0 rounded-[2.5rem] md:rounded-[4rem] border border-primary/10 bg-primary/[0.02] -rotate-6 scale-[1.02] transition-transform duration-1000 group-hover:-rotate-2 group-hover:scale-105"/>
+
+                                <motion.div
+                                    initial={{rotate: 3}}
+                                    whileHover={{rotate: 0, scale: 1.02}}
+                                    transition={{type: "spring", stiffness: 200, damping: 25}}
+                                    className="relative h-full w-full rounded-[2.3rem] md:rounded-[3.5rem] overflow-hidden border border-white/10 shadow-2xl z-10 bg-zinc-900"
+                                >
                                     <Image
                                         src="/ajith.webp"
                                         alt={name}
                                         fill
                                         sizes="(max-width: 768px) 280px, (max-width: 1024px) 320px, 420px"
-                                        className={`object-cover transition-all duration-1000 group-hover:scale-110 ${isMobile ? 'grayscale-0' : 'grayscale group-hover:grayscale-0'}`}
+                                        className={`object-cover transition-all duration-1000 group-hover:scale-110 
+                    ${isMobile ? "grayscale-0" : "grayscale group-hover:grayscale-0 contrast-[1.1]"}`}
                                         priority
                                     />
+
+                                    {/* 3. Tech Overlays inside the frame */}
                                     <div
-                                        className={`absolute bottom-4 left-4 right-4 flex flex-col gap-2 transition-all duration-700 ${isMobile ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0'}`}>
+                                        className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-700"/>
+
+                                    <div
+                                        className={`absolute bottom-4 left-4 right-4 flex flex-col gap-2 transition-all duration-700 ${isMobile ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0"}`}>
                                         <div
-                                            className="flex items-center gap-2 p-2 backdrop-blur-xl bg-black/40 border border-white/10 rounded-xl text-[8px] font-mono text-white uppercase font-bold tracking-widest">
+                                            className="flex items-center gap-2 p-3 backdrop-blur-xl bg-black/40 border border-white/10 rounded-xl text-[10px] font-mono text-white uppercase font-bold tracking-widest">
                                             <Smartphone size={12} className="text-primary"/> Mobile Architecture
                                         </div>
                                         <div
-                                            className="flex items-center gap-2 p-2 backdrop-blur-xl bg-black/40 border border-white/10 rounded-xl text-[8px] font-mono text-white uppercase font-bold tracking-widest">
+                                            className="flex items-center gap-2 p-3 backdrop-blur-xl bg-black/40 border border-white/10 rounded-xl text-[10px] font-mono text-white uppercase font-bold tracking-widest">
                                             <Globe size={12} className="text-primary"/> Web Ecosystems
                                         </div>
                                     </div>
-                                </div>
+                                </motion.div>
+
+                                {/* 4. Decorative Corner "Brackets" */}
+                                <div
+                                    className="absolute -top-4 -right-4 w-16 h-16 border-t border-r border-primary/20 rounded-tr-[2rem] -z-10 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform duration-700"/>
+                                <div
+                                    className="absolute -bottom-4 -left-4 w-16 h-16 border-b border-l border-primary/20 rounded-bl-[2rem] -z-10 group-hover:-translate-x-2 group-hover:translate-y-2 transition-transform duration-700"/>
                             </motion.div>
                         </div>
                     </div>

@@ -11,7 +11,7 @@ import { Footer } from '@/components/layout/Footer';
 
 export const metadata: Metadata = {
     // Branding: Mobile-First Architectural Logic
-    title: "Interface // Kotlin Multiplatform & Web Engineer",
+    title: "Ajith Goveas // Android, Kotlin Multiplatform & Web Engineer",
 
     description:
         "Ajith Goveas is a Mobile-First Engineer specializing in Native Android (Kotlin), KMM, and Compose Multiplatform (CMP), alongside high-performance Web development using Next.js and Tailwind CSS.",

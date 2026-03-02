@@ -2,13 +2,13 @@
 
 import React, {useMemo} from 'react';
 import {motion} from 'framer-motion';
-import {Box, Globe, Layers, Smartphone, Terminal, Zap} from "lucide-react";
+import {IconBolt, IconBox, IconDeviceMobile, IconStackFront, IconTerminal2, IconWorld} from "@tabler/icons-react";
 import {SkillCategory} from "@/types";
 
 const SKILL_CATEGORIES: SkillCategory[] = [
     {
         title: "Mobile Ecosystem",
-        icon: Smartphone,
+        icon: IconDeviceMobile,
         skills: ["Kotlin", "Android SDK", "Jetpack Compose", "KMM", "Java", "Room", "Retrofit"],
         description: "Native Android performance and modern Cross-Platform architectures.",
         accent: "text-blue-500",
@@ -17,7 +17,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
     },
     {
         title: "Full-Stack Web",
-        icon: Globe,
+        icon: IconWorld,
         skills: ["React", "Next.js", "TypeScript", "Tailwind", "JavaScript", "Full-stack"],
         description: "Scalable web applications with a focus on UI/UX and speed.",
         accent: "text-emerald-500",
@@ -26,7 +26,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
     },
     {
         title: "Tools & Cloud",
-        icon: Box,
+        icon: IconBox,
         skills: ["Git", "Firebase", "REST APIs", "Vite", "Postman", "CI/CD"],
         description: "Development workflows and cloud-based data management.",
         accent: "text-purple-500",
@@ -35,7 +35,7 @@ const SKILL_CATEGORIES: SkillCategory[] = [
     },
     {
         title: "Architecture & Strategy",
-        icon: Layers,
+        icon: IconStackFront,
         skills: ["Scaling", "Problem Solving", "UI Design", "Prototyping"],
         description: "Building meaningful projects that bring high value to users.",
         accent: "text-orange-500",
@@ -116,7 +116,7 @@ export default function SkillsSection() {
                                             group-hover:bg-primary group-hover:text-primary-foreground 
                                             transition-all duration-500 ${category.accent}
                                         `}>
-                                            <Icon size={24} aria-hidden="true"/>
+                                            <Icon size={24} stroke={1.5} aria-hidden="true"/>
                                         </div>
                                         <span
                                             className="text-[10px] font-mono opacity-20 group-hover:opacity-100 transition-opacity uppercase font-bold">
@@ -151,7 +151,7 @@ export default function SkillsSection() {
                 <footer
                     className="max-w-7xl mx-auto mt-10 md:mt-16 flex flex-col md:flex-row items-center justify-between gap-6 px-8 py-5 rounded-[2rem] bg-secondary/5 border border-border/40 font-mono">
                     <div className="flex items-center gap-4">
-                        <Terminal size={16} className="text-primary" aria-hidden="true"/>
+                        <IconTerminal2 size={16} stroke={1.5} className="text-primary" aria-hidden="true"/>
                         <p className="text-[11px] tracking-tighter text-muted-foreground">
                             <span className="text-primary font-bold animate-pulse">●</span> root@user:~/skills$ <kbd
                             className="text-foreground italic bg-transparent p-0 border-none uppercase">./fetch_stacks
@@ -160,7 +160,7 @@ export default function SkillsSection() {
                     </div>
                     <div className="flex items-center gap-6 text-[10px] font-bold uppercase tracking-[0.1em]">
                         <div className="flex items-center gap-2 text-primary">
-                            <Zap size={14} className="fill-primary"/>
+                            <IconBolt size={14} stroke={1.5} className="fill-primary"/>
                             <span>SEO_OPTIMIZED</span>
                         </div>
                         <span className="opacity-30 hidden md:inline">Latency: 2ms</span>

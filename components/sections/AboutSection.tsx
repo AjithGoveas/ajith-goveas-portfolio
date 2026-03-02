@@ -3,28 +3,28 @@
 import React from 'react';
 import {motion} from 'framer-motion';
 import {
-    ArrowUpRight,
-    Binary,
-    Code2,
-    Cpu,
-    Database,
-    Globe,
-    GraduationCap,
-    Smartphone,
-    Sparkles,
-    Zap
-} from 'lucide-react';
+    IconArrowUpRight,
+    IconBinary,
+    IconBolt,
+    IconCode,
+    IconCpu,
+    IconDatabase,
+    IconDeviceMobile,
+    IconSchool,
+    IconSparkles,
+    IconWorld
+} from "@tabler/icons-react";
 
 export default function AboutSection() {
     const focusAreas = [
         {
-            icon: Smartphone,
+            icon: IconDeviceMobile,
             label: 'Mobile Ecosystem',
             desc: 'Native Android & Kotlin Multiplatform (KMM). Engineering unified logic across mobile platforms.',
             tag: 'Core'
         },
         {
-            icon: Globe,
+            icon: IconWorld,
             label: 'Modern Web',
             desc: 'Crafting high-performance, accessible, and scalable full-stack web architectures.',
             tag: 'Core'
@@ -33,21 +33,23 @@ export default function AboutSection() {
 
     const satelliteInterests = [
         {
-            icon: Database,
+            icon: IconDatabase,
             label: 'Scalable Backend',
             desc: 'Architecting resilient APIs and data structures.'
         },
         {
-            icon: Binary,
+            icon: IconBinary,
             label: 'AI & Machine Learning',
             desc: 'Integrating intelligent models into consumer applications.'
         },
         {
-            icon: Zap,
+            icon: IconBolt,
             label: 'Performance Tech',
             desc: 'Low-latency optimization and fluid user experiences.'
         }
     ];
+
+    const currentYear = new Date().getFullYear();
 
     return (
         <section id="about" className="py-24 md:py-44 bg-background relative overflow-hidden">
@@ -95,7 +97,7 @@ export default function AboutSection() {
                         <div className="space-y-8 relative z-10">
                             <div className="flex items-center gap-3 text-primary/80">
                                 <div className="p-2 bg-primary/10 rounded-lg">
-                                    <GraduationCap size={18}/>
+                                    <IconSchool size={18}/>
                                 </div>
                                 <span className="text-[10px] font-mono font-bold tracking-widest uppercase italic">
                                     Education // SCEM
@@ -123,7 +125,7 @@ export default function AboutSection() {
                             </div>
                         </div>
                         <div
-                            className="absolute -bottom-6 -right-6 text-9xl font-bold opacity-[0.02] select-none group-hover:opacity-[0.08] group-hover:-translate-y-4 transition-all duration-700 font-mono">
+                            className="absolute -bottom-6 -right-6 text-[12rem] group-hover:text-[15rem] font-mono font-bold opacity-[0.04] dark:opacity-[0.07] select-none pointer-events-none leading-none group-hover:opacity-[0.08] group-hover:-translate-y-4 transition-all duration-700">
                             CODE
                         </div>
                     </motion.div>
@@ -137,8 +139,8 @@ export default function AboutSection() {
                         <div
                             className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-colors duration-700"/>
 
-                        <Sparkles size={40}
-                                  className="opacity-20 absolute top-10 right-10 group-hover:rotate-12 group-hover:scale-110 transition-all duration-500"/>
+                        <IconSparkles size={40}
+                                      className="opacity-20 absolute top-10 right-10 group-hover:rotate-12 group-hover:scale-110 transition-all duration-500"/>
 
                         <div className="space-y-6 relative z-10">
                             <h4 className="text-2xl font-bold tracking-tighter uppercase">The Mission</h4>
@@ -157,10 +159,10 @@ export default function AboutSection() {
                         <div className="pt-6 border-t border-primary-foreground/20 flex flex-col gap-4 relative z-10">
                             <div className="flex items-center justify-between">
             <span className="text-[10px] font-mono uppercase tracking-widest opacity-60 italic">
-                Core_Drive // 2026
+                Core_Drive // {currentYear}
             </span>
                                 <div className="p-2 bg-white/10 rounded-lg">
-                                    <Code2 size={18} className="opacity-80"/>
+                                    <IconCode size={18} className="opacity-80"/>
                                 </div>
                             </div>
                             <div className="flex flex-wrap gap-2">
@@ -195,8 +197,10 @@ export default function AboutSection() {
                                     </span>
                                     <h4 className="text-2xl font-bold mb-2 tracking-tight flex items-center gap-2">
                                         {area.label}
-                                        <ArrowUpRight size={16}
-                                                      className="opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all"/>
+                                        <div className="p-2.5 rounded-xl bg-zinc-500/10 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all">
+                                            <IconArrowUpRight size={16}
+                                                              />
+                                        </div>
                                     </h4>
                                     <p className="text-sm text-muted-foreground leading-relaxed italic">"{area.desc}"</p>
                                 </div>
@@ -209,9 +213,9 @@ export default function AboutSection() {
                     <div className="lg:col-span-12 mt-8">
                         <div className="flex items-center gap-4 mb-8">
                             <div className="p-2 bg-primary/5 rounded-lg border border-primary/10">
-                                <Cpu size={18} className="text-primary animate-pulse"/>
+                                <IconCpu size={18} className="text-primary animate-pulse"/>
                             </div>
-                            <h4 className="text-sm font-bold uppercase tracking-[0.4em] opacity-40">
+                            <h4 className="text-sm font-bold uppercase tracking-[0.4em] text-primary/70">
                                 Horizon_Expansion
                             </h4>
                         </div>
