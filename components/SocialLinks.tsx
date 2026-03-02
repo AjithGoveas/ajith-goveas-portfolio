@@ -27,7 +27,8 @@ export default function SocialLinks({fullStyle = false}: { fullStyle?: boolean }
     const {socialLinks, isLoading} = useSocialLinks();
 
     if (isLoading) return (
-        <div className="flex justify-center py-20 font-mono text-[10px] tracking-[0.3em] text-muted-foreground opacity-30 animate-pulse">
+        <div
+            className="flex justify-center py-20 font-mono text-[10px] tracking-[0.3em] text-muted-foreground opacity-30 animate-pulse">
             SYNCING_BENTO_NODES...
         </div>
     );
@@ -98,9 +99,12 @@ const InteractionPlate = memo(({info, index, isFeatured}: { info: Links; index: 
                                 <IconCircleCheck className="w-5 h-5 md:w-6 md:h-6 text-green-500"/>
                             </motion.div>
                         ) : (
-                            <IconArrowUpRight
-                                className="w-5 h-5 md:w-6 md:h-6 opacity-20 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all text-foreground"
-                            />
+                            <div
+                                className="p-2.5 rounded-xl bg-zinc-500/5 opacity-20 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all text-foreground">
+                                <IconArrowUpRight
+                                    className="w-5 h-5 md:w-6 md:h-6"
+                                />
+                            </div>
                         )}
                     </AnimatePresence>
                 </div>

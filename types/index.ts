@@ -36,6 +36,7 @@ export interface SkillCategory {
 }
 
 export interface NavItem {
+    id: string;
     name: string;
     href: string;
 }

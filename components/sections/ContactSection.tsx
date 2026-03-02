@@ -2,16 +2,26 @@
 
 import React, {useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
-import {ArrowUpRight, CheckCircle2, Code2, Cpu, Globe, Layers, Network, Share2, Terminal} from "lucide-react";
 import {useContactInfo} from "@/hooks/useContactInfo";
-import {getIcon} from "@/utils/get-icon";
 import SocialLinks from "@/components/SocialLinks";
+import {
+    IconArrowUpRight,
+    IconCircleCheck,
+    IconCode,
+    IconCpu,
+    IconMail,
+    IconShare,
+    IconSitemap,
+    IconStackFront,
+    IconTerminal,
+    IconWorld
+} from "@tabler/icons-react";
 
 const statuses = [
-    {label: "Current_Focus", value: "Distributed_Systems_Architecture", icon: <Code2 size={14}/>},
-    {label: "Expansion", value: "Scaling_Global_Developer_Nodes", icon: <Share2 size={14}/>},
-    {label: "Active_Sprint", value: "High_Fidelity_Interaction_Design", icon: <Layers size={14}/>},
-    {label: "Networking", value: "Open_For_Strategic_Partnerships", icon: <Network size={14}/>}
+    {label: "Current_Focus", value: "Distributed_Systems_Architecture", icon: <IconCode size={14}/>},
+    {label: "Expansion", value: "Scaling_Global_Developer_Nodes", icon: <IconShare size={14}/>},
+    {label: "Active_Sprint", value: "High_Fidelity_Interaction_Design", icon: <IconStackFront size={14}/>},
+    {label: "Networking", value: "Open_For_Strategic_Partnerships", icon: <IconSitemap size={14}/>}
 ];
 
 const ActivityStack = () => {
@@ -115,7 +125,8 @@ const SystemClock = () => {
 
             <div
                 className="relative flex items-center justify-center w-[18vw] h-[18vw] max-w-[80px] max-h-[80px] min-w-[60px] min-h-[60px] bg-background border border-border/50 rounded-[1.5rem] md:rounded-[2rem] shadow-inner group-hover:border-primary/30 transition-all duration-500 overflow-hidden shrink-0">
-                <Terminal size="35%" className="text-primary opacity-40 group-hover:opacity-100 transition-opacity"/>
+                <IconTerminal size="35%"
+                              className="text-primary opacity-40 group-hover:opacity-100 transition-opacity"/>
 
                 <motion.div
                     animate={{rotate: 360}}
@@ -147,9 +158,10 @@ const SystemClock = () => {
 
 const InteractionPlate = ({info, index}: { info: any; index: number }) => {
     const [copied, setCopied] = useState(false);
-    const IconComponent = getIcon(info.label) || Globe;
+    const IconComponent = info.icon || (info.label.toLowerCase().includes('email') ? IconMail : IconWorld);
     const isEmail = info.label.toLowerCase().includes('email');
-    const isHero = index === 0;
+
+    const isLead = index === 0;
 
     const handleAction = (e: React.MouseEvent) => {
         if (isEmail) {
@@ -165,43 +177,81 @@ const InteractionPlate = ({info, index}: { info: any; index: number }) => {
             href={isEmail ? `mailto:${info.value}` : info.value}
             target={isEmail ? undefined : "_blank"}
             onClick={handleAction}
-            initial={{opacity: 0, y: 30}}
-            whileInView={{opacity: 1, y: 0}}
+            initial={{opacity: 0, scale: 0.98}}
+            whileInView={{opacity: 1, scale: 1}}
+            whileHover={{y: -6}}
             viewport={{once: true}}
-            transition={{duration: 0.5, delay: index * 0.1}}
-            className={`group relative flex flex-col justify-between p-10 rounded-[3rem] transition-all duration-700 overflow-hidden border
-                ${isHero
-                ? 'md:col-span-2 bg-foreground text-background dark:bg-zinc-100 dark:text-zinc-900 border-transparent shadow-2xl'
-                : 'bg-card/40 backdrop-blur-xl border-border/40 hover:border-primary/50'}`}
+            transition={{duration: 0.4, delay: index * 0.05}}
+            className={`group relative flex flex-col justify-between overflow-hidden border transition-all duration-500
+                ${isLead
+                ? 'p-8 md:p-12 rounded-[3rem] md:col-span-2 row-span-2 bg-zinc-950 dark:bg-zinc-50 text-white dark:text-zinc-950 border-transparent shadow-[0_30px_60px_-15px_rgba(0,0,0,0.3)]'
+                : 'p-6 md:p-8 rounded-[2rem] bg-secondary/20 dark:bg-zinc-900/40 backdrop-blur-md border-border/50 hover:bg-secondary/40'
+            }`}
         >
             <div className="flex justify-between items-start z-10">
-                <div className={`w-16 h-16 rounded-[1.25rem] flex items-center justify-center transition-all duration-500
-                    ${isHero ? 'bg-background/10 text-background' : 'bg-secondary/50 border border-border/50 text-muted-foreground group-hover:bg-primary group-hover:text-white'}`}>
-                    <IconComponent size={28} strokeWidth={1.5}/>
+                <div className={`flex items-center gap-4 ${isLead ? 'opacity-100' : 'opacity-60'}`}>
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-transform duration-500 group-hover:rotate-6
+                        ${isLead ? 'bg-white/10 dark:bg-black/5' : 'bg-background border border-border/50'}`}>
+                        <IconComponent size={24} strokeWidth={1.5}/>
+                    </div>
+                    {isLead && (
+                        <div className="flex flex-col">
+                            <span
+                                className="text-[10px] font-mono leading-none tracking-widest text-emerald-500 mb-1.5 flex items-center gap-2">
+                                <span className="relative flex h-2 w-2">
+                                    <span
+                                        className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                </span>
+                                ACTIVE_SYSTEM_NODE
+                            </span>
+                            <span
+                                className="text-[11px] font-mono leading-none opacity-40 uppercase tracking-tight">{info.label}</span>
+                        </div>
+                    )}
                 </div>
+
                 <AnimatePresence mode="wait">
                     {copied ? (
-                        <motion.div key="check" initial={{scale: 0}} animate={{scale: 1}} exit={{scale: 0}}>
-                            <CheckCircle2 size={28} className={isHero ? "text-background" : "text-green-500"}/>
+                        <motion.div key="check" initial={{y: 5, opacity: 0}} animate={{y: 0, opacity: 1}}>
+                            <IconCircleCheck size={24} className="text-emerald-500"/>
                         </motion.div>
                     ) : (
-                        <ArrowUpRight size={28} className="opacity-20 group-hover:opacity-100 transition-all"/>
+                        <div
+                            className={`p-2.5 rounded-xl transition-all ${isLead ? 'bg-white/5 border border-white/10' : 'bg-zinc-500/5 opacity-60 group-hover:opacity-100'}`}>
+                            <IconArrowUpRight size={20}/>
+                        </div>
                     )}
                 </AnimatePresence>
             </div>
 
-            <div className="z-10 mt-12">
-                <span
-                    className="text-[10px] font-mono uppercase tracking-[0.4em] block mb-3 opacity-40">// {info.label}</span>
-                <h4 className={`font-bold tracking-tighter truncate ${isHero ? 'text-4xl md:text-5xl' : 'text-2xl md:text-3xl'}`}>
-                    {isEmail ? info.value : info.description || "Establish_Link"}
+            <div className={`z-10 ${isLead ? 'mt-16 md:mt-24' : 'mt-12 md:mt-20'}`}>
+                {!isLead && (
+                    <span className="text-[9px] font-mono uppercase tracking-[0.4em] opacity-30 block mb-2">
+                        NODE_0{index + 1}
+                    </span>
+                )}
+                <h4 className={`tracking-tighter leading-[0.85] truncate py-3
+                    ${isLead ? 'text-5xl md:text-7xl font-calSans' : 'text-xl md:text-2xl font-inter font-semibold'}`}>
+                    {isEmail ? info.value : info.description || info.label}
                 </h4>
             </div>
 
-            <span
-                className="absolute -bottom-4 -right-2 text-[12rem] font-bold opacity-[0.03] italic pointer-events-none select-none tracking-tighter">
-                0{index + 1}
-            </span>
+            {isLead && (
+                <span
+                    className="absolute -bottom-10 -right-6 text-[22rem] font-calSans opacity-[0.04] dark:opacity-[0.07] pointer-events-none select-none leading-none -rotate-12 transition-transform duration-1000 group-hover:rotate-0 group-hover:scale-110">
+                    @
+                </span>
+            )}
+
+            <div className="absolute inset-0 opacity-[0.04] dark:opacity-[0.06] pointer-events-none"
+                 style={{
+                     backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
+                     backgroundSize: '32px 32px'
+                 }}/>
+
+            <div
+                className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700"/>
         </motion.a>
     );
 };
@@ -229,7 +279,7 @@ export default function ContactSection() {
                         </div>
 
                         <h2 className="text-8xl md:text-[12vw] font-black tracking-tighter leading-[0.75] mb-12 uppercase">
-                            Start<br/>The<br/>Talk<span className="text-primary">.</span>
+                            Start<br/>The<br/>Talk<span className="text-primary/20">.</span>
                         </h2>
 
                         <div className="flex flex-col md:flex-row gap-12 items-start md:items-center">
@@ -249,7 +299,7 @@ export default function ContactSection() {
                             <div className="flex justify-between items-center">
                                 <span
                                     className="text-[9px] font-mono uppercase tracking-widest opacity-40">Network_Topology</span>
-                                <Cpu size={14} className="text-primary/40"/>
+                                <IconCpu size={21} className="text-primary/40"/>
                             </div>
 
                             <div className="relative h-24 flex items-center justify-center">
