@@ -115,59 +115,73 @@ export default function HeroSection({name}: HeroProps) {
                                     Engineering{" "}
                                     <span className="relative inline-block">
                                         <span className="text-primary font-semibold">Native Android</span>
-                                        {/* Double Underline for "Native Android" */}
-                                        <svg className="absolute -bottom-2.5 left-0 w-full h-3 text-purple-500/70"
-                                             viewBox="0 0 100 15" preserveAspectRatio="none">
-                                            {/* Top thicker freestyle line */}
+                                        <svg
+                                            className="absolute -bottom-3 left-0 w-full h-5 text-green-500"
+                                            viewBox="0 0 100 20"
+                                            preserveAspectRatio="none"
+                                        >
+                                            {/* Top underline - bold, slightly irregular */}
                                             <motion.path
                                                 initial={{pathLength: 0}}
                                                 whileInView={{pathLength: 1}}
-                                                transition={{duration: 1.2, delay: 0.5}}
-                                                d="M0,5 C20,2 80,8 100,5"
+                                                transition={{duration: 1.2, delay: 0.4}}
+                                                d="M0,10 C25,5 75,15 100,10"
                                                 fill="transparent"
                                                 stroke="currentColor"
-                                                strokeWidth="2.5" // Increased thickness
+                                                strokeWidth="3"
                                                 strokeLinecap="round"
+                                                strokeDasharray="6 8"
+                                                strokeDashoffset="8"
                                             />
-                                            {/* Bottom thinner freestyle line */}
+                                            {/* Bottom underline - thinner, offset, softer */}
                                             <motion.path
                                                 initial={{pathLength: 0}}
                                                 whileInView={{pathLength: 1}}
-                                                transition={{duration: 1, delay: 0.7}}
-                                                d="M5,10 C30,13 70,7 95,10"
+                                                transition={{duration: 1, delay: 0.6}}
+                                                d="M5,15 C30,18 70,12 95,15"
                                                 fill="transparent"
                                                 stroke="currentColor"
-                                                strokeWidth="1.5"
+                                                strokeWidth="1.8"
                                                 strokeLinecap="round"
+                                                opacity={0.6}
                                             />
                                         </svg>
-                                    </span>{" "}& <br className="hidden sm:block"/>{" "}
+                                    </span>
+                                    {" "}& <br className="hidden sm:block"/>{" "}
                                     <span className="relative inline-block">High-Performance{" "}
                                         <span className="relative">
                                             Web logic
-                                            <svg className="absolute -bottom-2.5 left-0 w-full h-3 text-purple-500/70"
-                                                 viewBox="0 0 100 15" preserveAspectRatio="none">
+                                            <svg
+                                                className="absolute -bottom-3 left-0 w-full h-4 text-amber-500"
+                                                viewBox="0 0 100 20"
+                                                preserveAspectRatio="none"
+                                            >
+                                            {/* Top underline - bold, slightly wavy */}
                                                 <motion.path
                                                     initial={{pathLength: 0}}
                                                     whileInView={{pathLength: 1}}
-                                                    transition={{duration: 1.2, delay: 0.8}}
-                                                    d="M0,5 Q30,10 60,5 T100,5"
+                                                    transition={{duration: 1.2, delay: 0.4}}
+                                                    d="M0,10 C25,5 75,15 100,10"
                                                     fill="transparent"
                                                     stroke="currentColor"
-                                                    strokeWidth="2.5"
+                                                    strokeWidth="3"
                                                     strokeLinecap="round"
+                                                    strokeDasharray="4 6"
+                                                    strokeDashoffset="6"
                                                 />
+                                                {/* Bottom underline - thinner, offset for natural feel */}
                                                 <motion.path
                                                     initial={{pathLength: 0}}
                                                     whileInView={{pathLength: 1}}
-                                                    transition={{duration: 1, delay: 1}}
-                                                    d="M5,10 C25,12 75,8 95,10"
+                                                    transition={{duration: 1, delay: 0.6}}
+                                                    d="M5,15 C30,18 70,12 95,15"
                                                     fill="transparent"
                                                     stroke="currentColor"
-                                                    strokeWidth="1.5"
+                                                    strokeWidth="1.8"
                                                     strokeLinecap="round"
+                                                    opacity={0.7}
                                                 />
-                                            </svg>
+                                        </svg>
                                         </span>
                                     </span>.
                                 </h2>

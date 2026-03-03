@@ -23,12 +23,10 @@ export const Footer: React.FC = () => {
 
                 <div className="flex flex-col items-center sm:items-end gap-2">
                     <div className="flex items-center gap-3">
-                        {/* Status Dot */}
-                        <div className="h-1 w-1 rounded-full bg-primary/40" />
                         <span className="text-xl font-sofia tracking-tighter text-foreground">
                             myBio
                         </span>
-                        <span className="text-[10px] font-mono text-muted-foreground/30 tabular-nums uppercase tracking-widest">
+                        <span className="text-[10px] font-mono text-muted-foreground/80 tabular-nums uppercase tracking-widest">
                             ©{currentYear}
                         </span>
                     </div>
