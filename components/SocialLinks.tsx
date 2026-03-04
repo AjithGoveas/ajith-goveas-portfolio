@@ -128,7 +128,7 @@ const InteractionPlate = memo(({info, index, isFeatured}: InteractionPlateProps)
             transition={{delay: index * 0.1, duration: 0.5}}
             className={cn(
                 "group relative flex flex-col justify-between p-6 md:p-8 rounded-[1.5rem] md:rounded-[2.5rem] min-h-[160px] md:min-h-[220px] overflow-hidden",
-                "bg-card border border-border/40 hover:border-primary/50", // removed glassmorphism (no backdrop-blur, no translucent bg)
+                "bg-card border border-border/40 hover:border-primary/50",
                 "transition-all duration-300 hover:scale-[1.02] hover:shadow-md shadow-sm",
                 isFeatured ? "lg:col-span-2" : "col-span-1"
             )}
