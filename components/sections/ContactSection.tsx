@@ -1,381 +1,407 @@
-// components/contact-form.tsx
-"use client";
+'use client';
 
-import React, {ChangeEventHandler, FormEventHandler, JSX, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {AnimatePresence, motion} from "framer-motion";
-import {Card, CardHeader} from "@/components/ui/card";
-import {Button} from "@/components/ui/button";
-import {Label} from "@/components/ui/label";
-import {Input} from "@/components/ui/input";
-import {Textarea} from "@/components/ui/textarea";
-import {ArrowRight, Calendar, MessageSquare, Send, User} from "lucide-react";
-import {IconMail} from "@tabler/icons-react";
-import SocialLinks from "@/components/SocialLinks";
-import useIsLargeScreen from "@/hooks/useIsLargeScreen";
-import {ContactInfo, FormData} from "@/types";
-import {getIcon} from "@/utils/get-icon";
 import {useContactInfo} from "@/hooks/useContactInfo";
+import SocialLinks from "@/components/SocialLinks";
+import {
+    IconArrowUpRight,
+    IconCircleCheck,
+    IconCode,
+    IconCpu,
+    IconMail,
+    IconShare,
+    IconSitemap,
+    IconStackFront,
+    IconTerminal,
+    IconWorld,
+    TablerIcon
+} from "@tabler/icons-react";
 
-// --- Sub-components for better modularity ---
+const statuses = [
+    {label: "Current_Focus", value: "Distributed_Systems_Architecture", icon: <IconCode size={14}/>},
+    {label: "Expansion", value: "Scaling_Global_Developer_Nodes", icon: <IconShare size={14}/>},
+    {label: "Active_Sprint", value: "High_Fidelity_Interaction_Design", icon: <IconStackFront size={14}/>},
+    {label: "Networking", value: "Open_For_Strategic_Partnerships", icon: <IconSitemap size={14}/>}
+];
 
-// Correctly define props for both subcomponents
-interface ContactCardProps {
-    cardVariants: any;
-    isLargeScreen: boolean;
-}
+const ActivityStack = () => {
+    const [index, setIndex] = useState(0);
 
-interface ContactInfoProps extends ContactCardProps {
-    contactInfo: ContactInfo[];
-}
+    useEffect(() => {
+        const timer = setInterval(() => setIndex((prev) => (prev + 1) % statuses.length), 4500);
+        return () => clearInterval(timer);
+    }, []);
 
-function ContactInfoCard({cardVariants, isLargeScreen, contactInfo}: ContactInfoProps) {
-    const displayedSocials = contactInfo.map(info => ({
-        ...info,
-        icon: getIcon(info.label),
-    }))
     return (
-        <motion.div
-            key="contact"
-            className="p-6 sm:p-8 lg:p-12 flex flex-col"
-            variants={cardVariants}
-            initial="hidden"
-            animate="visible"
-            exit="exit"
-            transition={{duration: 0.5}}
-        >
-            <CardHeader className="mb-6 sm:mb-8 p-0">
-                <h3 className="text-xl sm:text-2xl font-semibold text-secondary-foreground mb-2 sm:mb-3">Get in
-                    Touch</h3>
-                <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
-                    I'm always excited to work on new projects and collaborate with amazing people. Let's create
-                    something
-                    extraordinary together.
-                </p>
-            </CardHeader>
-            <div className="space-y-4 sm:space-y-6 mb-6 sm:mb-8">
-                {displayedSocials.map((info, index) => {
-                    const IconComponent = info.icon;
-                    if (!IconComponent) return null;
-                    return (
+        <div className="flex flex-col gap-3 w-full max-w-full sm:max-w-[340px] shrink-0">
+            {/* Header */}
+            <div className="flex items-center justify-between px-1">
+                <div className="flex items-center gap-2">
+                    <div className="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(var(--primary),0.6)]" />
+                    <span className="text-[7px] sm:text-[8px] md:text-[9px] font-mono uppercase tracking-[0.35em] text-primary/60 font-semibold">
+                        Core_Protocol
+                    </span>
+                </div>
+                <div className="flex gap-1">
+                    {statuses.map((_, i) => (
                         <motion.div
-                            key={info.label}
-                            initial={{opacity: 0, x: -20}}
-                            whileInView={{opacity: 1, x: 0}}
-                            viewport={{once: true}}
-                            transition={{duration: 0.5, delay: index * 0.1}}
-                            className="flex items-start gap-4 group"
-                        >
-                            <div
-                                className="w-10 h-10 sm:w-12 sm:h-12 border border-border/70 rounded-lg sm:rounded-xl flex items-center justify-center group-hover:border-primary/40 transition-all duration-300">
-                                <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 text-primary"/>
-                            </div>
-                            <div>
-                                <div
-                                    className="text-sm sm:text-base text-secondary-foreground font-medium mb-1">{info.label}</div>
-                                <div className="text-primary text-sm sm:text-base font-medium mb-1">{info.value}</div>
-                                <div className="text-xs sm:text-sm text-muted-foreground">{info.description}</div>
-                            </div>
-                        </motion.div>
-                    );
-                })}
+                            key={i}
+                            animate={{ scale: index === i ? 1.2 : 1, opacity: index === i ? 1 : 0.4 }}
+                            transition={{ duration: 0.3 }}
+                            className={`h-1.5 w-1.5 rounded-full ${index === i ? "bg-primary" : "bg-primary/20"}`}
+                        />
+                    ))}
+                </div>
             </div>
-            <div className="mt-auto">
-                <h4 className="text-sm sm:text-base text-secondary-foreground font-medium mb-4">Connect with me</h4>
-                <SocialLinks fullStyle={isLargeScreen}/>
+
+            {/* Status Card */}
+            <div className="relative h-14 sm:h-16 w-full bg-gradient-to-r from-secondary/5 to-secondary/10 rounded-lg sm:rounded-xl border border-border/30 px-3 sm:px-4 flex flex-col justify-center overflow-hidden shadow-sm">
+                <AnimatePresence mode="wait">
+                    <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 6 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -6 }}
+                        transition={{ duration: 0.35, ease: "easeOut" }}
+                        className="relative z-10"
+                    >
+                        <div className="flex items-center gap-1.5 mb-1.5">
+                            <span className="text-primary/50 shrink-0">{statuses[index].icon}</span>
+                            <span className="text-[6px] sm:text-[7px] md:text-[8px] font-mono uppercase tracking-[0.4em] text-muted-foreground/80 font-bold">
+                                {statuses[index].label}
+                            </span>
+                        </div>
+
+                        <div className="flex items-center">
+                            <h4 className="text-[10px] sm:text-[11px] md:text-[12px] font-mono font-medium tracking-[0.12em] text-foreground/90 uppercase leading-none">
+                                {statuses[index].value.split("").map((char, i) => (
+                                    <motion.span
+                                        key={i}
+                                        initial={{ opacity: 0, y: 2 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: i * 0.02 }}
+                                    >
+                                        {char === "_" ? (
+                                            <span className="text-primary/40 mx-[2px] font-bold">·</span>
+                                        ) : (
+                                            char
+                                        )}
+                                    </motion.span>
+                                ))}
+                            </h4>
+
+                            <motion.span
+                                animate={{ opacity: [1, 0] }}
+                                transition={{ duration: 0.8, repeat: Infinity }}
+                                className="w-1 h-2.5 sm:w-1.5 sm:h-3 bg-primary/50 ml-2 rounded-sm"
+                            />
+                        </div>
+                    </motion.div>
+                </AnimatePresence>
             </div>
+
+            {/* Progress Bar */}
+            <div className="relative h-[2px] w-full bg-border/20 rounded-full overflow-hidden">
+                <motion.div
+                    key={`progress-${index}`}
+                    initial={{ x: "-100%" }}
+                    animate={{ x: "0%" }}
+                    transition={{ duration: 4.5, ease: "linear" }}
+                    className="absolute inset-0 bg-gradient-to-r from-primary/40 to-primary/20"
+                />
+            </div>
+        </div>
+    );
+};
+
+const SystemClock = () => {
+    const [time, setTime] = useState(new Date());
+
+    useEffect(() => {
+        const timer = setInterval(() => setTime(new Date()), 1000);
+        return () => clearInterval(timer);
+    }, []);
+
+    const formattedTime = time.toLocaleTimeString('en-IN', {
+        timeZone: 'Asia/Kolkata', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+    });
+
+    return (
+        <div
+            className="flex items-center gap-[3vw] md:gap-6 p-2 pr-[5vw] md:pr-8 bg-card backdrop-blur-2xl border border-border/40 rounded-[2rem] md:rounded-[2.5rem] w-full max-w-sm lg:max-w-none lg:w-fit shadow-2xl shadow-primary/5 group transition-all duration-500">
+
             <div
-                className="mt-4 sm:mt-6 flex items-center gap-3 px-3 sm:px-4 py-2 sm:py-3 bg-green-500/10 border border-green-500/20 rounded-md sm:rounded-lg">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span className="text-xs sm:text-sm text-green-400 font-medium">Available for new projects</span>
+                className="relative flex items-center justify-center w-[18vw] h-[18vw] max-w-[80px] max-h-[80px] min-w-[60px] min-h-[60px] bg-background border border-border/50 rounded-[1.5rem] md:rounded-[2rem] shadow-inner group-hover:border-primary/30 transition-all duration-500 overflow-hidden shrink-0">
+                <IconTerminal size="35%"
+                              className="text-primary opacity-40 group-hover:opacity-100 transition-opacity"/>
+
+                <motion.div
+                    animate={{rotate: 360}}
+                    transition={{duration: 10, repeat: Infinity, ease: "linear"}}
+                    className="absolute inset-0 border-[2px] border-dashed border-primary/10 rounded-full scale-[1.2] md:scale-[1.4]"
+                />
             </div>
-        </motion.div>
+
+            <div className="flex flex-col min-w-0">
+                <div className="flex items-center gap-2 flex-wrap">
+                    <span
+                        className="text-[8px] md:text-[10px] font-mono uppercase tracking-[0.2em] md:tracking-[0.3em] text-muted-foreground/40 font-bold truncate">
+                        Terminal_Output
+                    </span>
+                    <span
+                        className="text-[7px] md:text-[9px] px-1.5 py-0.5 rounded bg-primary/10 text-primary font-bold border border-primary/20">
+                        IST
+                    </span>
+                </div>
+
+                <span
+                    className="text-[8vw] sm:text-4xl md:text-5xl lg:text-4xl font-mono font-bold tabular-nums tracking-tighter text-foreground leading-none mt-1 md:mt-2">
+                    {formattedTime}
+                </span>
+            </div>
+        </div>
+    );
+};
+
+interface InteractionInfo {
+    label: string;
+    value: string;
+    description?: string;
+    icon?: TablerIcon;
+}
+
+const InteractionPlate = ({info, index}: { info: InteractionInfo; index: number }) => {
+    const [copied, setCopied] = useState(false);
+    const isEmail = info.label.toLowerCase().includes("email");
+    const isLead = index === 0;
+    const IconComponent = info.icon || (isEmail ? IconMail : IconWorld);
+    const href = isEmail ? `mailto:${info.value}` : info.value;
+
+    const handleAction = (e: React.MouseEvent) => {
+        if (isEmail) {
+            e.preventDefault();
+            navigator.clipboard.writeText(info.value);
+            setCopied(true);
+            setTimeout(() => setCopied(false), 2000);
+        }
+    };
+
+    return (
+        <motion.a
+            href={href}
+            target={isEmail ? undefined : "_blank"}
+            onClick={handleAction}
+            initial={{opacity: 0, y: 30}}
+            whileInView={{opacity: 1, y: 0}}
+            whileHover={{y: -10}}
+            viewport={{once: true}}
+            transition={{duration: 0.6, delay: index * 0.1, ease: [0.23, 1, 0.32, 1]}}
+            aria-label={info.label}
+            className={`group relative flex flex-col justify-between overflow-hidden border transition-all duration-700 h-full min-h-[420px] lg:min-h-[360px]
+            ${isLead
+                ? "p-10 md:p-16 rounded-[4rem] md:col-span-2 bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 border-transparent shadow-2xl"
+                : "p-10 rounded-[3rem] bg-zinc-100/50 dark:bg-zinc-900/40 backdrop-blur-2xl border-zinc-200/50 dark:border-zinc-800/50 hover:bg-white dark:hover:bg-zinc-800"
+            }`}
+        >
+            <div className="flex justify-between items-start z-10">
+                <div className="flex flex-col gap-6">
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-700 group-hover:shadow-[0_0_30px_rgba(var(--primary),0.3)]
+                    ${isLead ? "bg-white/10 dark:bg-zinc-100" : "bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-sm"}`}>
+                        <IconComponent size={26} strokeWidth={1.2}/>
+                    </div>
+
+                    <div className="flex flex-col gap-1.5">
+                        <div className="flex items-center gap-2">
+                            {isLead && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"/>}
+                            <span
+                                className={`text-[10px] font-mono leading-none tracking-[0.4em] font-bold uppercase
+                                ${isLead ? "text-emerald-500" : "text-zinc-400"}`}>
+                                {isLead ? "Primary_Uplink" : `Node_0${index + 1}`}
+                            </span>
+                        </div>
+                        <span className="text-[11px] font-mono opacity-30 uppercase tracking-[0.2em] font-medium">
+                            {info.label}
+                        </span>
+                    </div>
+                </div>
+
+                <AnimatePresence mode="wait">
+                    {copied ? (
+                        <motion.div
+                            key="check"
+                            initial={{scale: 0.8, opacity: 0}}
+                            animate={{scale: 1, opacity: 1}}
+                            exit={{scale: 0.8, opacity: 0}}
+                        >
+                            <IconCircleCheck size={32} className="text-emerald-500" strokeWidth={1.5}/>
+                        </motion.div>
+                    ) : (
+                        <div
+                            className={`p-2.5 rounded-xl transition-all bg-transparent ${isLead ? 'border border-white/10 group-hover:bg-background/50 group-hover:text-foreground' : 'group-hover:bg-zinc-500/50 opacity-60 group-hover:opacity-100'}`}>
+                            <IconArrowUpRight size={20}/>
+                        </div>
+                    )}
+                </AnimatePresence>
+            </div>
+
+            <div className="z-10 mt-8 md:mt-16">
+                <h4
+                    className={`font-calSans tracking-tight leading-[0.9] break-words
+                    ${isLead ? "text-5xl md:text-[5vw] lg:text-[5.5rem] truncate py-3" : "text-3xl md:text-4xl"}`}>
+                    {isEmail ? info.value : info.description}
+                </h4>
+            </div>
+
+            {isLead && (
+                <span
+                    className="absolute -bottom-10 -right-6 text-[22rem] font-calSans opacity-[0.04] dark:opacity-[0.07] pointer-events-none select-none leading-none -rotate-12 transition-transform duration-1000 group-hover:rotate-0 group-hover:scale-110">
+          @
+        </span>
+            )}
+
+            <div
+                className="absolute inset-0 opacity-[0.03] dark:opacity-[0.07] pointer-events-none"
+                style={{
+                    backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
+                    backgroundSize: "40px 40px",
+                }}
+            />
+        </motion.a>
+    );
+};
+
+function NetworkTopologyCard() {
+    return (
+        <div
+            className="hidden lg:flex w-full max-w-[320px] p-8 rounded-[2rem] border border-border/30 bg-card shadow-md flex-col gap-8 relative overflow-hidden group"
+        >
+            {/* Header */}
+            <div className="flex justify-between items-center">
+                <span className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground/60">
+                    Network_Topology
+                </span>
+                <IconCpu size={21} className="text-primary/50 group-hover:text-primary transition-colors"/>
+            </div>
+
+            {/* Orbital Animation */}
+            <div className="relative h-28 flex items-center justify-center">
+                {/* Central Hub */}
+                <div className="w-4 h-4 rounded-full bg-primary relative z-10">
+                    <div className="absolute inset-0 bg-primary animate-ping rounded-full opacity-50"/>
+                </div>
+
+                {/* Orbital Nodes */}
+                {[0, 1, 2, 3, 4].map((i) => (
+                    <motion.div
+                        key={i}
+                        animate={{rotate: 360}}
+                        transition={{
+                            duration: 6 + i * 2,
+                            repeat: Infinity,
+                            ease: "linear",
+                        }}
+                        className="absolute border border-primary/10 rounded-full"
+                        style={{
+                            width: 40 + i * 20,
+                            height: 40 + i * 20,
+                        }}
+                    >
+                        <div
+                            className="w-1.5 h-1.5 rounded-full bg-primary/30 absolute -top-0.75 left-1/2 shadow-sm shadow-primary/40"/>
+                    </motion.div>
+                ))}
+            </div>
+
+            {/* Status */}
+            <div className="flex flex-col gap-1 border-t border-border/20 pt-6">
+                <span className="text-[8px] font-mono text-muted-foreground/40 uppercase tracking-widest">
+                    Protocol_Status
+                </span>
+                <span className="text-[10px] font-bold font-mono text-primary uppercase">
+                    Synchronization_Optimized
+                </span>
+            </div>
+        </div>
     );
 }
 
-interface FormCardProps extends ContactCardProps {
-    formData: FormData;
-    handleInputChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
-    handleSubmit: FormEventHandler<HTMLFormElement>;
-    isSubmitting: boolean;
-}
-
-const ContactFormCard: React.FC<FormCardProps> = ({
-                                                      cardVariants,
-                                                      formData,
-                                                      handleInputChange,
-                                                      handleSubmit,
-                                                      isSubmitting,
-                                                  }) => (
-    <motion.div
-        key="form"
-        className="p-6 sm:p-8 lg:p-12 border-t lg:border-t-0 lg:border-l border-white/10 flex flex-col"
-        variants={cardVariants}
-        initial="hidden"
-        animate="visible"
-        exit="exit"
-        transition={{duration: 0.5}}
-    >
-        <div className="mb-6 sm:mb-8">
-            <h3 className="text-xl sm:text-2xl font-semibold text-secondary-foreground mb-2 sm:mb-3">Send a Message</h3>
-            <p className="text-sm sm:text-base text-muted-foreground">
-                Tell me about your project and I'll get back to you within 24 hours.
-            </p>
-        </div>
-        <form onSubmit={handleSubmit} className="flex-1 flex flex-col">
-            <div className="space-y-4 sm:space-y-6 flex-1">
-                <div className="grid md:grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                        <Label className="text-xs sm:text-sm font-medium text-primary">Name *</Label>
-                        <div className="relative">
-                            <User
-                                className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground"/>
-                            <Input
-                                name="name"
-                                value={formData.name}
-                                onChange={handleInputChange}
-                                placeholder="Your name"
-                                className="pl-9 sm:pl-10 bg-white/[0.02] border-border text-foreground placeholder:text-muted-foreground text-sm sm:text-base focus:border-primary focus:bg-white/[0.04]"
-                                required
-                            />
-                        </div>
-                    </div>
-                    <div className="space-y-2">
-                        <Label className="text-xs sm:text-sm font-medium text-primary">Email *</Label>
-                        <div className="relative">
-                            <IconMail
-                                className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground"/>
-                            <Input
-                                name="email"
-                                type="email"
-                                value={formData.email}
-                                onChange={handleInputChange}
-                                placeholder="your@email.com"
-                                className="pl-9 sm:pl-10 bg-white/[0.02] border-border text-foreground placeholder:text-muted-foreground text-sm sm:text-base focus:border-primary focus:bg-white/[0.04]"
-                                required
-                            />
-                        </div>
-                    </div>
-                </div>
-                <div className="space-y-2">
-                    <Label className="text-xs sm:text-sm font-medium text-primary">Subject *</Label>
-                    <div className="relative">
-                        <MessageSquare
-                            className="absolute left-3 top-1/2 -translate-y-1/2 w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground"/>
-                        <Input
-                            name="subject"
-                            value={formData.subject}
-                            onChange={handleInputChange}
-                            placeholder="What's this about?"
-                            className="pl-9 sm:pl-10 bg-white/[0.02] border-border text-foreground placeholder:text-muted-foreground text-sm sm:text-base focus:border-primary focus:bg-white/[0.04]"
-                            required
-                        />
-                    </div>
-                </div>
-                <div className="space-y-2 flex-1">
-                    <Label className="text-xs sm:text-sm font-medium text-primary">Message *</Label>
-                    <Textarea
-                        name="message"
-                        value={formData.message}
-                        onChange={handleInputChange}
-                        placeholder="Tell me about your project, timeline, budget, and any specific requirements..."
-                        className="min-h-[100px] sm:min-h-[120px] bg-white/[0.02] border-border text-foreground placeholder:text-muted-foreground text-sm sm:text-base focus:border-primary focus:bg-white/[0.04] resize-none"
-                        required
-                    />
-                </div>
-            </div>
-            <motion.div className="mt-6 sm:mt-8" whileHover={{scale: 1.02}} whileTap={{scale: 0.98}}>
-                <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-4 sm:py-6 text-sm sm:text-base transition-all duration-300 group"
-                >
-                    {isSubmitting ? (
-                        <>
-                            <motion.div
-                                className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full mr-2"
-                                animate={{rotate: 360}}
-                                transition={{duration: 1, repeat: Infinity, ease: "linear"}}
-                            />
-                            Sending...
-                        </>
-                    ) : (
-                        <>
-                            <Send
-                                className="w-4 h-4 sm:w-5 sm:h-5 mr-2 group-hover:translate-x-1 transition-transform duration-300"/>
-                            Send Message
-                            <ArrowRight
-                                className="w-3 h-3 sm:w-4 sm:h-4 ml-2 group-hover:translate-x-1 transition-transform duration-300"/>
-                        </>
-                    )}
-                </Button>
-            </motion.div>
-        </form>
-    </motion.div>
-);
-
-// --- Main Component ---
-export default function ContactSection(): JSX.Element {
-    const isLargeScreen = useIsLargeScreen();
-
-    const [activeCard, setActiveCard] = useState<"contact" | "form">("contact");
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
-    const [formData, setFormData] = useState<FormData>({
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
-    });
-
-    const {contactInfo, isLoading, error} = useContactInfo();
+export default function ContactSection() {
+    const {contactInfo, isLoading} = useContactInfo();
 
     if (isLoading) {
-        return <div>Loading social links...</div>;
+        return (
+            <div className="py-40 text-center font-mono opacity-20 text-4xl animate-pulse uppercase tracking-tighter">
+                Initializing_Uplink...
+            </div>
+        );
     }
-
-    if (error) {
-        return <div>Error loading social links.</div>;
-    }
-
-    if (!contactInfo || contactInfo.length === 0) {
-        return <div>No social links available.</div>;
-    }
-    // Forms
-    const handleInputChange: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement> = (e) => {
-        const {name, value} = e.target;
-        setFormData({...formData, [name]: value});
-    };
-
-    const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
-        e.preventDefault();
-        setIsSubmitting(true);
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        console.log("Form submitted:", formData);
-        setIsSubmitting(false);
-        alert("Thank you for your message!");
-    };
-
-    // Contact Info
-    // Perform data enrichment only if the full style is needed
-    const displayedSocials = contactInfo.map(info => ({
-        ...info,
-        icon: getIcon(info.label),
-    }))
-
-    const cardVariants = {
-        hidden: {opacity: 0, x: -100},
-        visible: {opacity: 1, x: 0},
-        exit: {opacity: 0, x: 100},
-    };
 
     return (
-        <section id="contact" className="py-12 sm:py-20 border-t border-border">
-            <div className="container mx-auto px-4 sm:px-6">
-                <div className="max-w-7xl mx-auto">
-                    {/* Section Header */}
-                    <motion.div
-                        initial={{opacity: 0, y: 20}}
-                        whileInView={{opacity: 1, y: 0}}
-                        viewport={{once: true}}
-                        transition={{duration: 0.6}}
-                        className="text-center mb-12 sm:mb-16"
-                    >
-                        <h2 className="text-3xl sm:text-4xl font-bold text-primary mb-2 sm:mb-4">Let's Work
-                            Together</h2>
-                        <p className="text-base sm:text-xl text-muted-foreground max-w-2xl mx-auto">
-                            Ready to bring your ideas to life? Let's discuss your project and make it happen.
-                        </p>
-                    </motion.div>
+        <section id="contact" className="py-32 md:py-56 bg-background relative overflow-hidden">
+            <div className="container mx-auto px-6 lg:px-12">
 
-                    {/* Main content card */}
-                    <motion.div
-                        initial={{opacity: 0, y: 40}}
-                        whileInView={{opacity: 1, y: 0}}
-                        viewport={{once: true}}
-                        transition={{duration: 0.8, delay: 0.2}}
-                    >
-                        <Card className="overflow-hidden border border-white/10 bg-background backdrop-blur-sm">
-                            <div className="flex justify-center p-4 lg:hidden">
-                                <div
-                                    className="flex w-full max-w-sm overflow-hidden rounded-full border border-border/70 bg-secondary">
-                                    <Button
-                                        onClick={() => setActiveCard("contact")}
-                                        className={`flex-1 rounded-full px-6 py-2 text-sm font-medium transition-colors ${
-                                            activeCard === "contact"
-                                                ? "bg-primary text-primary-foreground"
-                                                : "bg-transparent text-muted-foreground hover:bg-white/[0.05]"
-                                        }`}
-                                    >
-                                        Contact Info
-                                    </Button>
-                                    <Button
-                                        onClick={() => setActiveCard("form")}
-                                        className={`flex-1 rounded-full px-6 py-2 text-sm font-medium transition-colors ${
-                                            activeCard === "form"
-                                                ? "bg-primary text-primary-foreground"
-                                                : "bg-transparent text-muted-foreground hover:bg-white/[0.05]"
-                                        }`}
-                                    >
-                                        Send Message
-                                    </Button>
-                                </div>
-                            </div>
-
-                            <div className="grid lg:grid-cols-2 gap-0 min-h-[600px]">
-                                {isLargeScreen ? (
-                                    <>
-                                        <ContactInfoCard cardVariants={cardVariants} isLargeScreen={true}
-                                                         contactInfo={displayedSocials}/>
-                                        <ContactFormCard
-                                            cardVariants={cardVariants}
-                                            isLargeScreen={true}
-                                            formData={formData}
-                                            handleInputChange={handleInputChange}
-                                            handleSubmit={handleSubmit}
-                                            isSubmitting={isSubmitting}
-                                        />
-                                    </>
-                                ) : (
-                                    <AnimatePresence mode="wait">
-                                        {activeCard === 'contact' ? (
-                                            <ContactInfoCard cardVariants={cardVariants} isLargeScreen={false}
-                                                             contactInfo={displayedSocials}/>
-                                        ) : (
-                                            <ContactFormCard
-                                                cardVariants={cardVariants}
-                                                isLargeScreen={false}
-                                                formData={formData}
-                                                handleInputChange={handleInputChange}
-                                                handleSubmit={handleSubmit}
-                                                isSubmitting={isSubmitting}
-                                            />
-                                        )}
-                                    </AnimatePresence>
-                                )}
-                            </div>
-                        </Card>
-                    </motion.div>
-
-                    {/* Bottom Note */}
-                    <motion.div
-                        initial={{opacity: 0}}
-                        whileInView={{opacity: 1}}
-                        viewport={{once: true}}
-                        transition={{duration: 0.6, delay: 0.4}}
-                        className="text-center mt-8 sm:mt-12"
-                    >
-                        <div
-                            className="inline-flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-white/[0.02] border border-border/50 rounded-full">
-                            <Calendar className="w-3 h-3 sm:w-4 sm:h-4 text-muted-foreground"/>
-                            <span className="text-xs sm:text-sm text-muted-foreground italic">
-                                Prefer a call?
-                                <a href="#" className="ml-1 text-primary not-italic hover:underline">
-                                    Schedule a meeting
-                                </a>
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-32 items-start">
+                    <div className="lg:col-span-7 flex flex-col">
+                        <div className="flex items-center gap-3 mb-6 relative">
+                            <motion.div
+                                initial={{width: 0}}
+                                whileInView={{width: 48}}
+                                transition={{duration: 0.6}}
+                                className="h-1 w-16 bg-primary rounded-full"
+                            />
+                            <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary/80">
+                                COMMUNICATION_TECH
                             </span>
                         </div>
-                    </motion.div>
+
+                        <motion.h2
+                            initial={{opacity: 0, y: 20}}
+                            whileInView={{opacity: 1, y: 0}}
+                            transition={{duration: 0.8}}
+                            className="text-8xl md:text-[12vw] font-black tracking-tighter leading-[0.75] mb-12 uppercase"
+                        >
+                            Start<br/>The<br/>Talk<span className="text-primary/20">.</span>
+                        </motion.h2>
+
+                        <div className="flex flex-col md:flex-row gap-12 items-start md:items-center">
+                            <p className="text-xl md:text-2xl text-muted-foreground max-w-sm font-serif italic leading-relaxed">
+                                Currently seeking worldwide collaborations and high-impact engineering roles.
+                            </p>
+                            <div className="h-20 w-[1px] bg-border/30 hidden md:block"/>
+                            <ActivityStack/>
+                        </div>
+                    </div>
+
+                    <div className="lg:col-span-5 flex flex-col items-start lg:items-end gap-12">
+                        <SystemClock/>
+                        <NetworkTopologyCard/>
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+                    {contactInfo?.map((info, index) => (
+                        <InteractionPlate key={info.label} info={info} index={index}/>
+                    ))}
+
+                    <div className="lg:col-span-3 mt-12">
+                        <div className="w-full flex items-center gap-8 mb-12">
+                            <div
+                                className="h-[1px] flex-grow bg-gradient-to-r from-transparent via-border/40 to-transparent"/>
+                            <span
+                                className="text-[10px] font-mono uppercase tracking-[0.5em] text-muted-foreground/50 whitespace-nowrap">
+                                Connection_Nodes
+                            </span>
+                            <div
+                                className="h-[1px] flex-grow bg-gradient-to-r from-transparent via-border/40 to-transparent"/>
+                        </div>
+                        <SocialLinks fullStyle={true}/>
+                    </div>
                 </div>
             </div>
+
+            <div
+                className="absolute top-0 right-0 w-[50%] h-[50%] bg-primary/[0.015] blur-[180px] pointer-events-none"/>
         </section>
     );
 }

@@ -1,5 +1,4 @@
-// File: src/types/index.ts
-import React from "react";
+import {TablerIcon} from "@tabler/icons-react";
 
 export interface Project {
     id: string;
@@ -28,11 +27,16 @@ export enum ProjectType {
 
 export interface SkillCategory {
     title: string;
-    icon: React.ReactNode;
+    icon: TablerIcon;
     skills: string[];
+    description: string;
+    accent: string;
+    glow: string;
+    span: string;
 }
 
 export interface NavItem {
+    id: string;
     name: string;
     href: string;
 }
@@ -45,18 +49,10 @@ export interface Links {
     order: number;
 }
 
-// --- Type Definitions ---
 export interface ContactInfo {
     id: string;
     label: string;
     value: string;
     description: string;
     order: number;
-}
-
-export interface FormData {
-    name: string;
-    email: string;
-    subject: string;
-    message: string;
 }
