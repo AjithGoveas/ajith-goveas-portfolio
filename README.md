@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# _myBio - **Ajith Goveas**_
 
-## Getting Started
+### _Engineering Native Android & High-Performance Web logic._
 
-First, run the development server:
+## 01. The Architect
+
+I am a developer who views the web as a blueprint. My work exists at the intersection of **technical rigor** and **editorial aesthetic**. I don't just build websites; I engineer digital environments where every pixel serves a structural purpose.
+
+My philosophy is rooted in **functional minimalism**:
+
+* **Structure over Surface:** I prioritize clean information architecture and scalable code.
+* **Precision Interaction:** I believe user experience is found in the "micro-details"—the weight of a scrollbar, the inertia of a cursor, and the rhythm of a grid.
+* **Editorial Vision:** I treat content with the respect of a high-end publication, ensuring typography and whitespace drive the narrative.
+
+---
+
+## 02. The Mission
+
+The goal of this portfolio is to demonstrate a **system-first approach** to frontend development. It serves as a living laboratory for testing high-performance animations, bespoke UI components, and adaptive design patterns that bridge the gap between "standard web" and "architectural software."
+
+---
+
+## 03. The Tech Stack (Core Infrastructure)
+
+The system is orchestrated using a high-precision, type-safe stack:
+
+| Layer | Technology | Purpose |
+| --- | --- | --- |
+| **Foundation** | **Next.js 15 (App Router)** | Server-side rendering & optimized routing. |
+| **Logic** | **TypeScript** | Ensuring system integrity through strict typing. |
+| **Design** | **Tailwind CSS v4** | Variable-driven styling and atomic utility management. |
+| **Motion** | **Framer Motion** | Spring-based physics for "weighted" UI interactions. |
+| **UI Library** | **Shadcn/UI** | Accessible primitives built on Radix UI. |
+| **Typography** | **Zinc + Mono Stacks** | High-contrast editorial hierarchy. |
+
+---
+
+## 04. System Features
+
+* **Adaptive Gauge Scrollbar:** A custom-engineered "Needle" scrollbar that scales across devices.
+* **Context-Aware Navigation:** A header system that utilizes mathematical offsets for pixel-perfect section anchoring.
+* **Zinc-Orchestrated Theming:** A seamless transition between high-key gallery modes and deep OLED dark modes.
+* **Performance Engineering:** Optimized for zero-layout shift and maximum rendering efficiency.
+
+---
+
+## 05. Implementation
 
 ```bash
+# Clone the architectural source
+git clone https://github.com/yourusername/portfolio-system.git
+
+# Initialize dependencies
+npm install
+
+# Boot the local environment
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 06. Status: Active
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+This portfolio is a continuous build. I am currently focused on expanding the **Bento-Node** system and my own career.
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
