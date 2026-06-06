@@ -14,6 +14,7 @@ import {
 import {Links} from "@/types";
 import {useSocialLinks} from "@/hooks/useSocialLinks";
 import {cn} from "@/lib/utils";
+import {LoadingSpinner} from "@/components/ui/loading-spinner";
 
 const CONFIG: Record<string, { color: string; icon: any }> = {
     github: {color: '#5830fd', icon: IconBrandGithub},
@@ -29,14 +30,22 @@ export default function SocialLinks({fullStyle = false}: { fullStyle?: boolean }
     if (isLoading) return <SocialLinksSkeleton fullStyle={fullStyle}/>;
     if (!socialLinks) return null;
 
+    const isMultipleOfThree = socialLinks.length > 0 && socialLinks.length % 3 === 0;
+
     return fullStyle ? (
-        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 py-8 grid-flow-dense">
+        <div className={cn(
+            "w-full grid gap-4 md:gap-6 py-8",
+            isMultipleOfThree
+                ? "grid-cols-1 md:grid-cols-[3fr_2fr]"
+                : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-flow-dense"
+        )}>
             {socialLinks.map((social, index) => (
                 <InteractionPlate
                     key={social.id}
                     info={social}
                     index={index}
-                    isFeatured={index === 0}
+                    isFeatured={isMultipleOfThree ? (index % 3 === 0) : (index === 0)}
+                    isBentoThree={isMultipleOfThree}
                 />
             ))}
         </div>
@@ -45,22 +54,33 @@ export default function SocialLinks({fullStyle = false}: { fullStyle?: boolean }
     );
 }
 
-function SocialLinksSkeleton({fullStyle}: { fullStyle: boolean }) {
+function SocialLinksSkeleton({fullStyle, count = 3}: { fullStyle: boolean; count?: number }) {
     if (!fullStyle) {
         return (
-            <div
-                className="h-10 w-40 bg-secondary/20 border border-border/40 rounded-full animate-pulse flex items-center px-3 gap-2">
-                <div className="w-6 h-6 rounded-full bg-secondary/30"/>
-                <div className="h-2 w-16 bg-secondary/30 rounded-full"/>
+            <div className="h-10 px-4 flex items-center justify-center bg-secondary/20 border border-border/40 rounded-full">
+                <LoadingSpinner size="sm" text="Syncing..." className="p-0 flex-row gap-2" />
             </div>
         );
     }
 
+    const isMultipleOfThree = count > 0 && count % 3 === 0;
+
     return (
-        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 py-8">
+        <div className={cn(
+            "w-full grid gap-4 md:gap-6 py-8",
+            isMultipleOfThree
+                ? "grid-cols-1 md:grid-cols-[3fr_2fr]"
+                : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 grid-flow-dense"
+        )}>
             {/* Featured Node Skeleton */}
             <div
-                className="lg:col-span-2 p-8 rounded-[2.5rem] bg-secondary/5 border border-border/40 min-h-[160px] md:min-h-[220px] flex flex-col justify-between relative overflow-hidden">
+                className={cn(
+                    "p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] bg-secondary/5 border border-border/40 flex flex-col justify-between relative overflow-hidden",
+                    isMultipleOfThree
+                        ? "md:row-span-2 md:col-span-1 min-h-55 md:min-h-116.5"
+                        : "lg:col-span-2 min-h-40 md:min-h-55"
+                )}
+            >
                 <div className="flex justify-between items-start">
                     <div className="w-14 h-14 rounded-2xl bg-secondary/10 animate-pulse"/>
                     <div className="w-10 h-10 rounded-xl bg-secondary/5"/>
@@ -72,13 +92,13 @@ function SocialLinksSkeleton({fullStyle}: { fullStyle: boolean }) {
                 <motion.div
                     animate={{x: ['-100%', '200%']}}
                     transition={{duration: 2.5, repeat: Infinity, ease: "linear"}}
-                    className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent -skew-x-12"
+                    className="absolute inset-0 bg-linear-to-r from-transparent via-primary/5 to-transparent -skew-x-12"
                 />
             </div>
             {/* Standard Node Skeletons */}
-            {[1, 2, 3].map((i) => (
+            {[1, 2].map((i) => (
                 <div key={i}
-                     className="p-8 rounded-[2.5rem] bg-secondary/5 border border-border/40 min-h-[160px] md:min-h-[220px] flex flex-col justify-between">
+                     className="p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] bg-secondary/5 border border-border/40 min-h-40 md:min-h-55 flex flex-col justify-between">
                     <div className="flex justify-between items-start">
                         <div className="w-12 h-12 rounded-xl bg-secondary/10 animate-pulse"/>
                         <div className="w-8 h-8 rounded-lg bg-secondary/5"/>
@@ -97,9 +117,10 @@ type InteractionPlateProps = {
     info: Links;
     index: number;
     isFeatured?: boolean;
+    isBentoThree?: boolean;
 };
 
-const InteractionPlate = memo(({info, index, isFeatured}: InteractionPlateProps) => {
+const InteractionPlate = memo(({info, index, isFeatured, isBentoThree}: InteractionPlateProps) => {
     const [copied, setCopied] = useState(false);
 
     const meta = CONFIG[info.label.toLowerCase()] || CONFIG.default;
@@ -124,22 +145,38 @@ const InteractionPlate = memo(({info, index, isFeatured}: InteractionPlateProps)
             title={`Connect via ${info.label}`}
             initial={{opacity: 0, y: 20}}
             whileInView={{opacity: 1, y: 0}}
+            whileHover={{
+                y: -6,
+                borderColor: meta.color + "40",
+                boxShadow: `0 20px 40px -15px ${meta.color}18`,
+            }}
             viewport={{once: true}}
-            transition={{delay: index * 0.1, duration: 0.5}}
+            transition={{
+                type: "spring",
+                stiffness: 300,
+                damping: 20,
+                borderColor: { duration: 0.3 },
+                boxShadow: { duration: 0.3 }
+            }}
             className={cn(
-                "group relative flex flex-col justify-between p-6 md:p-8 rounded-[1.5rem] md:rounded-[2.5rem] min-h-[160px] md:min-h-[220px] overflow-hidden",
-                "bg-card border border-border/40 hover:border-primary/50",
-                "transition-all duration-300 hover:scale-[1.02] hover:shadow-md shadow-sm",
-                isFeatured ? "lg:col-span-2" : "col-span-1"
+                "group relative flex flex-col justify-between p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] overflow-hidden",
+                "bg-card border border-border/40 shadow-sm",
+                isBentoThree
+                    ? (isFeatured ? "md:row-span-2 md:col-span-1 min-h-55 md:min-h-116.5" : "col-span-1 min-h-40 md:min-h-55")
+                    : (isFeatured ? "lg:col-span-2 min-h-40 md:min-h-55" : "col-span-1 min-h-40 md:min-h-55")
             )}
         >
             <div className="flex justify-between items-start">
                 <div
-                    className="p-3 md:p-4 rounded-xl md:rounded-2xl bg-primary/10 transition-all duration-300 group-hover:bg-primary/80">
+                    className="p-3 md:p-4 rounded-xl md:rounded-2xl bg-secondary/50 transition-all duration-300 group-hover:scale-110"
+                    style={{
+                        backgroundColor: meta.color + "12"
+                    }}
+                >
                     <IconComponent
                         size={20}
-                        className="md:w-6 md:h-6 transition-colors duration-300 group-hover:text-primary"
-                        style={{color: !copied ? meta.color : undefined}}
+                        className="md:w-6 md:h-6 transition-colors duration-300"
+                        style={{color: meta.color}}
                     />
                 </div>
 
@@ -190,7 +227,7 @@ const InteractionPlate = memo(({info, index, isFeatured}: InteractionPlateProps)
             </div>
 
             <div
-                className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(var(--foreground)_1px,transparent_1px)] [background-size:16px_16px] rounded-[1.5rem] md:rounded-[2.5rem]"/>
+                className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(var(--foreground)_1px,transparent_1px)] bg-size-[16px_16px] rounded-3xl md:rounded-[2.5rem]"/>
         </motion.a>
     );
 });

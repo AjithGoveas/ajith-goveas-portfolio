@@ -12,6 +12,11 @@ export default function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState('hero');
     const [isOpen, setIsOpen] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const navItems: NavItem[] = [
         {name: 'Home', href: '#hero', id: '01'},
@@ -96,7 +101,7 @@ export default function Header() {
                                 {activeSection === item.href.substring(1) && (
                                     <motion.div
                                         layoutId="active-glow"
-                                        className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent"
+                                        className="absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-transparent via-primary to-transparent"
                                     />
                                 )}
                             </button>
@@ -108,61 +113,63 @@ export default function Header() {
                         <ModeToggle/>
 
                         <div className="md:hidden">
-                            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-                                <SheetTrigger asChild>
-                                    <Button variant="outline" size="icon"
-                                            className="h-9 w-9 hover:bg-primary/10 transition-colors">
-                                        <IconMenuDeep
-                                            className="h-4 w-4 text-muted-foreground/80 group-hover:text-primary"
-                                            strokeWidth={1.5}/>
-                                    </Button>
-                                </SheetTrigger>
-                                <SheetContent side="right"
-                                              className="w-full sm:w-[350px] bg-background/95 backdrop-blur-2xl border-l border-border/10 p-8 flex flex-col justify-between">
-                                    <SheetHeader className="text-left">
-                                        <SheetTitle
-                                            className="text-[10px] font-mono uppercase tracking-[0.4em] opacity-20">Navigation</SheetTitle>
-                                    </SheetHeader>
+                            {mounted && (
+                                <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                                    <SheetTrigger asChild>
+                                        <Button variant="outline" size="icon"
+                                                className="h-9 w-9 hover:bg-primary/10 transition-colors">
+                                            <IconMenuDeep
+                                                className="h-4 w-4 text-muted-foreground/80 group-hover:text-primary"
+                                                strokeWidth={1.5}/>
+                                        </Button>
+                                    </SheetTrigger>
+                                    <SheetContent side="right"
+                                                  className="w-full sm:w-87.5 bg-background/95 backdrop-blur-2xl border-l border-border/10 p-8 flex flex-col justify-between">
+                                        <SheetHeader className="text-left">
+                                            <SheetTitle
+                                                className="text-[10px] font-mono uppercase tracking-[0.4em] opacity-20">Navigation</SheetTitle>
+                                        </SheetHeader>
 
-                                    {/* Subtly Animated Mobile List */}
-                                    <div className="flex flex-col gap-2 mt-12">
-                                        {navItems.map((item: NavItem, index) => (
-                                            <motion.button
-                                                key={item.name}
-                                                initial={{opacity: 0, x: 10}}
-                                                animate={{opacity: 1, x: 0}}
-                                                transition={{delay: index * 0.08}}
-                                                onClick={() => handleNavClick(item.href)}
-                                                className="group flex items-center justify-between py-5 border-b border-border/5 text-left transition-all"
-                                            >
-                                                <span className={`text-4xl font-bold tracking-tighter uppercase transition-colors duration-300
-                                                    ${activeSection === item.href.substring(1) ? 'text-primary' : 'text-foreground/40'}`}>
-                                                    {item.name}
-                                                </span>
-                                                <IconArrowUpRight className={`w-6 h-6 transition-all duration-500 
-                                                    ${activeSection === item.href.substring(1) ? 'text-primary opacity-100' : 'opacity-0 -translate-x-2'}`}
-                                                />
-                                            </motion.button>
-                                        ))}
-                                    </div>
+                                        {/* Subtly Animated Mobile List */}
+                                        <div className="flex flex-col gap-2 mt-12">
+                                            {navItems.map((item: NavItem, index) => (
+                                                <motion.button
+                                                    key={item.name}
+                                                    initial={{opacity: 0, x: 10}}
+                                                    animate={{opacity: 1, x: 0}}
+                                                    transition={{delay: index * 0.08}}
+                                                    onClick={() => handleNavClick(item.href)}
+                                                    className="group flex items-center justify-between py-5 border-b border-border/5 text-left transition-all"
+                                                >
+                                                    <span className={`text-4xl font-bold tracking-tighter uppercase transition-colors duration-300
+                                                        ${activeSection === item.href.substring(1) ? 'text-primary' : 'text-foreground/40'}`}>
+                                                        {item.name}
+                                                    </span>
+                                                    <IconArrowUpRight className={`w-6 h-6 transition-all duration-500 
+                                                        ${activeSection === item.href.substring(1) ? 'text-primary opacity-100' : 'opacity-0 -translate-x-2'}`}
+                                                    />
+                                                </motion.button>
+                                            ))}
+                                        </div>
 
-                                    {/* Clean Mobile Footer */}
-                                    <div className="flex flex-col gap-6">
-                                        <div className="h-[1px] w-full bg-gradient-to-r from-border/50 to-transparent"/>
-                                        <div className="flex justify-between items-center px-1">
-                                            <div className="flex flex-col">
-                                                <span
-                                                    className="text-[10px] font-mono uppercase tracking-widest opacity-20">Location</span>
-                                                <span className="text-[11px] font-bold uppercase tracking-tighter">India — IST</span>
-                                            </div>
-                                            <div
-                                                className="h-10 w-10 rounded-full border border-border/20 flex items-center justify-center">
-                                                <IconWorld size={14} className="opacity-20"/>
+                                        {/* Clean Mobile Footer */}
+                                        <div className="flex flex-col gap-6">
+                                            <div className="h-px w-full bg-linear-to-r from-border/50 to-transparent"/>
+                                            <div className="flex justify-between items-center px-1">
+                                                <div className="flex flex-col">
+                                                    <span
+                                                        className="text-[10px] font-mono uppercase tracking-widest opacity-20">Location</span>
+                                                    <span className="text-[11px] font-bold uppercase tracking-tighter">India — IST</span>
+                                                </div>
+                                                <div
+                                                    className="h-10 w-10 rounded-full border border-border/20 flex items-center justify-center">
+                                                    <IconWorld size={14} className="opacity-20"/>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </SheetContent>
-                            </Sheet>
+                                    </SheetContent>
+                                </Sheet>
+                            )}
                         </div>
                     </div>
                 </nav>

@@ -1,13 +1,11 @@
-import { Project } from "@/types";
-import { getDocs, orderBy, query, limit } from "firebase/firestore";
-import { projectsCollection } from "@/utils/firebase.browser";
+import {Project} from "@/types";
+import {getDocs, query} from "firebase/firestore";
+import {projectsCollection} from "@/utils/firebase.browser";
 
 export async function loadAllProjects(): Promise<Project[] | null> {
     try {
         const projectsQuery = query(
-            projectsCollection,
-            orderBy("order", "asc"),
-            orderBy("year", "desc")
+            projectsCollection
         );
 
         const snapshot = await getDocs(projectsQuery);

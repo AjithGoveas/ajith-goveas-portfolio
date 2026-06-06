@@ -34,7 +34,7 @@ const ActivityStack = () => {
     }, []);
 
     return (
-        <div className="flex flex-col gap-3 w-full max-w-full sm:max-w-[340px] shrink-0">
+        <div className="flex flex-col gap-3 w-full max-w-full sm:max-w-85 shrink-0">
             {/* Header */}
             <div className="flex items-center justify-between px-1">
                 <div className="flex items-center gap-2">
@@ -56,7 +56,7 @@ const ActivityStack = () => {
             </div>
 
             {/* Status Card */}
-            <div className="relative h-14 sm:h-16 w-full bg-gradient-to-r from-secondary/5 to-secondary/10 rounded-lg sm:rounded-xl border border-border/30 px-3 sm:px-4 flex flex-col justify-center overflow-hidden shadow-sm">
+            <div className="relative h-14 sm:h-16 w-full bg-linear-to-r from-secondary/5 to-secondary/10 rounded-lg sm:rounded-xl border border-border/30 px-3 sm:px-4 flex flex-col justify-center overflow-hidden shadow-sm">
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={index}
@@ -83,7 +83,7 @@ const ActivityStack = () => {
                                         transition={{ delay: i * 0.02 }}
                                     >
                                         {char === "_" ? (
-                                            <span className="text-primary/40 mx-[2px] font-bold">·</span>
+                                            <span className="text-primary/40 mx-0.5 font-bold">·</span>
                                         ) : (
                                             char
                                         )}
@@ -102,13 +102,13 @@ const ActivityStack = () => {
             </div>
 
             {/* Progress Bar */}
-            <div className="relative h-[2px] w-full bg-border/20 rounded-full overflow-hidden">
+            <div className="relative h-0.5 w-full bg-border/20 rounded-full overflow-hidden">
                 <motion.div
                     key={`progress-${index}`}
                     initial={{ x: "-100%" }}
                     animate={{ x: "0%" }}
                     transition={{ duration: 4.5, ease: "linear" }}
-                    className="absolute inset-0 bg-gradient-to-r from-primary/40 to-primary/20"
+                    className="absolute inset-0 bg-linear-to-r from-primary/40 to-primary/20"
                 />
             </div>
         </div>
@@ -117,8 +117,10 @@ const ActivityStack = () => {
 
 const SystemClock = () => {
     const [time, setTime] = useState(new Date());
+    const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
+        setMounted(true);
         const timer = setInterval(() => setTime(new Date()), 1000);
         return () => clearInterval(timer);
     }, []);
@@ -129,17 +131,17 @@ const SystemClock = () => {
 
     return (
         <div
-            className="flex items-center gap-[3vw] md:gap-6 p-2 pr-[5vw] md:pr-8 bg-card backdrop-blur-2xl border border-border/40 rounded-[2rem] md:rounded-[2.5rem] w-full max-w-sm lg:max-w-none lg:w-fit shadow-2xl shadow-primary/5 group transition-all duration-500">
+            className="flex items-center gap-[3vw] md:gap-6 p-2 pr-[5vw] md:pr-8 bg-card backdrop-blur-2xl border border-border/40 rounded-4xl md:rounded-[2.5rem] w-full max-w-sm lg:max-w-none lg:w-fit shadow-2xl shadow-primary/5 group transition-all duration-500">
 
             <div
-                className="relative flex items-center justify-center w-[18vw] h-[18vw] max-w-[80px] max-h-[80px] min-w-[60px] min-h-[60px] bg-background border border-border/50 rounded-[1.5rem] md:rounded-[2rem] shadow-inner group-hover:border-primary/30 transition-all duration-500 overflow-hidden shrink-0">
+                className="relative flex items-center justify-center w-[18vw] h-[18vw] max-w-20 max-h-20 min-w-15 min-h-15 bg-background border border-border/50 rounded-3xl md:rounded-4xl shadow-inner group-hover:border-primary/30 transition-all duration-500 overflow-hidden shrink-0">
                 <IconTerminal size="35%"
                               className="text-primary opacity-40 group-hover:opacity-100 transition-opacity"/>
 
                 <motion.div
                     animate={{rotate: 360}}
                     transition={{duration: 10, repeat: Infinity, ease: "linear"}}
-                    className="absolute inset-0 border-[2px] border-dashed border-primary/10 rounded-full scale-[1.2] md:scale-[1.4]"
+                    className="absolute inset-0 border-2 border-dashed border-primary/10 rounded-full scale-[1.2] md:scale-[1.4]"
                 />
             </div>
 
@@ -157,7 +159,7 @@ const SystemClock = () => {
 
                 <span
                     className="text-[8vw] sm:text-4xl md:text-5xl lg:text-4xl font-mono font-bold tabular-nums tracking-tighter text-foreground leading-none mt-1 md:mt-2">
-                    {formattedTime}
+                    {mounted ? formattedTime : "--:--:--"}
                 </span>
             </div>
         </div>
@@ -198,20 +200,20 @@ const InteractionPlate = ({info, index}: { info: InteractionInfo; index: number 
             viewport={{once: true}}
             transition={{duration: 0.6, delay: index * 0.1, ease: [0.23, 1, 0.32, 1]}}
             aria-label={info.label}
-            className={`group relative flex flex-col justify-between overflow-hidden border transition-all duration-700 h-full min-h-[420px] lg:min-h-[360px]
+            className={`group relative flex flex-col justify-between overflow-hidden border transition-all duration-700 h-full min-h-80 sm:min-h-90 md:min-h-105
             ${isLead
-                ? "p-10 md:p-16 rounded-[4rem] md:col-span-2 bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 border-transparent shadow-2xl"
-                : "p-10 rounded-[3rem] bg-zinc-100/50 dark:bg-zinc-900/40 backdrop-blur-2xl border-zinc-200/50 dark:border-zinc-800/50 hover:bg-white dark:hover:bg-zinc-800"
+                ? "p-6 sm:p-10 md:p-16 rounded-[2.5rem] md:rounded-[4rem] md:col-span-2 bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 border-transparent shadow-2xl"
+                : "p-6 sm:p-8 md:p-10 rounded-4xl md:rounded-[3rem] bg-zinc-100/50 dark:bg-zinc-900/40 backdrop-blur-2xl border-zinc-200/50 dark:border-zinc-800/50 hover:bg-white dark:hover:bg-zinc-800"
             }`}
         >
-            <div className="flex justify-between items-start z-10">
-                <div className="flex flex-col gap-6">
-                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center transition-all duration-700 group-hover:shadow-[0_0_30px_rgba(var(--primary),0.3)]
+            <div className="flex justify-between items-start z-10 w-full gap-4">
+                <div className="flex flex-col gap-4 md:gap-6">
+                    <div className={`w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl flex items-center justify-center transition-all duration-700 group-hover:shadow-[0_0_30px_rgba(var(--primary),0.3)]
                     ${isLead ? "bg-white/10 dark:bg-zinc-100" : "bg-white dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 shadow-sm"}`}>
-                        <IconComponent size={26} strokeWidth={1.2}/>
+                        <IconComponent size={24} className="md:w-7 md:h-7" strokeWidth={1.2}/>
                     </div>
 
-                    <div className="flex flex-col gap-1.5">
+                    <div className="flex flex-col gap-1 md:gap-1.5">
                         <div className="flex items-center gap-2">
                             {isLead && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"/>}
                             <span
@@ -234,21 +236,21 @@ const InteractionPlate = ({info, index}: { info: InteractionInfo; index: number 
                             animate={{scale: 1, opacity: 1}}
                             exit={{scale: 0.8, opacity: 0}}
                         >
-                            <IconCircleCheck size={32} className="text-emerald-500" strokeWidth={1.5}/>
+                            <IconCircleCheck size={28} className="text-emerald-500 md:w-8 md:h-8" strokeWidth={1.5}/>
                         </motion.div>
                     ) : (
                         <div
-                            className={`p-2.5 rounded-xl transition-all bg-transparent ${isLead ? 'border border-white/10 group-hover:bg-background/50 group-hover:text-foreground' : 'group-hover:bg-zinc-500/50 opacity-60 group-hover:opacity-100'}`}>
-                            <IconArrowUpRight size={20}/>
+                            className={`p-2 md:p-2.5 rounded-xl transition-all bg-transparent ${isLead ? 'border border-white/10 group-hover:bg-background/50 group-hover:text-foreground' : 'group-hover:bg-zinc-500/50 opacity-60 group-hover:opacity-100'}`}>
+                            <IconArrowUpRight size={18} className="md:w-5 md:h-5"/>
                         </div>
                     )}
                 </AnimatePresence>
             </div>
 
-            <div className="z-10 mt-8 md:mt-16">
+            <div className="z-10 mt-6 md:mt-16">
                 <h4
-                    className={`font-calSans tracking-tight leading-[0.9] break-words
-                    ${isLead ? "text-5xl md:text-[5vw] lg:text-[5.5rem] truncate py-3" : "text-3xl md:text-4xl"}`}>
+                    className={`font-calSans tracking-tight leading-[0.95] md:leading-[0.9] wrap-break-word
+                    ${isLead ? "text-3xl sm:text-5xl md:text-[5vw] lg:text-[5.5rem] py-2" : "text-xl sm:text-2xl md:text-4xl"}`}>
                     {isEmail ? info.value : info.description}
                 </h4>
             </div>
@@ -274,7 +276,7 @@ const InteractionPlate = ({info, index}: { info: InteractionInfo; index: number 
 function NetworkTopologyCard() {
     return (
         <div
-            className="hidden lg:flex w-full max-w-[320px] p-8 rounded-[2rem] border border-border/30 bg-card shadow-md flex-col gap-8 relative overflow-hidden group"
+            className="hidden lg:flex w-full max-w-[320px] p-8 rounded-4xl border border-border/30 bg-card shadow-md flex-col gap-8 relative overflow-hidden group"
         >
             {/* Header */}
             <div className="flex justify-between items-center">
@@ -326,82 +328,125 @@ function NetworkTopologyCard() {
     );
 }
 
-export default function ContactSection() {
-    const {contactInfo, isLoading} = useContactInfo();
-
-    if (isLoading) {
-        return (
-            <div className="py-40 text-center font-mono opacity-20 text-4xl animate-pulse uppercase tracking-tighter">
-                Initializing_Uplink...
-            </div>
-        );
-    }
-
+const ContactNodeSkeleton = ({ isLead = false, index }: { isLead?: boolean; index: number }) => {
     return (
-        <section id="contact" className="py-32 md:py-56 bg-background relative overflow-hidden">
-            <div className="container mx-auto px-6 lg:px-12">
+        <div
+            className={`animate-pulse relative flex flex-col justify-between overflow-hidden border border-border/20 h-full min-h-80 sm:min-h-90 md:min-h-105
+            ${isLead
+                ? "p-6 sm:p-10 md:p-16 rounded-[2.5rem] md:rounded-[4rem] md:col-span-2 bg-zinc-950/20 text-white border-transparent shadow-2xl"
+                : "p-6 sm:p-8 md:p-10 rounded-4xl md:rounded-[3rem] bg-zinc-100/20 dark:bg-zinc-900/20 backdrop-blur-2xl border-zinc-200/25 dark:border-zinc-800/25"
+            }`}
+        >
+            <div className="flex justify-between items-start z-10 w-full gap-4">
+                <div className="flex flex-col gap-4 md:gap-6">
+                    <div className={`w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-secondary/15 flex items-center justify-center`} />
 
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 mb-32 items-start">
-                    <div className="lg:col-span-7 flex flex-col">
-                        <div className="flex items-center gap-3 mb-6 relative">
-                            <motion.div
-                                initial={{width: 0}}
-                                whileInView={{width: 48}}
-                                transition={{duration: 0.6}}
-                                className="h-1 w-16 bg-primary rounded-full"
-                            />
-                            <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary/80">
-                                COMMUNICATION_TECH
-                            </span>
+                    <div className="flex flex-col gap-1.5">
+                        <div className="flex items-center gap-2">
+                            {isLead && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/50 animate-pulse"/>}
+                            <span className="w-16 h-2 bg-secondary/10 rounded-full" />
                         </div>
-
-                        <motion.h2
-                            initial={{opacity: 0, y: 20}}
-                            whileInView={{opacity: 1, y: 0}}
-                            transition={{duration: 0.8}}
-                            className="text-8xl md:text-[12vw] font-black tracking-tighter leading-[0.75] mb-12 uppercase"
-                        >
-                            Start<br/>The<br/>Talk<span className="text-primary/20">.</span>
-                        </motion.h2>
-
-                        <div className="flex flex-col md:flex-row gap-12 items-start md:items-center">
-                            <p className="text-xl md:text-2xl text-muted-foreground max-w-sm font-serif italic leading-relaxed">
-                                Currently seeking worldwide collaborations and high-impact engineering roles.
-                            </p>
-                            <div className="h-20 w-[1px] bg-border/30 hidden md:block"/>
-                            <ActivityStack/>
-                        </div>
-                    </div>
-
-                    <div className="lg:col-span-5 flex flex-col items-start lg:items-end gap-12">
-                        <SystemClock/>
-                        <NetworkTopologyCard/>
+                        <span className="w-12 h-2.5 bg-secondary/15 rounded-full" />
                     </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-                    {contactInfo?.map((info, index) => (
-                        <InteractionPlate key={info.label} info={info} index={index}/>
-                    ))}
+                <div className="w-8 h-8 rounded-lg bg-secondary/10" />
+            </div>
 
-                    <div className="lg:col-span-3 mt-12">
-                        <div className="w-full flex items-center gap-8 mb-12">
-                            <div
-                                className="h-[1px] flex-grow bg-gradient-to-r from-transparent via-border/40 to-transparent"/>
-                            <span
-                                className="text-[10px] font-mono uppercase tracking-[0.5em] text-muted-foreground/50 whitespace-nowrap">
-                                Connection_Nodes
-                            </span>
-                            <div
-                                className="h-[1px] flex-grow bg-gradient-to-r from-transparent via-border/40 to-transparent"/>
+            <div className="z-10 mt-6 md:mt-16 space-y-2.5">
+                <div className={`bg-secondary/20 rounded-xl ${isLead ? "h-12 w-3/4" : "h-8 w-2/3"}`} />
+                {isLead && <div className="bg-secondary/20 rounded-xl h-12 w-1/2" />}
+            </div>
+
+            {isLead && (
+                <span className="absolute -bottom-10 -right-6 text-[22rem] font-calSans opacity-[0.02] dark:opacity-[0.03] pointer-events-none select-none leading-none -rotate-12">
+                    @
+                </span>
+            )}
+        </div>
+    );
+};
+
+export default function ContactSection() {
+    const {contactInfo, isLoading} = useContactInfo();
+
+    // Empty/loading logic handled inline inside the grid below
+
+    return (
+        <section id="contact" className="py-16 md:py-56 bg-background relative overflow-hidden">
+            <div className="container mx-auto px-6 relative z-10">
+                <div className="max-w-7xl mx-auto w-full">
+
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 mb-16 md:mb-32 items-start">
+                        <div className="lg:col-span-7 flex flex-col">
+                            <div className="flex items-center gap-3 mb-6 relative">
+                                <motion.div
+                                    initial={{width: 0}}
+                                    whileInView={{width: 48}}
+                                    transition={{duration: 0.6}}
+                                    className="h-1 w-16 bg-primary rounded-full"
+                                />
+                                <span className="text-[10px] font-mono uppercase tracking-[0.3em] text-primary/80">
+                                    COMMUNICATION_TECH
+                                </span>
+                            </div>
+
+                            <motion.h2
+                                initial={{opacity: 0, y: 20}}
+                                whileInView={{opacity: 1, y: 0}}
+                                transition={{duration: 0.8}}
+                                className="text-5xl sm:text-7xl md:text-[12vw] font-black tracking-tighter leading-[0.85] md:leading-[0.75] mb-8 md:mb-12 uppercase"
+                            >
+                                Start<br/>The<br/>Talk<span className="text-primary/20">.</span>
+                            </motion.h2>
+
+                            <div className="flex flex-col md:flex-row gap-12 items-start md:items-center">
+                                <p className="text-xl md:text-2xl text-muted-foreground max-w-sm font-serif italic leading-relaxed">
+                                    Currently seeking worldwide collaborations and high-impact engineering roles.
+                                </p>
+                                <div className="h-20 w-px bg-border/30 hidden md:block"/>
+                                <ActivityStack/>
+                            </div>
                         </div>
-                        <SocialLinks fullStyle={true}/>
+
+                        <div className="lg:col-span-5 flex flex-col items-start lg:items-end gap-12">
+                            <SystemClock/>
+                            <NetworkTopologyCard/>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
+                        {isLoading ? (
+                            <>
+                                <ContactNodeSkeleton isLead={true} index={0} />
+                                <ContactNodeSkeleton isLead={false} index={1} />
+                                <ContactNodeSkeleton isLead={false} index={2} />
+                            </>
+                        ) : (
+                            contactInfo?.map((info, index) => (
+                                <InteractionPlate key={info.label} info={info} index={index}/>
+                            ))
+                        )}
+
+                        <div className="lg:col-span-3 mt-12">
+                            <div className="w-full flex items-center gap-8 mb-12">
+                                <div
+                                    className="h-px grow bg-linear-to-r from-transparent via-border/40 to-transparent"/>
+                                <span
+                                    className="text-[10px] font-mono uppercase tracking-[0.5em] text-muted-foreground/50 whitespace-nowrap">
+                                    Connection_Nodes
+                                </span>
+                                <div
+                                    className="h-px grow bg-linear-to-r from-transparent via-border/40 to-transparent"/>
+                            </div>
+                            <SocialLinks fullStyle={true}/>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <div
-                className="absolute top-0 right-0 w-[50%] h-[50%] bg-primary/[0.015] blur-[180px] pointer-events-none"/>
+                className="absolute top-0 right-0 w-[50%] h-[50%] bg-primary/1.5 blur-[180px] pointer-events-none"/>
         </section>
     );
 }

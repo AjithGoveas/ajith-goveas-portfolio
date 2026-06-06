@@ -49,15 +49,15 @@ export default function SkillsSection() {
     const BackgroundGrid = useMemo(() => (
         <div className="absolute inset-0 z-0 select-none pointer-events-none" aria-hidden="true">
             <div
-                className="absolute inset-0 bg-[grid_32px_32px] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] opacity-[0.04] [mask-image:radial-gradient(ellipse_at_center,black,transparent)]"/>
-            <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background"/>
+                className="absolute inset-0 bg-[grid_32px_32px] bg-[linear-gradient(to_right,#808080_1px,transparent_1px),linear-gradient(to_bottom,#808080_1px,transparent_1px)] opacity-[0.04] mask-[radial-gradient(ellipse_at_center,black,transparent)]"/>
+            <div className="absolute inset-0 bg-linear-to-b from-background via-transparent to-background"/>
         </div>
     ), []);
 
     return (
         <section
             id="skills"
-            className="py-20 md:py-44 bg-background relative overflow-hidden"
+            className="py-16 md:py-44 bg-background relative overflow-hidden"
             aria-labelledby="skills-heading"
         >
             {BackgroundGrid}
@@ -75,7 +75,7 @@ export default function SkillsSection() {
                     </div>
                     <h2
                         id="skills-heading"
-                        className="text-7xl md:text-[10vw] font-bold tracking-tighter leading-[0.8] mb-2">
+                        className="text-5xl sm:text-7xl md:text-[10vw] font-bold tracking-tighter leading-[0.9] md:leading-[0.8] mb-2">
                         Technical<br/>
                         <span className="relative">
                             Arsenal
@@ -89,7 +89,7 @@ export default function SkillsSection() {
                         </span>
                     </h2>
                 </header>
-
+ 
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-8 max-w-7xl mx-auto">
                     {SKILL_CATEGORIES.map((category: SkillCategory, idx) => {
                         const Icon = category.icon;
@@ -102,7 +102,7 @@ export default function SkillsSection() {
                                 transition={{delay: idx * 0.05, ease: "easeOut"}}
                                 className={`
                                     ${category.span} group relative 
-                                    p-8 md:p-12 rounded-[2.5rem] md:rounded-[3.5rem] 
+                                    p-6 md:p-12 rounded-4xl md:rounded-[3.5rem] 
                                     bg-card/40 backdrop-blur-md border border-border/50 
                                     transition-all duration-500
                                     after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500
@@ -110,33 +110,33 @@ export default function SkillsSection() {
                                 `}
                             >
                                 <div className="relative z-10 flex flex-col h-full">
-                                    <div className="flex justify-between items-start mb-10 md:mb-16">
+                                    <div className="flex justify-between items-start mb-8 md:mb-16">
                                         <div className={`
-                                            p-4 bg-background border border-border/40 rounded-2xl shadow-xl 
+                                            p-3 md:p-4 bg-background border border-border/40 rounded-xl md:rounded-2xl shadow-xl 
                                             group-hover:bg-primary group-hover:text-primary-foreground 
                                             transition-all duration-500 ${category.accent}
                                         `}>
-                                            <Icon size={24} stroke={1.5} aria-hidden="true"/>
+                                            <Icon size={20} className="md:w-6 md:h-6" stroke={1.5} aria-hidden="true"/>
                                         </div>
                                         <span
                                             className="text-[10px] font-mono opacity-20 group-hover:opacity-100 transition-opacity uppercase font-bold">
                                             Mod_0{idx + 1}
                                         </span>
                                     </div>
-
-                                    <h3 className="text-2xl md:text-3xl font-bold tracking-tighter mb-4">
+ 
+                                    <h3 className="text-xl md:text-3xl font-bold tracking-tighter mb-3">
                                         {category.title}
                                     </h3>
-                                    <p className="text-muted-foreground mb-10 max-w-sm text-sm md:text-base leading-relaxed">
+                                    <p className="text-muted-foreground mb-8 max-w-sm text-xs md:text-base leading-relaxed">
                                         {category.description}
                                     </p>
-
+ 
                                     <ul className="flex flex-wrap gap-2 mt-auto"
                                         aria-label={`Skills in ${category.title}`}>
                                         {category.skills.map(skill => (
                                             <li
                                                 key={skill}
-                                                className="px-3 md:px-4 py-1.5 md:py-2 bg-background/60 border border-border/60 rounded-xl text-[9px] md:text-xs font-bold tracking-tight uppercase"
+                                                className="px-2.5 md:px-4 py-1 md:py-2 bg-background/60 border border-border/60 rounded-lg md:rounded-xl text-[9px] md:text-xs font-bold tracking-tight uppercase"
                                             >
                                                 {skill}
                                             </li>
@@ -147,9 +147,9 @@ export default function SkillsSection() {
                         );
                     })}
                 </div>
-
+ 
                 <footer
-                    className="max-w-7xl mx-auto mt-10 md:mt-16 flex flex-col md:flex-row items-center justify-between gap-6 px-8 py-5 rounded-[2rem] bg-secondary/5 border border-border/40 font-mono">
+                    className="max-w-7xl mx-auto mt-10 md:mt-16 flex flex-col md:flex-row items-center justify-between gap-6 px-6 md:px-8 py-5 rounded-3xl md:rounded-4xl bg-secondary/5 border border-border/40 font-mono">
                     <div className="flex items-center gap-4">
                         <IconTerminal2 size={16} stroke={1.5} className="text-primary" aria-hidden="true"/>
                         <p className="text-[11px] tracking-tighter text-muted-foreground">
@@ -158,7 +158,7 @@ export default function SkillsSection() {
                             --all</kbd>
                         </p>
                     </div>
-                    <div className="flex items-center gap-6 text-[10px] font-bold uppercase tracking-[0.1em]">
+                    <div className="flex items-center gap-6 text-[10px] font-bold uppercase tracking-widest">
                         <div className="flex items-center gap-2 text-primary">
                             <IconBolt size={14} stroke={1.5} className="fill-primary"/>
                             <span>SEO_OPTIMIZED</span>

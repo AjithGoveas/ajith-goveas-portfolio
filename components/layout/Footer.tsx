@@ -35,14 +35,14 @@ export const Footer: React.FC = () => {
                         <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-muted-foreground/40">
                             Built_With:
                         </span>
-                        <p className="text-[9px] font-mono uppercase tracking-[0.1em] text-muted-foreground/60">
+                        <p className="text-[9px] font-mono uppercase tracking-widest text-muted-foreground/60">
                             Next.js <span className="text-muted-foreground/20 px-1">/</span> Shadcn
                         </p>
                     </div>
                 </div>
             </div>
 
-            <div className="h-[1px] w-full bg-gradient-to-r from-transparent via-border/20 to-transparent" />
+            <div className="h-px w-full bg-linear-to-r from-transparent via-border/20 to-transparent" />
         </motion.footer>
     );
 };

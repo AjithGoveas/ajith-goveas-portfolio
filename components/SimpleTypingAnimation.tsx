@@ -61,7 +61,7 @@ const SimpleTypingAnimation: React.FC<SimpleTypingAnimationProps> = ({
       {displayText}
             {(keepCursor || !typingComplete) && (
                 <span
-                    className={`inline-block w-1.5 h-20 align-middle bg-gradient-to-b from-primary to-accent ml-1 rounded-xl transition-opacity duration-75 ${
+                    className={`inline-block w-1.5 h-20 align-middle bg-linear-to-b from-primary to-accent ml-1 rounded-xl transition-opacity duration-75 ${
                         showCursor ? 'opacity-100' : 'opacity-0'
                     }`}
                 />

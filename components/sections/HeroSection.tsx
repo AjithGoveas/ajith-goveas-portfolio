@@ -53,17 +53,17 @@ export default function HeroSection({name}: HeroProps) {
         <section
             ref={targetRef}
             id="hero"
-            className="relative min-h-[100dvh] flex flex-col bg-background pt-[clamp(1.5rem,5vh,3rem)] pb-[clamp(1.5rem,3vh,2.5rem)] overflow-hidden"
+            className="relative min-h-dvh flex flex-col bg-background pt-10 md:pt-[clamp(1.5rem,5vh,3rem)] pb-10 md:pb-[clamp(1.5rem,3vh,2.5rem)] overflow-hidden"
         >
             <div className="absolute inset-0 z-0 select-none pointer-events-none" aria-hidden="true">
                 <div
                     className="absolute inset-0 bg-[grid_30px_30px] md:bg-[grid_60px_60px] bg-[linear-gradient(to_right,#808080_0.05,transparent_0.5px),linear-gradient(to_bottom,#808080_0.05,transparent_0.5px)] opacity-[0.12]"/>
             </div>
 
-            <div className="container mx-auto px-6 relative z-10 flex flex-col flex-grow">
-                <div className="max-w-7xl mx-auto w-full flex flex-col flex-grow">
+            <div className="container mx-auto px-6 relative z-10 flex flex-col grow">
+                <div className="max-w-7xl mx-auto w-full flex flex-col grow">
 
-                    <header className="flex flex-row justify-between items-center mb-[clamp(2rem,8vh,6rem)] w-full">
+                    <header className="flex flex-row justify-between items-center mb-6 md:mb-[clamp(2rem,8vh,6rem)] w-full">
                         <motion.div
                             initial={{opacity: 0, y: -10}}
                             animate={{opacity: 1, y: 0}}
@@ -77,7 +77,7 @@ export default function HeroSection({name}: HeroProps) {
                                     className="text-[10px] font-mono tracking-[0.15em] text-foreground/80">{currentYear}</span>
                             </div>
 
-                            <div className="w-[1px] h-4 bg-primary/40 mx-1"/>
+                            <div className="w-px h-4 bg-primary/40 mx-1"/>
 
                             {/* Status Tag */}
                             <div
@@ -100,7 +100,7 @@ export default function HeroSection({name}: HeroProps) {
                         </nav>
                     </header>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-12 items-center flex-grow">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-12 items-center grow">
                         <motion.div
                             style={isMobile ? {} : {y: textY, opacity: opacityFade}}
                             className="lg:col-span-7 z-20 order-2 lg:order-1"
@@ -212,10 +212,10 @@ export default function HeroSection({name}: HeroProps) {
                         <div className="lg:col-span-5 relative order-1 lg:order-2 flex justify-center lg:justify-end">
                             <motion.div
                                 style={isMobile ? {} : {y: imageY}}
-                                className="relative aspect-[4/5] w-full max-w-[280px] sm:max-w-[320px] md:max-w-[420px] group"
+                                className="relative aspect-4/5 w-full max-w-70 sm:max-w-[320px] md:max-w-105 group"
                             >
                                 <div
-                                    className="absolute inset-0 rounded-[2.5rem] md:rounded-[4rem] border border-primary/10 bg-primary/[0.02] -rotate-6 scale-[1.02] transition-transform duration-1000 group-hover:-rotate-2 group-hover:scale-105"/>
+                                    className="absolute inset-0 rounded-[2.5rem] md:rounded-[4rem] border border-primary/10 bg-primary/2 -rotate-6 scale-[1.02] transition-transform duration-1000 group-hover:-rotate-2 group-hover:scale-105"/>
 
                                 <motion.div
                                     initial={{rotate: 3}}
@@ -235,7 +235,7 @@ export default function HeroSection({name}: HeroProps) {
 
                                     {/* 3. Tech Overlays inside the frame */}
                                     <div
-                                        className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-700"/>
+                                        className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-100 transition-opacity duration-700"/>
 
                                     <div
                                         className={`absolute bottom-4 left-4 right-4 flex flex-col gap-2 transition-all duration-700 ${isMobile ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0"}`}>
@@ -252,9 +252,9 @@ export default function HeroSection({name}: HeroProps) {
 
                                 {/* 4. Decorative Corner "Brackets" */}
                                 <div
-                                    className="absolute -top-4 -right-4 w-16 h-16 border-t border-r border-primary/20 rounded-tr-[2rem] -z-10 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform duration-700"/>
+                                    className="absolute -top-4 -right-4 w-16 h-16 border-t border-r border-primary/20 rounded-tr-4xl -z-10 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform duration-700"/>
                                 <div
-                                    className="absolute -bottom-4 -left-4 w-16 h-16 border-b border-l border-primary/20 rounded-bl-[2rem] -z-10 group-hover:-translate-x-2 group-hover:translate-y-2 transition-transform duration-700"/>
+                                    className="absolute -bottom-4 -left-4 w-16 h-16 border-b border-l border-primary/20 rounded-bl-4xl -z-10 group-hover:-translate-x-2 group-hover:translate-y-2 transition-transform duration-700"/>
                             </motion.div>
                         </div>
                     </div>
