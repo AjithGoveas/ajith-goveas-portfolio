@@ -1,69 +1,97 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# --- System & OS Files ---
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
 
-# dependencies
-/node_modules
-/.pnp
+# --- Dependencies & Package Managers ---
+node_modules/
+/jspm_packages/
+/web_modules/
+.npm
+.eslintcache
+.stylelintcache
+.prettiercache
+.parcel-cache/
+.yarn-integrity
+.turbo/
+.rollup.cache/
+
+# Yarn Berry
 .pnp.*
 .yarn/*
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
+!.yarn/sdks
 !.yarn/versions
 
-# testing
-/coverage
-
-# next.js
-/.next/
+# --- Build & Compiled Outputs ---
+.next/
 /out/
+/build/
+/dist/
+/target/
+/lib-cov/
+coverage/
+.nyc_output/
+*.tsbuildinfo
 
-# production
-/build
+# --- Environment & Secrets ---
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+# Exclude example envs from being ignored
+!.env.example
+!.env.sample
 
-# misc
-.idea
-.vscode
-.DS_Store
-*.pem
+# --- IDEs & Editors ---
+# JetBrains (IntelliJ, WebStorm, etc.)
+.idea/
+*.iws
+*.iml
+*.ipr
 
-# debug
+# Visual Studio Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Other Editors
+*~
+*.swp
+*.swo
+.project
+.classpath
+.settings/
+.sublime-project
+.sublime-workspace
+
+# --- Logs & Debugging ---
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+firebase-debug.log*
+.firebase/
 
-# env files (can opt-in for committing if needed)
-.env*
+# --- Cypress & Testing ---
+/cypress/screenshots/
+/cypress/videos/
+/cypress/downloads/
 
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-# Log files
-*.log
-.log
-
-# Node.js
-# yarn.lock (or package-lock.json) if you're managing dependencies outside of Git
-# For most projects, you'll want to commit yarn.lock or package-lock.json,
-# but it's listed here as an option if your team has a different workflow.
-# yarn.lock
-# package-lock.json
-
-# If you use Bun
-/bun.lockb
-
-# If you use pnpm
-/pnpm-lock.yaml
-
-# If you use the Vercel CLI (optional)
+# --- Next.js / Vercel Specifics ---
 .vercel/
-.vercel/output/
-
-# Editor/IDE-specific (can vary by user)
-.editorconfig
-*.sublime-project
-*.sublime-workspace
+next-env.d.ts
