@@ -7,7 +7,7 @@ export interface Project {
     year: number;
     order: number;
     tech: string[];
-    type: ProjectType;
+    types: ProjectType[];
     githubUrl?: string;
     liveUrl?: string;
 }

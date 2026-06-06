@@ -37,8 +37,6 @@ const ProjectTile = memo(({project, index}: { project: Project; index: number })
     const isHero = index === 0;
     const isWide = index === 3;
 
-    const config = TYPE_CONFIG[project.type] || TYPE_CONFIG[ProjectType.Web];
-
     return (
         <motion.div
             layout
@@ -60,15 +58,22 @@ const ProjectTile = memo(({project, index}: { project: Project; index: number })
                 : 'bg-card/40 backdrop-blur-xl border-border/40 hover:border-primary/50 shadow-sm'}
             `}>
 
-                <div className="flex justify-between items-start z-10">
-                    <div className="flex items-center gap-2 px-4 py-2 rounded-xl border border-current/10 bg-current/5">
-                        {config.icon}
-                        <span className="text-[10px] font-bold uppercase tracking-[0.2em]">
-                            {config.label}
-                        </span>
+                <div className="flex justify-between items-start z-10 w-full gap-4">
+                    <div className="flex flex-wrap gap-2 max-w-[70%]">
+                        {project.types.map((type) => {
+                            const config = TYPE_CONFIG[type] || TYPE_CONFIG[ProjectType.Web];
+                            return (
+                                <div key={type} className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-current/10 bg-current/5">
+                                    {config.icon}
+                                    <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em]">
+                                        {config.label}
+                                    </span>
+                                </div>
+                            );
+                        })}
                     </div>
 
-                    <div className="flex flex-col items-end">
+                    <div className="flex flex-col items-end shrink-0">
                         <span className="text-[10px] font-mono opacity-40 font-bold tracking-widest uppercase">
                             Rel_Year
                         </span>
@@ -143,7 +148,7 @@ export default function ProjectsSection() {
         return projects
             .filter((project) => {
                 if (filter === 'all') return true;
-                return project.type?.toLowerCase() === filter.toLowerCase();
+                return project.types.some(t => t.toLowerCase() === filter.toLowerCase());
             })
             .sort((a, b) => {
                 // Defensive sort: handles missing 'order' by pushing them to the end

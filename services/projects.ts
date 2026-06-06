@@ -23,7 +23,7 @@ export async function loadAllProjects(): Promise<Project[] | null> {
                 tech: data.tech || [],
                 githubUrl: data.githubUrl || "",
                 liveUrl: data.liveUrl || "",
-                type: data.type || "FullStack",
+                types: Array.isArray(data.types) ? data.types : (data.type ? [data.type] : ["FullStack"]),
                 year: data.year || new Date().getFullYear(),
                 order: data.order ?? 99,
                 // Ensure image is handled if you add it to Firebase later
