@@ -1,7 +1,7 @@
 'use client';
 
 import React, {memo, useState} from 'react';
-import {AnimatePresence, motion} from 'framer-motion';
+import {AnimatePresence, m} from 'framer-motion';
 import {
     IconArrowRight,
     IconArrowUpRight,
@@ -57,8 +57,9 @@ export default function SocialLinks({fullStyle = false}: { fullStyle?: boolean }
 function SocialLinksSkeleton({fullStyle, count = 3}: { fullStyle: boolean; count?: number }) {
     if (!fullStyle) {
         return (
-            <div className="h-10 px-4 flex items-center justify-center bg-secondary/20 border border-border/40 rounded-full">
-                <LoadingSpinner size="sm" text="Syncing..." className="p-0 flex-row gap-2" />
+            <div
+                className="h-10 px-4 flex items-center justify-center bg-secondary/20 border border-border/40 rounded-full">
+                <LoadingSpinner size="sm" text="Syncing..." className="p-0 flex-row gap-2"/>
             </div>
         );
     }
@@ -89,7 +90,7 @@ function SocialLinksSkeleton({fullStyle, count = 3}: { fullStyle: boolean; count
                     <div className="h-2 w-24 bg-secondary/10 rounded-full"/>
                     <div className="h-8 w-1/3 bg-secondary/20 rounded-xl animate-pulse"/>
                 </div>
-                <motion.div
+                <m.div
                     animate={{x: ['-100%', '200%']}}
                     transition={{duration: 2.5, repeat: Infinity, ease: "linear"}}
                     className="absolute inset-0 bg-linear-to-r from-transparent via-primary/5 to-transparent -skew-x-12"
@@ -137,7 +138,7 @@ const InteractionPlate = memo(({info, index, isFeatured, isBentoThree}: Interact
     };
 
     return (
-        <motion.a
+        <m.a
             href={isEmail ? `mailto:${info.username}` : info.href}
             target={isEmail ? undefined : "_blank"}
             rel={isEmail ? undefined : "noopener noreferrer"}
@@ -155,8 +156,8 @@ const InteractionPlate = memo(({info, index, isFeatured, isBentoThree}: Interact
                 type: "spring",
                 stiffness: 300,
                 damping: 20,
-                borderColor: { duration: 0.3 },
-                boxShadow: { duration: 0.3 }
+                borderColor: {duration: 0.3},
+                boxShadow: {duration: 0.3}
             }}
             className={cn(
                 "group relative flex flex-col justify-between p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] overflow-hidden",
@@ -183,7 +184,7 @@ const InteractionPlate = memo(({info, index, isFeatured, isBentoThree}: Interact
                 <div className="relative">
                     <AnimatePresence mode="wait">
                         {copied ? (
-                            <motion.div
+                            <m.div
                                 key="check"
                                 initial={{scale: 0, opacity: 0}}
                                 animate={{scale: 1, opacity: 1}}
@@ -193,7 +194,7 @@ const InteractionPlate = memo(({info, index, isFeatured, isBentoThree}: Interact
                             >
                                 <IconCircleCheck className="w-5 h-5 md:w-6 md:h-6 text-green-500"/>
                                 <span className="text-[10px] text-green-500 font-mono">Copied!</span>
-                            </motion.div>
+                            </m.div>
                         ) : (
                             <div
                                 className="p-2.5 rounded-xl bg-zinc-500/5 group-hover:bg-zinc-500/50 opacity-30 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all text-foreground">
@@ -228,7 +229,7 @@ const InteractionPlate = memo(({info, index, isFeatured, isBentoThree}: Interact
 
             <div
                 className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(var(--foreground)_1px,transparent_1px)] bg-size-[16px_16px] rounded-3xl md:rounded-[2.5rem]"/>
-        </motion.a>
+        </m.a>
     );
 });
 
@@ -247,7 +248,7 @@ function MinimalPill({socials}: { socials: Links[] }) {
             <div
                 className="flex sm:hidden w-12 h-12 items-center justify-center bg-background/60 border border-border/40 rounded-full backdrop-blur-xl overflow-hidden shadow-sm">
                 <AnimatePresence mode="wait">
-                    <motion.a
+                    <m.a
                         key={socials[index].id}
                         href={socials[index].href}
                         target="_blank"
@@ -256,7 +257,7 @@ function MinimalPill({socials}: { socials: Links[] }) {
                         exit={{y: -15, opacity: 0}}
                     >
                         {React.createElement(activeMeta.icon, {size: 20, style: {color: activeMeta.color}})}
-                    </motion.a>
+                    </m.a>
                 </AnimatePresence>
             </div>
 

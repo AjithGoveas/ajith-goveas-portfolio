@@ -3,6 +3,7 @@ import {Cal_Sans, Inter, JetBrains_Mono, Sofia} from "next/font/google";
 import "./globals.css";
 import {ThemeProvider} from "@/components/theme-provider";
 import React from "react";
+import { LazyMotion, domMax } from "framer-motion";
 
 // --- Font Definitions ---
 const inter = Inter({
@@ -122,7 +123,9 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
         >
-            {children}
+            <LazyMotion features={domMax} strict>
+                {children}
+            </LazyMotion>
         </ThemeProvider>
         </body>
         </html>

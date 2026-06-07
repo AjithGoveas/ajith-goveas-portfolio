@@ -1,5 +1,5 @@
 // hooks/useIsLargeScreen.tsx
-import { useState, useEffect } from 'react';
+import {useEffect, useState} from 'react';
 
 const useIsLargeScreen = (breakpoint = 1024): boolean => {
     const [isLarge, setIsLarge] = useState<boolean>(false);

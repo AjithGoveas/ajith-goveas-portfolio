@@ -1,24 +1,25 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import {m} from "framer-motion";
 import SocialLinks from "@/components/SocialLinks";
 
 export const Footer: React.FC = () => {
     const currentYear = new Date().getFullYear();
 
     return (
-        <motion.footer
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+        <m.footer
+            initial={{opacity: 0}}
+            whileInView={{opacity: 1}}
+            viewport={{once: true}}
+            transition={{duration: 0.8}}
             className="mt-20 border-t border-border/30 bg-background"
         >
-            <div className="container mx-auto px-6 py-10 flex flex-col items-center sm:flex-row sm:justify-between space-y-8 sm:space-y-0">
+            <div
+                className="container mx-auto px-6 py-10 flex flex-col items-center sm:flex-row sm:justify-between space-y-8 sm:space-y-0">
 
                 <div className="flex items-center">
-                    <SocialLinks />
+                    <SocialLinks/>
                 </div>
 
                 <div className="flex flex-col items-center sm:items-end gap-2">
@@ -26,7 +27,8 @@ export const Footer: React.FC = () => {
                         <span className="text-xl font-sofia tracking-tighter text-foreground">
                             myBio
                         </span>
-                        <span className="text-[10px] font-mono text-muted-foreground/80 tabular-nums uppercase tracking-widest">
+                        <span
+                            className="text-[10px] font-mono text-muted-foreground/80 tabular-nums uppercase tracking-widest">
                             ©{currentYear}
                         </span>
                     </div>
@@ -42,7 +44,7 @@ export const Footer: React.FC = () => {
                 </div>
             </div>
 
-            <div className="h-px w-full bg-linear-to-r from-transparent via-border/20 to-transparent" />
-        </motion.footer>
+            <div className="h-px w-full bg-linear-to-r from-transparent via-border/20 to-transparent"/>
+        </m.footer>
     );
 };

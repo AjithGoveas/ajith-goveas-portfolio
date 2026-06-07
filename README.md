@@ -1,67 +1,41 @@
-# _myBio - **Ajith Goveas**_
+# myBio - Ajith Goveas
 
-### _Engineering Native Android & High-Performance Web logic._
-
-## 01. The Architect
-
-I am a developer who views the web as a blueprint. My work exists at the intersection of **technical rigor** and **editorial aesthetic**. I don't just build websites; I engineer digital environments where every pixel serves a structural purpose.
-
-My philosophy is rooted in **functional minimalism**:
-
-* **Structure over Surface:** I prioritize clean information architecture and scalable code.
-* **Precision Interaction:** I believe user experience is found in the "micro-details"—the weight of a scrollbar, the inertia of a cursor, and the rhythm of a grid.
-* **Editorial Vision:** I treat content with the respect of a high-end publication, ensuring typography and whitespace drive the narrative.
+### 🚀 Kotlin Multiplatform, Android & Web Engineer
+_Building scalable mobile logic ecosystems and high-fidelity, high-performance web interfaces._
 
 ---
 
-## 02. The Mission
+## 01. Who I Am
 
-The goal of this portfolio is to demonstrate a **system-first approach** to frontend development. It serves as a living laboratory for testing high-performance animations, bespoke UI components, and adaptive design patterns that bridge the gap between "standard web" and "architectural software."
+I am a software engineer specializing in cross-platform mobile architecture and modern, high-performance web systems. Currently pursuing my B.E. in Computer Science at Sahyadri College of Engineering & Management, my engineering philosophy is simple: **build robust software architectures that prioritize scalability, technical rigor, and sleek, intuitive user experiences.**
 
----
-
-## 03. The Tech Stack (Core Infrastructure)
-
-The system is orchestrated using a high-precision, type-safe stack:
-
-| Layer | Technology | Purpose |
-| --- | --- | --- |
-| **Foundation** | **Next.js 15 (App Router)** | Server-side rendering & optimized routing. |
-| **Logic** | **TypeScript** | Ensuring system integrity through strict typing. |
-| **Design** | **Tailwind CSS v4** | Variable-driven styling and atomic utility management. |
-| **Motion** | **Framer Motion** | Spring-based physics for "weighted" UI interactions. |
-| **UI Library** | **Shadcn/UI** | Accessible primitives built on Radix UI. |
-| **Typography** | **Zinc + Mono Stacks** | High-contrast editorial hierarchy. |
+I focus on creating software that is as maintainable as it is fast. By separating platform-agnostic business logic from presentation layers, I ensure codebases are modular, testable, and optimized for long-term growth.
 
 ---
 
-## 04. System Features
+## 02. Core Engineering Focus
 
-* **Adaptive Gauge Scrollbar:** A custom-engineered "Needle" scrollbar that scales across devices.
-* **Context-Aware Navigation:** A header system that utilizes mathematical offsets for pixel-perfect section anchoring.
-* **Zinc-Orchestrated Theming:** A seamless transition between high-key gallery modes and deep OLED dark modes.
-* **Performance Engineering:** Optimized for zero-layout shift and maximum rendering efficiency.
+### 📱 Android & Kotlin Multiplatform (KMM/CMP)
+*   **Shared Logic Systems:** Writing shared business logic, networking (Ktor), and local databases (SQLDelight/Room) in pure Kotlin to run natively on both Android and iOS platforms.
+*   **Native Android UI:** Engineering responsive, modern mobile layouts using Jetpack Compose, Kotlin Coroutines, and strict clean architecture principles (MVVM/MVI).
 
----
+### 🌐 Modern Web Development
+*   **Next.js & React Applications:** Designing server-side pre-rendered (SSR), statically generated (SSG), and type-safe frontends with Next.js (App Router) and TypeScript.
+*   **Fluid Animations & Design Systems:** Creating interactive user interfaces using Tailwind CSS and spring-physics animations.
 
-## 05. Implementation
-
-```bash
-# Clone the architectural source
-git clone https://github.com/yourusername/portfolio-system.git
-
-# Initialize dependencies
-npm install
-
-# Boot the local environment
-npm run dev
-
-```
+### ⚡ Performance & UX Tuning
+*   **Bundle Optimization:** Reducing client JavaScript payloads through lazy-loading, tree-shaking, and optimizing dynamic components.
+*   **Cumulative Layout Shift (CLS) Reduction:** Designing size-matching skeletons to ensure pages load smoothly without jarring layout shifts.
 
 ---
 
-## 06. Status: Active
+## 03. The Portfolio System (Overview)
 
-This portfolio is a continuous build. I am currently focused on expanding the **Bento-Node** system and my own career.
+This repository serves as my personal portfolio—a clean, responsive web interface engineered as a live sandbox to test new design patterns, database integrations, and web optimizations.
 
----
+### Key System Integrations
+
+*   **Bento Grid Architecture:** A dynamic grid layout that automatically adjusts to screen sizes. It features a responsive two-column layout with a 60/40 visual width split when dynamic cards are multiples of 3.
+*   **Zero-Layout Shift Skeletons:** Dynamic skeletal loaders that match the dimensions of your project cards and contact nodes, completely eliminating visual jumpiness (CLS) during content hydration.
+*   **Hydration-Guarded IST Clock:** A client-side hydrated system clock running on Indian Standard Time. It uses a mount lifecycle guard to display static monospace dashes (`--:--:--`) during Server-Side Rendering (SSR) to prevent hydration mismatches before flipping to a live-ticking display.
+*   **LazyMotion & Asset Caching:** Features a global `<LazyMotion>` provider to lazy-load animations via the `domMax` feature library. Additionally, next-config rules apply long-lived Cache-Control headers to public assets (fonts, icons, and image directories) to preserve CDN bandwidth.

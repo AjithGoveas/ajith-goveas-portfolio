@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import {motion} from 'framer-motion';
+import {m} from 'framer-motion';
 import {
     IconArrowUpRight,
     IconBinary,
@@ -64,7 +64,7 @@ export default function AboutSection() {
 
                     <div className="flex flex-col mb-12 md:mb-24">
                         <div className="flex items-center gap-3 mb-4">
-                            <motion.div
+                            <m.div
                                 initial={{width: 0}}
                                 whileInView={{width: 48}}
                                 className="h-1 w-16 bg-primary rounded-full"
@@ -77,7 +77,7 @@ export default function AboutSection() {
                             <span className="relative">
                                 Code
                                 <span className="text-primary/20">.</span>
-                                <motion.span
+                                <m.span
                                     initial={{scaleX: 0}}
                                     whileInView={{scaleX: 1}}
                                     transition={{delay: 0.5, duration: 0.8}}
@@ -89,7 +89,7 @@ export default function AboutSection() {
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8">
 
-                        <motion.div
+                        <m.div
                             initial={{opacity: 0, y: 20}}
                             whileInView={{opacity: 1, y: 0}}
                             viewport={{once: true}}
@@ -129,9 +129,9 @@ export default function AboutSection() {
                                 className="absolute -bottom-6 -right-6 text-[8rem] sm:text-[12rem] group-hover:text-[10rem] sm:group-hover:text-[15rem] font-mono font-bold opacity-[0.04] dark:opacity-[0.07] select-none pointer-events-none leading-none group-hover:opacity-[0.08] group-hover:-translate-y-4 transition-all duration-700">
                                 CODE
                             </div>
-                        </motion.div>
+                        </m.div>
 
-                        <motion.div
+                        <m.div
                             initial={{opacity: 0, scale: 0.95}}
                             whileInView={{opacity: 1, scale: 1}}
                             viewport={{once: true}}
@@ -150,14 +150,16 @@ export default function AboutSection() {
                                         My objective is to transform complex technical requirements into elegant,
                                         high-performance digital products.
                                     </p>
-                                    <p className="text-xs md:text-sm opacity-80 leading-relaxed font-medium italic">
-                                        "I believe that code should be as maintainable as it is powerful. Every line I write
+                                    <p className="text-xs md:text-sm opacity-85 leading-relaxed font-medium italic">
+                                        "I believe that code should be as maintainable as it is powerful. Every line I
+                                        write
                                         is a commitment to architectural integrity and user delight."
                                     </p>
                                 </div>
                             </div>
 
-                            <div className="pt-6 border-t border-primary-foreground/20 flex flex-col gap-4 relative z-10">
+                            <div
+                                className="pt-6 border-t border-primary-foreground/20 flex flex-col gap-4 relative z-10">
                                 <div className="flex items-center justify-between">
                 <span className="text-[10px] font-mono uppercase tracking-widest opacity-60 italic">
                     Core_Drive // {currentYear}
@@ -175,11 +177,11 @@ export default function AboutSection() {
                                     ))}
                                 </div>
                             </div>
-                        </motion.div>
+                        </m.div>
 
                         <div className="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
                             {focusAreas.map((area, index) => (
-                                <motion.div
+                                <m.div
                                     key={area.label}
                                     initial={{opacity: 0, y: 20}}
                                     whileInView={{opacity: 1, y: 0}}
@@ -198,16 +200,17 @@ export default function AboutSection() {
                                         </span>
                                         <h4 className="text-xl md:text-2xl font-bold mb-1 tracking-tight flex items-center gap-2">
                                             {area.label}
-                                            <div className="p-2 rounded-xl bg-zinc-500/10 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all">
+                                            <div
+                                                className="p-2 rounded-xl bg-zinc-500/10 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all">
                                                 <IconArrowUpRight size={14}
-                                                                  />
+                                                />
                                             </div>
                                         </h4>
                                         <p className="text-xs md:text-sm text-muted-foreground leading-relaxed italic">"{area.desc}"</p>
                                     </div>
                                     <div
                                         className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"/>
-                                </motion.div>
+                                </m.div>
                             ))}
                         </div>
 
@@ -222,7 +225,7 @@ export default function AboutSection() {
                             </div>
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                 {satelliteInterests.map((interest, index) => (
-                                    <motion.div
+                                    <m.div
                                         key={interest.label}
                                         initial={{opacity: 0, x: -10}}
                                         whileInView={{opacity: 1, x: 0}}
@@ -242,7 +245,7 @@ export default function AboutSection() {
                                                 {interest.desc}
                                             </p>
                                         </div>
-                                    </motion.div>
+                                    </m.div>
                                 ))}
                             </div>
                         </div>
@@ -258,4 +261,4 @@ export default function AboutSection() {
                 className="absolute bottom-0 right-0 w-100 h-100 bg-blue-500/5 blur-[150px] pointer-events-none -z-10"/>
         </section>
     );
-};
+}

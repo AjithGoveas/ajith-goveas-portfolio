@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import {useEffect, useState} from "react";
 import {Project} from "@/types";
 import {loadAllProjects} from "@/services/projects";
 
@@ -29,5 +29,5 @@ export function useProjects(): UseProjectsResult {
         fetchProjects().catch(err => console.error(err));
     }, []);
 
-    return { projects, isLoading, error };
+    return {projects, isLoading, error};
 }

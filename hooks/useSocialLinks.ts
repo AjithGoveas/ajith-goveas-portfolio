@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { Links } from "@/types";
-import { loadAllSocialLinks } from "@/services/social-links";
+import {useEffect, useState} from "react";
+import {Links} from "@/types";
+import {loadAllSocialLinks} from "@/services/social-links";
 
 interface UseSocialLinksResult {
     socialLinks: Links[] | null;
@@ -29,5 +29,5 @@ export function useSocialLinks(): UseSocialLinksResult {
         fetchLinks().catch(err => console.error(err));
     }, []);
 
-    return { socialLinks, isLoading, error };
+    return {socialLinks, isLoading, error};
 }

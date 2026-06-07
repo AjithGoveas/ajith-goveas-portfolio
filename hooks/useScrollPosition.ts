@@ -1,5 +1,5 @@
 // File: src/hooks/useScrollPosition.ts
-import { useState, useEffect } from 'react';
+import {useEffect, useState} from 'react';
 
 export const useScrollPosition = (): boolean => {
     const [isScrolled, setIsScrolled] = useState<boolean>(false);

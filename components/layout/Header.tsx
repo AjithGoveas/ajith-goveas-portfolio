@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useEffect, useState} from 'react';
-import {motion} from 'framer-motion';
+import {m} from 'framer-motion';
 import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger} from '@/components/ui/sheet';
 import {ModeToggle} from '@/components/toggle-theme';
 import {NavItem} from "@/types";
@@ -55,7 +55,7 @@ export default function Header() {
     };
 
     return (
-        <motion.header
+        <m.header
             initial={{y: -20, opacity: 0}}
             animate={{y: 0, opacity: 1}}
             className="fixed top-0 w-full z-50 px-4 py-4 md:py-6 pointer-events-none"
@@ -99,9 +99,9 @@ export default function Header() {
                             >
                                 {item.name}
                                 {activeSection === item.href.substring(1) && (
-                                    <motion.div
+                                    <m.div
                                         layoutId="active-glow"
-                                        className="absolute bottom-0 left-0 w-full h-px bg-linear-to-r from-transparent via-primary to-transparent"
+                                        className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent"
                                     />
                                 )}
                             </button>
@@ -124,7 +124,7 @@ export default function Header() {
                                         </Button>
                                     </SheetTrigger>
                                     <SheetContent side="right"
-                                                  className="w-full sm:w-87.5 bg-background/95 backdrop-blur-2xl border-l border-border/10 p-8 flex flex-col justify-between">
+                                                  className="w-full sm:w-[350px] bg-background/95 backdrop-blur-2xl border-l border-border/10 p-8 flex flex-col justify-between">
                                         <SheetHeader className="text-left">
                                             <SheetTitle
                                                 className="text-[10px] font-mono uppercase tracking-[0.4em] opacity-20">Navigation</SheetTitle>
@@ -133,7 +133,7 @@ export default function Header() {
                                         {/* Subtly Animated Mobile List */}
                                         <div className="flex flex-col gap-2 mt-12">
                                             {navItems.map((item: NavItem, index) => (
-                                                <motion.button
+                                                <m.button
                                                     key={item.name}
                                                     initial={{opacity: 0, x: 10}}
                                                     animate={{opacity: 1, x: 0}}
@@ -148,13 +148,14 @@ export default function Header() {
                                                     <IconArrowUpRight className={`w-6 h-6 transition-all duration-500 
                                                         ${activeSection === item.href.substring(1) ? 'text-primary opacity-100' : 'opacity-0 -translate-x-2'}`}
                                                     />
-                                                </motion.button>
+                                                </m.button>
                                             ))}
                                         </div>
 
                                         {/* Clean Mobile Footer */}
                                         <div className="flex flex-col gap-6">
-                                            <div className="h-px w-full bg-linear-to-r from-border/50 to-transparent"/>
+                                            <div
+                                                className="h-[1px] w-full bg-gradient-to-r from-border/50 to-transparent"/>
                                             <div className="flex justify-between items-center px-1">
                                                 <div className="flex flex-col">
                                                     <span
@@ -174,6 +175,6 @@ export default function Header() {
                     </div>
                 </nav>
             </div>
-        </motion.header>
+        </m.header>
     );
 }

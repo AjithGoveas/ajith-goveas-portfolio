@@ -2,7 +2,7 @@
 
 import React, {useMemo, useRef} from 'react';
 import Image from 'next/image';
-import {motion, useScroll, useSpring, useTransform} from 'framer-motion';
+import {m, useScroll, useSpring, useTransform} from 'framer-motion';
 import {ArrowUpRight, Code2, Download, Globe, Smartphone, Zap} from 'lucide-react';
 import {Button} from '@/components/ui/button';
 import SocialLinks from "@/components/SocialLinks";
@@ -63,8 +63,9 @@ export default function HeroSection({name}: HeroProps) {
             <div className="container mx-auto px-6 relative z-10 flex flex-col grow">
                 <div className="max-w-7xl mx-auto w-full flex flex-col grow">
 
-                    <header className="flex flex-row justify-between items-center mb-6 md:mb-[clamp(2rem,8vh,6rem)] w-full">
-                        <motion.div
+                    <header
+                        className="flex flex-row justify-between items-center mb-6 md:mb-[clamp(2rem,8vh,6rem)] w-full">
+                        <m.div
                             initial={{opacity: 0, y: -10}}
                             animate={{opacity: 1, y: 0}}
                             className="flex items-center gap-2"
@@ -93,7 +94,7 @@ export default function HeroSection({name}: HeroProps) {
                 ENGINEERING
             </span>
                             </div>
-                        </motion.div>
+                        </m.div>
 
                         <nav className="flex items-center">
                             <SocialLinks/>
@@ -101,7 +102,7 @@ export default function HeroSection({name}: HeroProps) {
                     </header>
 
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-12 items-center grow">
-                        <motion.div
+                        <m.div
                             style={isMobile ? {} : {y: textY, opacity: opacityFade}}
                             className="lg:col-span-7 z-20 order-2 lg:order-1"
                         >
@@ -121,7 +122,7 @@ export default function HeroSection({name}: HeroProps) {
                                             preserveAspectRatio="none"
                                         >
                                             {/* Top underline - bold, slightly irregular */}
-                                            <motion.path
+                                            <m.path
                                                 initial={{pathLength: 0}}
                                                 whileInView={{pathLength: 1}}
                                                 transition={{duration: 1.2, delay: 0.4}}
@@ -134,7 +135,7 @@ export default function HeroSection({name}: HeroProps) {
                                                 strokeDashoffset="8"
                                             />
                                             {/* Bottom underline - thinner, offset, softer */}
-                                            <motion.path
+                                            <m.path
                                                 initial={{pathLength: 0}}
                                                 whileInView={{pathLength: 1}}
                                                 transition={{duration: 1, delay: 0.6}}
@@ -157,7 +158,7 @@ export default function HeroSection({name}: HeroProps) {
                                                 preserveAspectRatio="none"
                                             >
                                             {/* Top underline - bold, slightly wavy */}
-                                                <motion.path
+                                                <m.path
                                                     initial={{pathLength: 0}}
                                                     whileInView={{pathLength: 1}}
                                                     transition={{duration: 1.2, delay: 0.4}}
@@ -170,7 +171,7 @@ export default function HeroSection({name}: HeroProps) {
                                                     strokeDashoffset="6"
                                                 />
                                                 {/* Bottom underline - thinner, offset for natural feel */}
-                                                <motion.path
+                                                <m.path
                                                     initial={{pathLength: 0}}
                                                     whileInView={{pathLength: 1}}
                                                     transition={{duration: 1, delay: 0.6}}
@@ -207,17 +208,17 @@ export default function HeroSection({name}: HeroProps) {
                                     </Button>
                                 </div>
                             </div>
-                        </motion.div>
+                        </m.div>
 
                         <div className="lg:col-span-5 relative order-1 lg:order-2 flex justify-center lg:justify-end">
-                            <motion.div
+                            <m.div
                                 style={isMobile ? {} : {y: imageY}}
-                                className="relative aspect-4/5 w-full max-w-70 sm:max-w-[320px] md:max-w-105 group"
+                                className="relative aspect-4/5 w-full max-w-75 sm:max-w-[320px] md:max-w-105 group"
                             >
                                 <div
                                     className="absolute inset-0 rounded-[2.5rem] md:rounded-[4rem] border border-primary/10 bg-primary/2 -rotate-6 scale-[1.02] transition-transform duration-1000 group-hover:-rotate-2 group-hover:scale-105"/>
 
-                                <motion.div
+                                <m.div
                                     initial={{rotate: 3}}
                                     whileHover={{rotate: 0, scale: 1.02}}
                                     transition={{type: "spring", stiffness: 200, damping: 25}}
@@ -248,18 +249,18 @@ export default function HeroSection({name}: HeroProps) {
                                             <Globe size={12} className="text-primary"/> Web Ecosystems
                                         </div>
                                     </div>
-                                </motion.div>
+                                </m.div>
 
                                 {/* 4. Decorative Corner "Brackets" */}
                                 <div
                                     className="absolute -top-4 -right-4 w-16 h-16 border-t border-r border-primary/20 rounded-tr-4xl -z-10 group-hover:translate-x-2 group-hover:-translate-y-2 transition-transform duration-700"/>
                                 <div
                                     className="absolute -bottom-4 -left-4 w-16 h-16 border-b border-l border-primary/20 rounded-bl-4xl -z-10 group-hover:-translate-x-2 group-hover:translate-y-2 transition-transform duration-700"/>
-                            </motion.div>
+                            </m.div>
                         </div>
                     </div>
 
-                    <motion.footer
+                    <m.footer
                         style={isMobile ? {} : {opacity: footerOpacity, y: footerY}}
                         className="w-full mt-[clamp(2.5rem,10vh,6rem)]"
                     >
@@ -277,7 +278,7 @@ export default function HeroSection({name}: HeroProps) {
                                 </div>
                             ))}
                         </dl>
-                    </motion.footer>
+                    </m.footer>
                 </div>
             </div>
         </section>

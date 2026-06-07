@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useEffect, useState} from "react";
-import {AnimatePresence, motion} from "framer-motion";
+import {AnimatePresence, m} from "framer-motion";
 import {useContactInfo} from "@/hooks/useContactInfo";
 import SocialLinks from "@/components/SocialLinks";
 import {
@@ -38,17 +38,18 @@ const ActivityStack = () => {
             {/* Header */}
             <div className="flex items-center justify-between px-1">
                 <div className="flex items-center gap-2">
-                    <div className="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(var(--primary),0.6)]" />
-                    <span className="text-[7px] sm:text-[8px] md:text-[9px] font-mono uppercase tracking-[0.35em] text-primary/60 font-semibold">
+                    <div className="h-1.5 w-1.5 rounded-full bg-primary shadow-[0_0_8px_rgba(var(--primary),0.6)]"/>
+                    <span
+                        className="text-[7px] sm:text-[8px] md:text-[9px] font-mono uppercase tracking-[0.35em] text-primary/60 font-semibold">
                         Core_Protocol
                     </span>
                 </div>
                 <div className="flex gap-1">
                     {statuses.map((_, i) => (
-                        <motion.div
+                        <m.div
                             key={i}
-                            animate={{ scale: index === i ? 1.2 : 1, opacity: index === i ? 1 : 0.4 }}
-                            transition={{ duration: 0.3 }}
+                            animate={{scale: index === i ? 1.2 : 1, opacity: index === i ? 1 : 0.4}}
+                            transition={{duration: 0.3}}
                             className={`h-1.5 w-1.5 rounded-full ${index === i ? "bg-primary" : "bg-primary/20"}`}
                         />
                     ))}
@@ -56,19 +57,21 @@ const ActivityStack = () => {
             </div>
 
             {/* Status Card */}
-            <div className="relative h-14 sm:h-16 w-full bg-linear-to-r from-secondary/5 to-secondary/10 rounded-lg sm:rounded-xl border border-border/30 px-3 sm:px-4 flex flex-col justify-center overflow-hidden shadow-sm">
+            <div
+                className="relative h-14 sm:h-16 w-full bg-linear-to-r from-secondary/5 to-secondary/10 rounded-lg sm:rounded-xl border border-border/30 px-3 sm:px-4 flex flex-col justify-center overflow-hidden shadow-sm">
                 <AnimatePresence mode="wait">
-                    <motion.div
+                    <m.div
                         key={index}
-                        initial={{ opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -6 }}
-                        transition={{ duration: 0.35, ease: "easeOut" }}
+                        initial={{opacity: 0, y: 6}}
+                        animate={{opacity: 1, y: 0}}
+                        exit={{opacity: 0, y: -6}}
+                        transition={{duration: 0.35, ease: "easeOut"}}
                         className="relative z-10"
                     >
                         <div className="flex items-center gap-1.5 mb-1.5">
                             <span className="text-primary/50 shrink-0">{statuses[index].icon}</span>
-                            <span className="text-[6px] sm:text-[7px] md:text-[8px] font-mono uppercase tracking-[0.4em] text-muted-foreground/80 font-bold">
+                            <span
+                                className="text-[6px] sm:text-[7px] md:text-[8px] font-mono uppercase tracking-[0.4em] text-muted-foreground/80 font-bold">
                                 {statuses[index].label}
                             </span>
                         </div>
@@ -76,38 +79,38 @@ const ActivityStack = () => {
                         <div className="flex items-center">
                             <h4 className="text-[10px] sm:text-[11px] md:text-[12px] font-mono font-medium tracking-[0.12em] text-foreground/90 uppercase leading-none">
                                 {statuses[index].value.split("").map((char, i) => (
-                                    <motion.span
+                                    <m.span
                                         key={i}
-                                        initial={{ opacity: 0, y: 2 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: i * 0.02 }}
+                                        initial={{opacity: 0, y: 2}}
+                                        animate={{opacity: 1, y: 0}}
+                                        transition={{delay: i * 0.02}}
                                     >
                                         {char === "_" ? (
                                             <span className="text-primary/40 mx-0.5 font-bold">·</span>
                                         ) : (
                                             char
                                         )}
-                                    </motion.span>
+                                    </m.span>
                                 ))}
                             </h4>
 
-                            <motion.span
-                                animate={{ opacity: [1, 0] }}
-                                transition={{ duration: 0.8, repeat: Infinity }}
+                            <m.span
+                                animate={{opacity: [1, 0]}}
+                                transition={{duration: 0.8, repeat: Infinity}}
                                 className="w-1 h-2.5 sm:w-1.5 sm:h-3 bg-primary/50 ml-2 rounded-sm"
                             />
                         </div>
-                    </motion.div>
+                    </m.div>
                 </AnimatePresence>
             </div>
 
             {/* Progress Bar */}
             <div className="relative h-0.5 w-full bg-border/20 rounded-full overflow-hidden">
-                <motion.div
+                <m.div
                     key={`progress-${index}`}
-                    initial={{ x: "-100%" }}
-                    animate={{ x: "0%" }}
-                    transition={{ duration: 4.5, ease: "linear" }}
+                    initial={{x: "-100%"}}
+                    animate={{x: "0%"}}
+                    transition={{duration: 4.5, ease: "linear"}}
                     className="absolute inset-0 bg-linear-to-r from-primary/40 to-primary/20"
                 />
             </div>
@@ -138,7 +141,7 @@ const SystemClock = () => {
                 <IconTerminal size="35%"
                               className="text-primary opacity-40 group-hover:opacity-100 transition-opacity"/>
 
-                <motion.div
+                <m.div
                     animate={{rotate: 360}}
                     transition={{duration: 10, repeat: Infinity, ease: "linear"}}
                     className="absolute inset-0 border-2 border-dashed border-primary/10 rounded-full scale-[1.2] md:scale-[1.4]"
@@ -190,7 +193,7 @@ const InteractionPlate = ({info, index}: { info: InteractionInfo; index: number 
     };
 
     return (
-        <motion.a
+        <m.a
             href={href}
             target={isEmail ? undefined : "_blank"}
             onClick={handleAction}
@@ -230,14 +233,14 @@ const InteractionPlate = ({info, index}: { info: InteractionInfo; index: number 
 
                 <AnimatePresence mode="wait">
                     {copied ? (
-                        <motion.div
+                        <m.div
                             key="check"
                             initial={{scale: 0.8, opacity: 0}}
                             animate={{scale: 1, opacity: 1}}
                             exit={{scale: 0.8, opacity: 0}}
                         >
                             <IconCircleCheck size={28} className="text-emerald-500 md:w-8 md:h-8" strokeWidth={1.5}/>
-                        </motion.div>
+                        </m.div>
                     ) : (
                         <div
                             className={`p-2 md:p-2.5 rounded-xl transition-all bg-transparent ${isLead ? 'border border-white/10 group-hover:bg-background/50 group-hover:text-foreground' : 'group-hover:bg-zinc-500/50 opacity-60 group-hover:opacity-100'}`}>
@@ -269,7 +272,7 @@ const InteractionPlate = ({info, index}: { info: InteractionInfo; index: number 
                     backgroundSize: "40px 40px",
                 }}
             />
-        </motion.a>
+        </m.a>
     );
 };
 
@@ -295,7 +298,7 @@ function NetworkTopologyCard() {
 
                 {/* Orbital Nodes */}
                 {[0, 1, 2, 3, 4].map((i) => (
-                    <motion.div
+                    <m.div
                         key={i}
                         animate={{rotate: 360}}
                         transition={{
@@ -311,7 +314,7 @@ function NetworkTopologyCard() {
                     >
                         <div
                             className="w-1.5 h-1.5 rounded-full bg-primary/30 absolute -top-0.75 left-1/2 shadow-sm shadow-primary/40"/>
-                    </motion.div>
+                    </m.div>
                 ))}
             </div>
 
@@ -328,7 +331,7 @@ function NetworkTopologyCard() {
     );
 }
 
-const ContactNodeSkeleton = ({ isLead = false, index }: { isLead?: boolean; index: number }) => {
+const ContactNodeSkeleton = ({isLead = false, index}: { isLead?: boolean; index: number }) => {
     return (
         <div
             className={`animate-pulse relative flex flex-col justify-between overflow-hidden border border-border/20 h-full min-h-80 sm:min-h-90 md:min-h-105
@@ -339,27 +342,29 @@ const ContactNodeSkeleton = ({ isLead = false, index }: { isLead?: boolean; inde
         >
             <div className="flex justify-between items-start z-10 w-full gap-4">
                 <div className="flex flex-col gap-4 md:gap-6">
-                    <div className={`w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-secondary/15 flex items-center justify-center`} />
+                    <div
+                        className={`w-12 h-12 md:w-14 md:h-14 rounded-xl md:rounded-2xl bg-secondary/15 flex items-center justify-center`}/>
 
                     <div className="flex flex-col gap-1.5">
                         <div className="flex items-center gap-2">
                             {isLead && <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/50 animate-pulse"/>}
-                            <span className="w-16 h-2 bg-secondary/10 rounded-full" />
+                            <span className="w-16 h-2 bg-secondary/10 rounded-full"/>
                         </div>
-                        <span className="w-12 h-2.5 bg-secondary/15 rounded-full" />
+                        <span className="w-12 h-2.5 bg-secondary/15 rounded-full"/>
                     </div>
                 </div>
 
-                <div className="w-8 h-8 rounded-lg bg-secondary/10" />
+                <div className="w-8 h-8 rounded-lg bg-secondary/10"/>
             </div>
 
             <div className="z-10 mt-6 md:mt-16 space-y-2.5">
-                <div className={`bg-secondary/20 rounded-xl ${isLead ? "h-12 w-3/4" : "h-8 w-2/3"}`} />
-                {isLead && <div className="bg-secondary/20 rounded-xl h-12 w-1/2" />}
+                <div className={`bg-secondary/20 rounded-xl ${isLead ? "h-12 w-3/4" : "h-8 w-2/3"}`}/>
+                {isLead && <div className="bg-secondary/20 rounded-xl h-12 w-1/2"/>}
             </div>
 
             {isLead && (
-                <span className="absolute -bottom-10 -right-6 text-[22rem] font-calSans opacity-[0.02] dark:opacity-[0.03] pointer-events-none select-none leading-none -rotate-12">
+                <span
+                    className="absolute -bottom-10 -right-6 text-[22rem] font-calSans opacity-[0.02] dark:opacity-[0.03] pointer-events-none select-none leading-none -rotate-12">
                     @
                 </span>
             )}
@@ -380,7 +385,7 @@ export default function ContactSection() {
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 mb-16 md:mb-32 items-start">
                         <div className="lg:col-span-7 flex flex-col">
                             <div className="flex items-center gap-3 mb-6 relative">
-                                <motion.div
+                                <m.div
                                     initial={{width: 0}}
                                     whileInView={{width: 48}}
                                     transition={{duration: 0.6}}
@@ -391,14 +396,14 @@ export default function ContactSection() {
                                 </span>
                             </div>
 
-                            <motion.h2
+                            <m.h2
                                 initial={{opacity: 0, y: 20}}
                                 whileInView={{opacity: 1, y: 0}}
                                 transition={{duration: 0.8}}
                                 className="text-5xl sm:text-7xl md:text-[12vw] font-black tracking-tighter leading-[0.85] md:leading-[0.75] mb-8 md:mb-12 uppercase"
                             >
                                 Start<br/>The<br/>Talk<span className="text-primary/20">.</span>
-                            </motion.h2>
+                            </m.h2>
 
                             <div className="flex flex-col md:flex-row gap-12 items-start md:items-center">
                                 <p className="text-xl md:text-2xl text-muted-foreground max-w-sm font-serif italic leading-relaxed">
@@ -418,9 +423,9 @@ export default function ContactSection() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
                         {isLoading ? (
                             <>
-                                <ContactNodeSkeleton isLead={true} index={0} />
-                                <ContactNodeSkeleton isLead={false} index={1} />
-                                <ContactNodeSkeleton isLead={false} index={2} />
+                                <ContactNodeSkeleton isLead={true} index={0}/>
+                                <ContactNodeSkeleton isLead={false} index={1}/>
+                                <ContactNodeSkeleton isLead={false} index={2}/>
                             </>
                         ) : (
                             contactInfo?.map((info, index) => (

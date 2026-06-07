@@ -1,7 +1,7 @@
 'use client';
 
 import React, {useMemo} from 'react';
-import {motion} from 'framer-motion';
+import {m} from 'framer-motion';
 import {IconBolt, IconBox, IconDeviceMobile, IconStackFront, IconTerminal2, IconWorld} from "@tabler/icons-react";
 import {SkillCategory} from "@/types";
 
@@ -65,7 +65,7 @@ export default function SkillsSection() {
             <div className="container mx-auto px-5 md:px-6 relative z-10">
                 <header className="max-w-7xl mx-auto flex flex-col mb-16 md:mb-28">
                     <div className="flex items-center gap-3 mb-4">
-                        <motion.div
+                        <m.div
                             initial={{width: 0}}
                             whileInView={{width: 48}}
                             className="h-1 w-16 bg-primary rounded-full"
@@ -80,7 +80,7 @@ export default function SkillsSection() {
                         <span className="relative">
                             Arsenal
                             <span className="text-primary/20">.</span>
-                            <motion.span
+                            <m.span
                                 initial={{scaleX: 0}}
                                 whileInView={{scaleX: 1}}
                                 transition={{delay: 0.5, duration: 0.8}}
@@ -89,12 +89,12 @@ export default function SkillsSection() {
                         </span>
                     </h2>
                 </header>
- 
+
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 md:gap-8 max-w-7xl mx-auto">
                     {SKILL_CATEGORIES.map((category: SkillCategory, idx) => {
                         const Icon = category.icon;
                         return (
-                            <motion.article
+                            <m.article
                                 key={category.title}
                                 initial={{opacity: 0, y: 20}}
                                 whileInView={{opacity: 1, y: 0}}
@@ -123,14 +123,14 @@ export default function SkillsSection() {
                                             Mod_0{idx + 1}
                                         </span>
                                     </div>
- 
+
                                     <h3 className="text-xl md:text-3xl font-bold tracking-tighter mb-3">
                                         {category.title}
                                     </h3>
                                     <p className="text-muted-foreground mb-8 max-w-sm text-xs md:text-base leading-relaxed">
                                         {category.description}
                                     </p>
- 
+
                                     <ul className="flex flex-wrap gap-2 mt-auto"
                                         aria-label={`Skills in ${category.title}`}>
                                         {category.skills.map(skill => (
@@ -143,11 +143,11 @@ export default function SkillsSection() {
                                         ))}
                                     </ul>
                                 </div>
-                            </motion.article>
+                            </m.article>
                         );
                     })}
                 </div>
- 
+
                 <footer
                     className="max-w-7xl mx-auto mt-10 md:mt-16 flex flex-col md:flex-row items-center justify-between gap-6 px-6 md:px-8 py-5 rounded-3xl md:rounded-4xl bg-secondary/5 border border-border/40 font-mono">
                     <div className="flex items-center gap-4">
