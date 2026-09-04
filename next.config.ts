@@ -11,6 +11,19 @@ const nextConfig: NextConfig = {
     async headers() {
         return [
             {
+                source: "/resume.pdf",
+                headers: [
+                    {
+                        key: "Content-Disposition",
+                        value: 'attachment; filename="Ajith_Goveas_Resume.pdf"',
+                    },
+                    {
+                        key: "Content-Type",
+                        value: "application/pdf",
+                    },
+                ],
+            },
+            {
                 source: "/:path*(svg|png|jpg|jpeg|webp|gif|ico|webmanifest|woff2)",
                 headers: [
                     {
