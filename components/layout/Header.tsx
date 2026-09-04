@@ -21,9 +21,10 @@ export default function Header() {
     const navItems: NavItem[] = [
         {name: 'Home', href: '#hero', id: '01'},
         {name: 'About', href: '#about', id: '02'},
-        {name: 'Skills', href: '#skills', id: '03'},
-        {name: 'Projects', href: '#projects', id: '04'},
-        {name: 'Contact', href: '#contact', id: '05'}
+        {name: 'Experience', href: '#experience', id: '03'},
+        {name: 'Skills', href: '#skills', id: '04'},
+        {name: 'Projects', href: '#projects', id: '05'},
+        {name: 'Contact', href: '#contact', id: '06'}
     ];
 
     useEffect(() => {
