@@ -143,6 +143,7 @@ const InteractionPlate = memo(({info, index, isFeatured, isBentoThree}: Interact
             rel={isEmail ? undefined : "noopener noreferrer"}
             onClick={handleAction}
             title={`Connect via ${info.label}`}
+            aria-label={`Connect via ${info.label}`}
             initial={{opacity: 0, y: 20}}
             whileInView={{opacity: 1, y: 0}}
             whileHover={{
@@ -159,7 +160,7 @@ const InteractionPlate = memo(({info, index, isFeatured, isBentoThree}: Interact
                 boxShadow: {duration: 0.3}
             }}
             className={cn(
-                "group relative flex flex-col justify-between p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] overflow-hidden",
+                "group relative flex flex-col justify-between p-6 md:p-8 rounded-3xl md:rounded-[2.5rem] overflow-hidden focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
                 "bg-card border border-border/40 shadow-sm",
                 isBentoThree
                     ? (isFeatured ? "md:row-span-2 md:col-span-1 min-h-55 md:min-h-116.5" : "col-span-1 min-h-40 md:min-h-55")
@@ -251,6 +252,9 @@ function MinimalPill({socials}: { socials: Links[] }) {
                         key={socials[index].id}
                         href={socials[index].href}
                         target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Connect via ${socials[index].label}`}
+                        className="rounded-full focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary"
                         initial={{y: 15, opacity: 0}}
                         animate={{y: 0, opacity: 1}}
                         exit={{y: -15, opacity: 0}}
@@ -265,8 +269,9 @@ function MinimalPill({socials}: { socials: Links[] }) {
                 {socials.map((link) => {
                     const m = CONFIG[link.label.toLowerCase()] || CONFIG.default;
                     return (
-                        <a key={link.id} href={link.href} target="_blank"
-                           className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-primary/10 transition-colors">
+                        <a key={link.id} href={link.href} target="_blank" rel="noopener noreferrer"
+                           aria-label={`Connect via ${link.label}`}
+                           className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-primary/10 transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary">
                             <m.icon size={18} style={{color: m.color}}/>
                         </a>
                     );

@@ -195,6 +195,7 @@ const InteractionPlate = ({info, index}: { info: InteractionInfo; index: number 
         <m.a
             href={href}
             target={isEmail ? undefined : "_blank"}
+            rel={isEmail ? undefined : "noopener noreferrer"}
             onClick={handleAction}
             initial={{opacity: 0, y: 30}}
             whileInView={{opacity: 1, y: 0}}
@@ -202,7 +203,7 @@ const InteractionPlate = ({info, index}: { info: InteractionInfo; index: number 
             viewport={{once: true}}
             transition={{duration: 0.6, delay: index * 0.1, ease: [0.23, 1, 0.32, 1]}}
             aria-label={info.label}
-            className={`group relative flex flex-col justify-between overflow-hidden border transition-all duration-700 h-full min-h-80 sm:min-h-90 md:min-h-105
+            className={`group relative flex flex-col justify-between overflow-hidden border transition-all duration-700 h-full min-h-80 sm:min-h-90 md:min-h-105 focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2
             ${isLead
                 ? "p-6 sm:p-10 md:p-16 rounded-[2.5rem] md:rounded-[4rem] md:col-span-2 bg-zinc-950 text-white dark:bg-white dark:text-zinc-950 border-transparent shadow-2xl"
                 : "p-6 sm:p-8 md:p-10 rounded-4xl md:rounded-[3rem] bg-zinc-100/50 dark:bg-zinc-900/40 backdrop-blur-2xl border-zinc-200/50 dark:border-zinc-800/50 hover:bg-white dark:hover:bg-zinc-800"

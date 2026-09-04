@@ -105,7 +105,7 @@ export default function Header() {
                                 key={item.name}
                                 onClick={() => handleNavClick(item.href)}
                                 className={`
-                                    relative px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] transition-all duration-300
+                                    relative px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] transition-all duration-300 rounded-lg focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none
                                     ${activeSection === item.href.substring(1)
                                     ? 'text-foreground'
                                     : 'text-muted-foreground hover:text-foreground'}
@@ -130,8 +130,8 @@ export default function Header() {
                             {mounted && (
                                 <Sheet open={isOpen} onOpenChange={setIsOpen}>
                                     <SheetTrigger asChild>
-                                        <Button variant="outline" size="icon"
-                                                className="h-9 w-9 hover:bg-primary/10 transition-colors">
+                                        <Button variant="outline" size="icon" aria-label="Open navigation menu"
+                                                className="h-9 w-9 hover:bg-primary/10 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
                                             <IconMenuDeep
                                                 className="h-4 w-4 text-muted-foreground/80 group-hover:text-primary"
                                                 strokeWidth={1.5}/>

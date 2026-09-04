@@ -171,13 +171,16 @@ const ProjectTile = memo(({project, index}: { project: Project; index: number })
                 <CardFooter className="p-0 mt-12 pt-8 border-t border-current/15 flex items-center justify-between z-10">
                     <div className="flex gap-8 items-center">
                         {project.githubUrl && (
-                            <a href={project.githubUrl} target="_blank"
-                               className="transition-all hover:scale-110 opacity-60 hover:opacity-100 text-current">
+                            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer"
+                               aria-label={`View ${project.title} code repository on GitHub`}
+                               className="transition-all hover:scale-110 opacity-60 hover:opacity-100 text-current rounded-full focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
                                 <IconBrandGithub size={28} stroke={1.5}/>
                             </a>
                         )}
                         {project.liveUrl && (
-                            <a href={project.liveUrl} target="_blank" className="flex items-center gap-2 group/link opacity-60 hover:opacity-100 text-current transition-all">
+                            <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
+                               aria-label={`View live deployment of ${project.title}`}
+                               className="flex items-center gap-2 group/link opacity-60 hover:opacity-100 text-current transition-all rounded-lg focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
                                 <span className="text-[10px] font-bold uppercase tracking-widest">Live_Deploy</span>
                                 <IconArrowUpRight
                                     size={20}

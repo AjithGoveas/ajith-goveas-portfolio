@@ -26,12 +26,12 @@ export function ModeToggle() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon">
+                <Button variant="outline" size="icon" aria-label="Toggle color theme" className="focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
                     <Sun
                         className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"/>
                     <Moon
                         className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"/>
-                    <span className="sr-only">Toggle theme</span>
+                    <span className="sr-only">Toggle color theme</span>
                 </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
