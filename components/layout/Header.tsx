@@ -27,8 +27,12 @@ export default function Header() {
         {name: 'Contact', href: '#contact', id: '06'}
     ];
 
+    const [scrollProgress, setScrollProgress] = useState(0);
+
     useEffect(() => {
         const handleScroll = () => {
+            const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+            setScrollProgress(totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0);
             setIsScrolled(window.scrollY > 20);
             const scrollPosition = window.scrollY + 150;
 
@@ -63,11 +67,20 @@ export default function Header() {
         >
             <div className="max-w-6xl mx-auto flex justify-center">
                 <nav className={`
-                    pointer-events-auto flex items-center gap-2 md:gap-6 px-3 py-2 md:px-4 md:py-2 rounded-2xl border transition-all duration-700
+                    pointer-events-auto flex items-center gap-2 md:gap-6 px-3 py-2 md:px-4 md:py-2 rounded-2xl border transition-all duration-700 relative overflow-hidden
                     ${isScrolled
                     ? 'bg-background/60 backdrop-blur-2xl border-border/40 shadow-xl scale-[0.98] md:scale-100'
                     : 'bg-transparent border-transparent'}
                 `}>
+                    {/* Header Reading Progress Bar */}
+                    {isScrolled && (
+                        <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-primary/20 pointer-events-none">
+                            <div
+                                className="h-full bg-primary transition-all duration-150"
+                                style={{width: `${scrollProgress}%`}}
+                            />
+                        </div>
+                    )}
 
                     {/* Logo Section (Desktop & Mobile) */}
                     <div

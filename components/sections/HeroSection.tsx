@@ -186,19 +186,26 @@ export default function HeroSection({name}: HeroProps) {
                                         </span>
                                     </span>.
                                 </h2>
-                                <div className="flex flex-col sm:flex-row gap-4">
+                                <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
                                     <Button size="lg"
                                             onClick={() => {
                                                 document.getElementById('projects')?.scrollIntoView({behavior: 'smooth'});
                                             }}
-                                            className="w-full sm:w-auto h-14 px-10 rounded-full bg-foreground text-background hover:bg-foreground/90 font-bold group shadow-lg transition-transform active:scale-95">
+                                            className="w-full sm:w-auto h-14 px-8 rounded-full bg-foreground text-background hover:bg-foreground/90 font-bold group shadow-lg transition-transform active:scale-95">
                                         View Projects
                                         <ArrowUpRight
                                             className="ml-2 w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"/>
                                     </Button>
                                     <Button variant="outline" size="lg"
+                                            onClick={() => {
+                                                document.getElementById('contact')?.scrollIntoView({behavior: 'smooth'});
+                                            }}
+                                            className="w-full sm:w-auto h-14 px-8 rounded-full border-border/80 font-mono text-[10px] uppercase tracking-widest hover:bg-secondary/20 transition-colors">
+                                        Get In Touch
+                                    </Button>
+                                    <Button variant="outline" size="lg"
                                             asChild
-                                            className="w-full sm:w-auto h-14 px-10 rounded-full border-border/80 font-mono text-[10px] uppercase tracking-widest hover:bg-secondary/20 transition-colors">
+                                            className="w-full sm:w-auto h-14 px-8 rounded-full border-border/80 font-mono text-[10px] uppercase tracking-widest hover:bg-secondary/20 transition-colors">
                                         <a
                                             href="/resume.pdf"
                                             download="Ajith_Goveas_Resume.pdf"
