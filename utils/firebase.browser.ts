@@ -22,6 +22,7 @@ const db = getFirestore(app);
 const socialLinksCollection = collection(db, "social_links");
 const projectsCollection = collection(db, "projects");
 const contactCollection = collection(db, "contact");
+const experiencesCollection = collection(db, "experiences");
 
 export {
     app,
@@ -29,4 +30,5 @@ export {
     socialLinksCollection,
     projectsCollection,
     contactCollection,
+    experiencesCollection,
 }

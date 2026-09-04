@@ -12,6 +12,17 @@ export interface Project {
     liveUrl?: string;
 }
 
+export interface Experience {
+    id: string;
+    role: string;
+    company: string;
+    period: string;
+    location?: string;
+    description: string;
+    skills: string[];
+    order: number;
+}
+
 export enum ProjectType {
     Android = 'Android',
     Web = 'Web',
