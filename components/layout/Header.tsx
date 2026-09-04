@@ -100,26 +100,24 @@ export default function Header() {
 
                     {/* Desktop Navigation */}
                     <div className="hidden md:flex items-center gap-1">
-                        {navItems.map((item: NavItem) => (
-                            <button
-                                key={item.name}
-                                onClick={() => handleNavClick(item.href)}
-                                className={`
-                                    relative px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] transition-all duration-300 rounded-lg focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none
-                                    ${activeSection === item.href.substring(1)
-                                    ? 'text-foreground'
-                                    : 'text-muted-foreground hover:text-foreground'}
-                                `}
-                            >
-                                {item.name}
-                                {activeSection === item.href.substring(1) && (
-                                    <m.div
-                                        layoutId="active-glow"
-                                        className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent"
+                        {navItems.map((item: NavItem) => {
+                            const isActive = activeSection === item.href.substring(1);
+                            return (
+                                <button
+                                    key={item.name}
+                                    onClick={() => handleNavClick(item.href)}
+                                    className={`
+                                        relative px-4 py-1.5 text-[11px] font-bold uppercase tracking-[0.15em] transition-all duration-300 rounded-lg focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:outline-none
+                                        ${isActive ? 'text-foreground' : 'text-muted-foreground hover:text-foreground'}
+                                    `}
+                                >
+                                    {item.name}
+                                    <span
+                                        className={`absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-primary to-transparent transition-opacity duration-300 ${isActive ? 'opacity-100' : 'opacity-0'}`}
                                     />
-                                )}
-                            </button>
-                        ))}
+                                </button>
+                            );
+                        })}
                     </div>
 
                     {/* Utilities & Mobile Trigger */}
