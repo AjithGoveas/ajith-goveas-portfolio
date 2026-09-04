@@ -202,6 +202,8 @@ export default function HeroSection({name}: HeroProps) {
                                         <a
                                             href="/resume.pdf"
                                             download="Ajith_Goveas_Resume.pdf"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
                                         >
                                             Download CV <Download className="ml-2 w-4 h-4"/>
                                         </a>
