@@ -130,7 +130,6 @@ const InteractionPlate = memo(({info, index, isFeatured, isBentoThree}: Interact
 
     const handleAction = (e: React.MouseEvent) => {
         if (isEmail) {
-            e.preventDefault();
             navigator.clipboard.writeText(info.username);
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);

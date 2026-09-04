@@ -185,7 +185,6 @@ const InteractionPlate = ({info, index}: { info: InteractionInfo; index: number 
 
     const handleAction = (e: React.MouseEvent) => {
         if (isEmail) {
-            e.preventDefault();
             navigator.clipboard.writeText(info.value);
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
