@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {m} from 'framer-motion';
-import {Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger} from '@/components/ui/sheet';
+import {Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger} from '@/components/ui/sheet';
 import {ModeToggle} from '@/components/toggle-theme';
 import {NavItem} from "@/types";
 import {Button} from "@/components/ui/button";
@@ -131,7 +131,7 @@ export default function Header() {
                                 <Sheet open={isOpen} onOpenChange={setIsOpen}>
                                     <SheetTrigger asChild>
                                         <Button variant="outline" size="icon" aria-label="Open navigation menu"
-                                                className="h-9 w-9 hover:bg-primary/10 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                                                className="h-11 w-11 hover:bg-primary/10 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
                                             <IconMenuDeep
                                                 className="h-4 w-4 text-muted-foreground/80 group-hover:text-primary"
                                                 strokeWidth={1.5}/>
@@ -142,6 +142,9 @@ export default function Header() {
                                         <SheetHeader className="text-left">
                                             <SheetTitle
                                                 className="text-[10px] font-mono uppercase tracking-[0.4em] opacity-20">Navigation</SheetTitle>
+                                            <SheetDescription className="sr-only">
+                                                Mobile site navigation menu to jump between portfolio sections.
+                                            </SheetDescription>
                                         </SheetHeader>
 
                                         {/* Subtly Animated Mobile List */}

@@ -17,7 +17,7 @@ export function ModeToggle() {
 
     if (!mounted) {
         return (
-            <Button variant="outline" size="icon" className="opacity-0">
+            <Button variant="outline" size="icon" className="h-11 w-11 md:h-9 md:w-9 opacity-0">
                 <span className="sr-only">Toggle theme</span>
             </Button>
         )
@@ -26,7 +26,7 @@ export function ModeToggle() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="icon" aria-label="Toggle color theme" className="focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
+                <Button variant="outline" size="icon" aria-label="Toggle color theme" className="h-11 w-11 md:h-9 md:w-9 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
                     <Sun
                         className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"/>
                     <Moon

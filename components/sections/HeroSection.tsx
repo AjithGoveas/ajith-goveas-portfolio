@@ -188,29 +188,32 @@ export default function HeroSection({name}: HeroProps) {
                                 </h2>
                                 <div className="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
                                     <Button size="lg"
+                                            aria-label="Navigate to Projects section"
                                             onClick={() => {
                                                 document.getElementById('projects')?.scrollIntoView({behavior: 'smooth'});
                                             }}
-                                            className="w-full sm:w-auto h-14 px-8 rounded-full bg-foreground text-background hover:bg-foreground/90 font-bold group shadow-lg transition-transform active:scale-95">
+                                            className="w-full sm:w-auto h-14 px-8 rounded-full bg-foreground text-background hover:bg-foreground/90 font-bold group shadow-lg transition-transform active:scale-95 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
                                         View Projects
                                         <ArrowUpRight
                                             className="ml-2 w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"/>
                                     </Button>
                                     <Button variant="outline" size="lg"
+                                            aria-label="Navigate to Contact section"
                                             onClick={() => {
                                                 document.getElementById('contact')?.scrollIntoView({behavior: 'smooth'});
                                             }}
-                                            className="w-full sm:w-auto h-14 px-8 rounded-full border-border/80 font-mono text-[10px] uppercase tracking-widest hover:bg-secondary/20 transition-colors">
+                                            className="w-full sm:w-auto h-14 px-8 rounded-full border-border/80 font-mono text-[10px] uppercase tracking-widest hover:bg-secondary/20 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
                                         Get In Touch
                                     </Button>
                                     <Button variant="outline" size="lg"
                                             asChild
-                                            className="w-full sm:w-auto h-14 px-8 rounded-full border-border/80 font-mono text-[10px] uppercase tracking-widest hover:bg-secondary/20 transition-colors">
+                                            className="w-full sm:w-auto h-14 px-8 rounded-full border-border/80 font-mono text-[10px] uppercase tracking-widest hover:bg-secondary/20 transition-colors focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
                                         <a
                                             href="/resume.pdf"
                                             download="Ajith_Goveas_Resume.pdf"
                                             target="_blank"
                                             rel="noopener noreferrer"
+                                            aria-label="Download Ajith Goveas CV PDF"
                                         >
                                             Download CV <Download className="ml-2 w-4 h-4"/>
                                         </a>
