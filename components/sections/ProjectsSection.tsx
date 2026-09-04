@@ -21,19 +21,21 @@ import {useProjects} from "@/hooks/useProjects";
 import {filters} from "@/constants/projects";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger,} from "@/components/ui/dropdown-menu";
 import {Button} from "@/components/ui/button";
+import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card";
+import {Badge} from "@/components/ui/badge";
 import {cn} from "@/lib/utils";
 
 const TYPE_CONFIG: Record<ProjectType, { icon: React.ReactNode; label: string }> = {
-    [ProjectType.Android]: {icon: <IconBrandAndroid size={18} stroke={1.5}/>, label: "Android"},
-    [ProjectType.Web]: {icon: <IconWorld size={18} stroke={1.5}/>, label: "Web"},
-    [ProjectType.CrossPlatform]: {icon: <IconDeviceMobile size={18} stroke={1.5}/>, label: "KMM/CMP"},
-    [ProjectType.Frontend]: {icon: <IconLayoutDashboard size={18} stroke={1.5}/>, label: "Frontend"},
-    [ProjectType.FullStack]: {icon: <IconStackFront size={18} stroke={1.5}/>, label: "FullStack"},
-    [ProjectType.Backend]: {icon: <IconDatabase size={18} stroke={1.5}/>, label: "Backend"},
-    [ProjectType.Desktop]: {icon: <IconDeviceDesktop size={18} stroke={1.5}/>, label: "Desktop"},
-    [ProjectType.DataScience]: {icon: <IconCode size={18} stroke={1.5}/>, label: "Data"},
-    [ProjectType.MachineLearning]: {icon: <IconCpu size={18} stroke={1.5}/>, label: "ML"},
-    [ProjectType.AI]: {icon: <IconCpu size={18} stroke={1.5}/>, label: "AI"},
+	[ProjectType.Android]: { icon: <IconBrandAndroid size={18} stroke={1.5} />, label: 'Android' },
+	[ProjectType.Web]: { icon: <IconWorld size={18} stroke={1.5} />, label: 'Web' },
+	[ProjectType.CrossPlatform]: { icon: <IconDeviceMobile size={18} stroke={1.5} />, label: 'Cross Platform' },
+	[ProjectType.Frontend]: { icon: <IconLayoutDashboard size={18} stroke={1.5} />, label: 'Frontend' },
+	[ProjectType.FullStack]: { icon: <IconStackFront size={18} stroke={1.5} />, label: 'FullStack' },
+	[ProjectType.Backend]: { icon: <IconDatabase size={18} stroke={1.5} />, label: 'Backend' },
+	[ProjectType.Desktop]: { icon: <IconDeviceDesktop size={18} stroke={1.5} />, label: 'Desktop' },
+	[ProjectType.DataScience]: { icon: <IconCode size={18} stroke={1.5} />, label: 'Data' },
+	[ProjectType.MachineLearning]: { icon: <IconCpu size={18} stroke={1.5} />, label: 'ML' },
+	[ProjectType.AI]: { icon: <IconCpu size={18} stroke={1.5} />, label: 'AI' },
 };
 
 const ProjectTileSkeleton = ({isHero = false, isWide = false, index}: {
@@ -113,26 +115,26 @@ const ProjectTile = memo(({project, index}: { project: Project; index: number })
                 ${isWide ? 'lg:col-span-2 min-h-100' : ''}
             `}
         >
-            <div className={`
-                relative h-full w-full p-6 sm:p-8 md:p-12 rounded-4xl md:rounded-[3rem] flex flex-col justify-between
+            <Card className={`
+                relative h-full w-full p-6 sm:p-8 md:p-12 rounded-4xl md:rounded-[3rem] flex flex-col justify-between gap-0
                 border transition-all duration-700 overflow-hidden
                 ${isHero
                 ? 'bg-zinc-950 text-white dark:bg-zinc-50 dark:text-zinc-950 border-transparent shadow-2xl'
                 : 'bg-card/40 backdrop-blur-xl border-border/40 hover:border-primary/50 shadow-sm'}
             `}>
 
-                <div className="flex justify-between items-start z-10 w-full gap-4">
+                <CardHeader className="p-0 flex flex-row justify-between items-start z-10 w-full gap-4 space-y-0">
                     <div className="flex flex-wrap gap-2 max-w-[75%]">
                         {project.types.map((type) => {
                             const config = TYPE_CONFIG[type] || TYPE_CONFIG[ProjectType.Web];
                             return (
-                                <div key={type}
-                                     className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-current/10 bg-current/5">
+                                <Badge key={type} variant="outline"
+                                     className="flex items-center gap-2 px-3 py-1.5 rounded-xl border border-current/20 bg-current/5 font-bold uppercase tracking-[0.2em] text-[9px] md:text-[10px] text-current">
                                     {config.icon}
-                                    <span className="text-[9px] md:text-[10px] font-bold uppercase tracking-[0.2em]">
+                                    <span>
                                         {config.label}
                                     </span>
-                                </div>
+                                </Badge>
                             );
                         })}
                     </div>
@@ -141,62 +143,62 @@ const ProjectTile = memo(({project, index}: { project: Project; index: number })
                         <span className="text-[10px] font-mono opacity-40 font-bold tracking-widest uppercase">
                             Rel_Year
                         </span>
-                        <span className="text-sm font-mono font-bold tracking-tighter">
+                        <span className="text-sm font-mono font-bold tracking-tighter text-current">
                             {project.year}
                         </span>
                     </div>
-                </div>
+                </CardHeader>
 
-                <div className={`${isHero ? 'mt-12 md:mt-20' : 'mt-8 md:mt-10'} z-10`}>
-                    <h3 className={`font-bold tracking-tighter leading-[0.9] md:leading-[0.85] mb-4 md:mb-6
+                <CardContent className={`p-0 ${isHero ? 'mt-12 md:mt-20' : 'mt-8 md:mt-10'} z-10`}>
+                    <CardTitle className={`font-bold tracking-tighter leading-[0.9] md:leading-[0.85] mb-4 md:mb-6 p-0 text-current
                         ${isHero ? 'text-4xl sm:text-6xl md:text-[6.5rem] font-calSans' : 'text-2xl sm:text-3xl md:text-5xl font-inter'}`}>
                         {project.title}
-                    </h3>
-                    <p className={`font-inter leading-relaxed opacity-60 max-w-112.5
+                    </CardTitle>
+                    <p className={`font-inter leading-relaxed opacity-70 max-w-112.5 text-current
                         ${isHero ? 'text-base md:text-xl' : 'text-sm'}`}>
                         {project.description}
                     </p>
 
                     <div className="flex flex-wrap gap-x-6 gap-y-3 mt-10">
                         {project.tech.map((t) => (
-                            <span key={t} className="text-[10px] font-mono uppercase tracking-[0.3em] opacity-40">
+                            <span key={t} className="text-[10px] font-mono uppercase tracking-[0.3em] opacity-60 text-current font-bold">
                                 // {t}
                             </span>
                         ))}
                     </div>
-                </div>
+                </CardContent>
 
-                <div className="mt-12 pt-8 border-t border-current/10 flex items-center justify-between z-10">
+                <CardFooter className="p-0 mt-12 pt-8 border-t border-current/15 flex items-center justify-between z-10">
                     <div className="flex gap-8 items-center">
                         {project.githubUrl && (
                             <a href={project.githubUrl} target="_blank"
-                               className="transition-all hover:scale-110 opacity-60 hover:opacity-100 hover:text-primary">
+                               className="transition-all hover:scale-110 opacity-60 hover:opacity-100 text-current">
                                 <IconBrandGithub size={28} stroke={1.5}/>
                             </a>
                         )}
                         {project.liveUrl && (
-                            <a href={project.liveUrl} target="_blank" className="flex items-center gap-2 group/link">
+                            <a href={project.liveUrl} target="_blank" className="flex items-center gap-2 group/link opacity-60 hover:opacity-100 text-current transition-all">
                                 <span className="text-[10px] font-bold uppercase tracking-widest">Live_Deploy</span>
                                 <IconArrowUpRight
                                     size={20}
-                                    className="transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1 text-primary"/>
+                                    className="transition-transform group-hover/link:-translate-y-1 group-hover/link:translate-x-1 text-current"/>
                             </a>
                         )}
                     </div>
 
                     {/* Ghost Number remains tied to Index for visual progression */}
-                    <span className={`absolute -bottom-6 right-6 font-mono italic font-bold opacity-[0.04] dark:opacity-[0.07] select-none pointer-events-none leading-none group-hover:opacity-[0.08] group-hover:-translate-y-4 transition-all duration-700
+                    <span className={`absolute -bottom-6 right-6 font-mono italic font-bold opacity-[0.04] dark:opacity-[0.07] select-none pointer-events-none leading-none group-hover:opacity-[0.08] group-hover:-translate-y-4 transition-all duration-700 text-current
                         ${isHero ? 'text-[15rem]' : 'text-9xl'}`}>
                         {index + 1}
                     </span>
-                </div>
+                </CardFooter>
 
                 <div className="absolute inset-0 opacity-[0.03] pointer-events-none"
                      style={{
                          backgroundImage: `radial-gradient(circle, currentColor 1px, transparent 1px)`,
                          backgroundSize: '32px 32px'
                      }}/>
-            </div>
+            </Card>
         </m.div>
     );
 });

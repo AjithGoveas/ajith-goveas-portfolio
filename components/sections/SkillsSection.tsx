@@ -5,6 +5,9 @@ import {m} from 'framer-motion';
 import {IconBolt, IconBox, IconDeviceMobile, IconStackFront, IconTerminal2, IconWorld} from "@tabler/icons-react";
 import {SkillCategory} from "@/types";
 
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Badge} from "@/components/ui/badge";
+
 const SKILL_CATEGORIES: SkillCategory[] = [
     {
         title: "Mobile Ecosystem",
@@ -94,23 +97,23 @@ export default function SkillsSection() {
                     {SKILL_CATEGORIES.map((category: SkillCategory, idx) => {
                         const Icon = category.icon;
                         return (
-                            <m.article
+                            <m.div
                                 key={category.title}
                                 initial={{opacity: 0, y: 20}}
                                 whileInView={{opacity: 1, y: 0}}
                                 viewport={{once: true, margin: "-50px"}}
                                 transition={{delay: idx * 0.05, ease: "easeOut"}}
-                                className={`
-                                    ${category.span} group relative 
+                                className={`${category.span} group flex`}
+                            >
+                                <Card className={`
+                                    relative w-full
                                     p-6 md:p-12 rounded-4xl md:rounded-[3.5rem] 
-                                    bg-card/40 backdrop-blur-md border border-border/50 
+                                    bg-card/40 backdrop-blur-md border-border/50 gap-0 flex flex-col justify-between
                                     transition-all duration-500
                                     after:absolute after:inset-0 after:rounded-[inherit] after:opacity-0 after:transition-opacity after:duration-500
                                     ${category.glow} hover:after:opacity-100 hover:border-primary/20
-                                `}
-                            >
-                                <div className="relative z-10 flex flex-col h-full">
-                                    <div className="flex justify-between items-start mb-8 md:mb-16">
+                                `}>
+                                    <CardHeader className="p-0 flex flex-row justify-between items-start mb-8 md:mb-16 space-y-0 z-10">
                                         <div className={`
                                             p-3 md:p-4 bg-background border border-border/40 rounded-xl md:rounded-2xl shadow-xl 
                                             group-hover:bg-primary group-hover:text-primary-foreground 
@@ -122,28 +125,31 @@ export default function SkillsSection() {
                                             className="text-[10px] font-mono opacity-20 group-hover:opacity-100 transition-opacity uppercase font-bold">
                                             Mod_0{idx + 1}
                                         </span>
-                                    </div>
+                                    </CardHeader>
 
-                                    <h3 className="text-xl md:text-3xl font-bold tracking-tighter mb-3">
-                                        {category.title}
-                                    </h3>
-                                    <p className="text-muted-foreground mb-8 max-w-sm text-xs md:text-base leading-relaxed">
-                                        {category.description}
-                                    </p>
+                                    <CardContent className="p-0 z-10 flex flex-col h-full justify-between">
+                                        <div>
+                                            <CardTitle className="text-xl md:text-3xl font-bold tracking-tighter mb-3 p-0">
+                                                {category.title}
+                                            </CardTitle>
+                                            <p className="text-muted-foreground mb-8 max-w-sm text-xs md:text-base leading-relaxed">
+                                                {category.description}
+                                            </p>
+                                        </div>
 
-                                    <ul className="flex flex-wrap gap-2 mt-auto"
-                                        aria-label={`Skills in ${category.title}`}>
-                                        {category.skills.map(skill => (
-                                            <li
-                                                key={skill}
-                                                className="px-2.5 md:px-4 py-1 md:py-2 bg-background/60 border border-border/60 rounded-lg md:rounded-xl text-[9px] md:text-xs font-bold tracking-tight uppercase"
-                                            >
-                                                {skill}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            </m.article>
+                                        <ul className="flex flex-wrap gap-2 mt-auto"
+                                            aria-label={`Skills in ${category.title}`}>
+                                            {category.skills.map(skill => (
+                                                <li key={skill}>
+                                                    <Badge variant="outline" className="px-2.5 md:px-4 py-1 md:py-2 bg-background/60 border border-border/60 rounded-lg md:rounded-xl text-[9px] md:text-xs font-bold tracking-tight uppercase">
+                                                        {skill}
+                                                    </Badge>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </CardContent>
+                                </Card>
+                            </m.div>
                         );
                     })}
                 </div>

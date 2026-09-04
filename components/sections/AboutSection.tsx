@@ -14,6 +14,8 @@ import {
     IconSparkles,
     IconWorld
 } from "@tabler/icons-react";
+import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {Badge} from "@/components/ui/badge";
 
 export default function AboutSection() {
     const focusAreas = [
@@ -93,90 +95,93 @@ export default function AboutSection() {
                             initial={{opacity: 0, y: 20}}
                             whileInView={{opacity: 1, y: 0}}
                             viewport={{once: true}}
-                            className="lg:col-span-8 p-6 sm:p-8 md:p-14 rounded-4xl md:rounded-[3rem] bg-card/30 backdrop-blur-xl border border-border/50 flex flex-col justify-between relative overflow-hidden group hover:border-primary/30 transition-colors duration-500"
+                            className="lg:col-span-8 flex"
                         >
-                            <div className="space-y-8 relative z-10">
-                                <div className="flex items-center gap-3 text-primary/80">
-                                    <div className="p-2 bg-primary/10 rounded-lg">
-                                        <IconSchool size={18}/>
+                            <Card className="p-6 sm:p-8 md:p-14 rounded-4xl md:rounded-[3rem] bg-card/30 backdrop-blur-xl border-border/50 flex flex-col justify-between relative overflow-hidden group hover:border-primary/30 transition-colors duration-500 gap-0 w-full">
+                                <CardContent className="p-0 space-y-8 relative z-10">
+                                    <div className="flex items-center gap-3 text-primary/80">
+                                        <div className="p-2 bg-primary/10 rounded-lg">
+                                            <IconSchool size={18}/>
+                                        </div>
+                                        <span className="text-[10px] font-mono font-bold tracking-widest uppercase italic">
+                                            Education // SCEM
+                                        </span>
                                     </div>
-                                    <span className="text-[10px] font-mono font-bold tracking-widest uppercase italic">
-                                        Education // SCEM
-                                    </span>
-                                </div>
 
-                                <h3 className="text-2xl sm:text-3xl md:text-5xl font-serif leading-[1.2] md:leading-[1.1] tracking-tight text-foreground/90">
-                                    Pursuing B.E. in <span className="text-primary italic">Computer Science</span>,
-                                    specializing in the art of scalable applications.
-                                </h3>
+                                    <CardTitle className="text-2xl sm:text-3xl md:text-5xl font-serif leading-[1.2] md:leading-[1.1] tracking-tight text-foreground/90 p-0">
+                                        Pursuing B.E. in <span className="text-primary italic">Computer Science</span>,
+                                        specializing in the art of scalable applications.
+                                    </CardTitle>
 
+                                    <div
+                                        className="space-y-4 md:space-y-6 text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed max-w-3xl font-medium">
+                                        <p>
+                                            My academic path at Sahyadri College has sparked a deep-seated passion for
+                                            application development. I don't just write code; I build meaningful
+                                            bridges between <span className="text-foreground border-b border-primary/20">technical complexity</span> and
+                                            <span
+                                                className="text-foreground border-b border-primary/20"> user-centric value.</span>
+                                        </p>
+                                        <p>
+                                            I am currently deep-diving into <span className="text-primary font-bold">Kotlin Multiplatform (KMM)</span>,
+                                            while maintaining a high-active pulse on full-stack web architectures.
+                                        </p>
+                                    </div>
+                                </CardContent>
                                 <div
-                                    className="space-y-4 md:space-y-6 text-sm sm:text-base md:text-lg text-muted-foreground leading-relaxed max-w-3xl font-medium">
-                                    <p>
-                                        My academic path at Sahyadri College has sparked a deep-seated passion for
-                                        application development. I don't just write code; I build meaningful
-                                        bridges between <span className="text-foreground border-b border-primary/20">technical complexity</span> and
-                                        <span
-                                            className="text-foreground border-b border-primary/20"> user-centric value.</span>
-                                    </p>
-                                    <p>
-                                        I am currently deep-diving into <span className="text-primary font-bold">Kotlin Multiplatform (KMM)</span>,
-                                        while maintaining a high-active pulse on full-stack web architectures.
-                                    </p>
+                                    className="absolute -bottom-6 -right-6 text-[8rem] sm:text-[12rem] group-hover:text-[10rem] sm:group-hover:text-[15rem] font-mono font-bold opacity-[0.04] dark:opacity-[0.07] select-none pointer-events-none leading-none group-hover:opacity-[0.08] group-hover:-translate-y-4 transition-all duration-700">
+                                    CODE
                                 </div>
-                            </div>
-                            <div
-                                className="absolute -bottom-6 -right-6 text-[8rem] sm:text-[12rem] group-hover:text-[10rem] sm:group-hover:text-[15rem] font-mono font-bold opacity-[0.04] dark:opacity-[0.07] select-none pointer-events-none leading-none group-hover:opacity-[0.08] group-hover:-translate-y-4 transition-all duration-700">
-                                CODE
-                            </div>
+                            </Card>
                         </m.div>
 
                         <m.div
                             initial={{opacity: 0, scale: 0.95}}
                             whileInView={{opacity: 1, scale: 1}}
                             viewport={{once: true}}
-                            className="lg:col-span-4 p-6 sm:p-8 md:p-10 rounded-4xl md:rounded-[3rem] bg-primary text-primary-foreground relative overflow-hidden flex flex-col justify-between min-h-87.5 md:min-h-100 shadow-2xl shadow-primary/20 group"
+                            className="lg:col-span-4 flex"
                         >
-                            <div
-                                className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-colors duration-700"/>
+                            <Card className="p-6 sm:p-8 md:p-10 rounded-4xl md:rounded-[3rem] bg-primary text-primary-foreground relative overflow-hidden flex flex-col justify-between min-h-87.5 md:min-h-100 shadow-2xl shadow-primary/20 group gap-0 w-full border-0">
+                                <div
+                                    className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-3xl group-hover:bg-white/20 transition-colors duration-700"/>
 
-                            <IconSparkles size={40}
-                                          className="opacity-20 absolute top-10 right-10 group-hover:rotate-12 group-hover:scale-110 transition-all duration-500"/>
+                                <IconSparkles size={40}
+                                              className="opacity-20 absolute top-10 right-10 group-hover:rotate-12 group-hover:scale-110 transition-all duration-500"/>
 
-                            <div className="space-y-6 relative z-10">
-                                <h4 className="text-2xl font-bold tracking-tighter uppercase">The Mission</h4>
-                                <div className="space-y-4">
-                                    <p className="text-sm md:text-base opacity-95 leading-relaxed font-semibold">
-                                        My objective is to transform complex technical requirements into elegant,
-                                        high-performance digital products.
-                                    </p>
-                                    <p className="text-xs md:text-sm opacity-85 leading-relaxed font-medium italic">
-                                        "I believe that code should be as maintainable as it is powerful. Every line I
-                                        write
-                                        is a commitment to architectural integrity and user delight."
-                                    </p>
-                                </div>
-                            </div>
+                                <CardContent className="p-0 space-y-6 relative z-10">
+                                    <h4 className="text-2xl font-bold tracking-tighter uppercase">The Mission</h4>
+                                    <div className="space-y-4">
+                                        <p className="text-sm md:text-base opacity-95 leading-relaxed font-semibold">
+                                            My objective is to transform complex technical requirements into elegant,
+                                            high-performance digital products.
+                                        </p>
+                                        <p className="text-xs md:text-sm opacity-85 leading-relaxed font-medium italic">
+                                            "I believe that code should be as maintainable as it is powerful. Every line I
+                                            write
+                                            is a commitment to architectural integrity and user delight."
+                                        </p>
+                                    </div>
+                                </CardContent>
 
-                            <div
-                                className="pt-6 border-t border-primary-foreground/20 flex flex-col gap-4 relative z-10">
-                                <div className="flex items-center justify-between">
-                <span className="text-[10px] font-mono uppercase tracking-widest opacity-60 italic">
-                    Core_Drive // {currentYear}
-                </span>
-                                    <div className="p-2 bg-white/10 rounded-lg">
-                                        <IconCode size={18} className="opacity-80"/>
+                                <div
+                                    className="pt-6 border-t border-primary-foreground/20 flex flex-col gap-4 relative z-10">
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-[10px] font-mono uppercase tracking-widest opacity-60 italic">
+                                            Core_Drive // {currentYear}
+                                        </span>
+                                        <div className="p-2 bg-white/10 rounded-lg">
+                                            <IconCode size={18} className="opacity-80"/>
+                                        </div>
+                                    </div>
+                                    <div className="flex flex-wrap gap-2">
+                                        {['Scalability', 'Performance', 'UX'].map((tag) => (
+                                            <Badge key={tag} variant="secondary" className="px-2 py-1 bg-white/10 text-primary-foreground rounded-md text-[9px] font-bold uppercase tracking-tighter border-0">
+                                                {tag}
+                                            </Badge>
+                                        ))}
                                     </div>
                                 </div>
-                                <div className="flex flex-wrap gap-2">
-                                    {['Scalability', 'Performance', 'UX'].map((tag) => (
-                                        <span key={tag}
-                                              className="px-2 py-1 bg-white/10 rounded-md text-[9px] font-bold uppercase tracking-tighter">
-                        {tag}
-                    </span>
-                                    ))}
-                                </div>
-                            </div>
+                            </Card>
                         </m.div>
 
                         <div className="lg:col-span-12 grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
@@ -187,29 +192,31 @@ export default function AboutSection() {
                                     whileInView={{opacity: 1, y: 0}}
                                     viewport={{once: true}}
                                     transition={{delay: index * 0.1}}
-                                    className="p-6 md:p-8 rounded-4xl md:rounded-[2.5rem] bg-secondary/10 border border-border/40 hover:bg-secondary/20 hover:border-primary/30 transition-all duration-500 flex flex-col sm:flex-row items-start gap-4 sm:gap-6 group relative overflow-hidden"
+                                    className="flex"
                                 >
-                                    <div
-                                        className="p-3 md:p-4 rounded-xl md:rounded-2xl bg-background shadow-lg text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 z-10 shrink-0">
-                                        <area.icon size={24} className="md:w-7 md:h-7"/>
-                                    </div>
-                                    <div className="relative z-10">
-                                        <span
-                                            className="text-[9px] font-mono font-bold uppercase tracking-[0.2em] text-primary/60 mb-1 block italic">
-                                            {area.tag}
-                                        </span>
-                                        <h4 className="text-xl md:text-2xl font-bold mb-1 tracking-tight flex items-center gap-2">
-                                            {area.label}
-                                            <div
-                                                className="p-2 rounded-xl bg-zinc-500/10 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all">
-                                                <IconArrowUpRight size={14}
-                                                />
-                                            </div>
-                                        </h4>
-                                        <p className="text-xs md:text-sm text-muted-foreground leading-relaxed italic">"{area.desc}"</p>
-                                    </div>
-                                    <div
-                                        className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"/>
+                                    <Card className="p-6 sm:p-8 md:p-8 rounded-4xl md:rounded-[2.5rem] bg-secondary/10 border-border/40 hover:bg-secondary/20 hover:border-primary/30 transition-all duration-500 flex flex-col sm:flex-row items-start gap-4 sm:gap-6 group relative overflow-hidden w-full">
+                                        <div
+                                            className="p-3 md:p-4 rounded-xl md:rounded-2xl bg-background shadow-lg text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-500 z-10 shrink-0">
+                                            <area.icon size={24} className="md:w-7 md:h-7"/>
+                                        </div>
+                                        <div className="relative z-10">
+                                            <span
+                                                className="text-[9px] font-mono font-bold uppercase tracking-[0.2em] text-primary/60 mb-1 block italic">
+                                                {area.tag}
+                                            </span>
+                                            <h4 className="text-xl md:text-2xl font-bold mb-1 tracking-tight flex items-center gap-2">
+                                                {area.label}
+                                                <div
+                                                    className="p-2 rounded-xl bg-zinc-500/10 opacity-0 -translate-y-1 translate-x-1 group-hover:opacity-100 group-hover:translate-y-0 group-hover:translate-x-0 transition-all">
+                                                    <IconArrowUpRight size={14}
+                                                    />
+                                                </div>
+                                            </h4>
+                                            <p className="text-xs md:text-sm text-muted-foreground leading-relaxed italic">"{area.desc}"</p>
+                                        </div>
+                                        <div
+                                            className="absolute inset-0 bg-linear-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"/>
+                                    </Card>
                                 </m.div>
                             ))}
                         </div>
@@ -231,20 +238,22 @@ export default function AboutSection() {
                                         whileInView={{opacity: 1, x: 0}}
                                         viewport={{once: true}}
                                         transition={{delay: index * 0.1}}
-                                        className="p-5 rounded-3xl md:rounded-4xl border border-dashed border-border/60 hover:border-primary/40 hover:bg-primary/2 transition-all duration-300 flex flex-col gap-3 md:gap-4 group"
+                                        className="flex"
                                     >
-                                        <div
-                                            className="p-2.5 md:p-3 w-fit rounded-lg md:rounded-xl bg-secondary/20 text-primary/70 group-hover:text-primary group-hover:scale-110 transition-all">
-                                            <interest.icon size={18} className="md:w-5 md:h-5"/>
-                                        </div>
-                                        <div>
-                                            <h5 className="font-bold text-sm mb-1 uppercase tracking-tight group-hover:text-primary transition-colors">
-                                                {interest.label}
-                                            </h5>
-                                            <p className="text-xs text-muted-foreground leading-relaxed">
-                                                {interest.desc}
-                                            </p>
-                                        </div>
+                                        <Card className="p-5 rounded-3xl md:rounded-4xl border-dashed border-border/60 hover:border-primary/40 hover:bg-primary/2 transition-all duration-300 flex flex-col gap-3 md:gap-4 group w-full bg-transparent shadow-none">
+                                            <div
+                                                className="p-2.5 md:p-3 w-fit rounded-lg md:rounded-xl bg-secondary/20 text-primary/70 group-hover:text-primary group-hover:scale-110 transition-all">
+                                                <interest.icon size={18} className="md:w-5 md:h-5"/>
+                                            </div>
+                                            <div>
+                                                <h5 className="font-bold text-sm mb-1 uppercase tracking-tight group-hover:text-primary transition-colors">
+                                                    {interest.label}
+                                                </h5>
+                                                <p className="text-xs text-muted-foreground leading-relaxed">
+                                                    {interest.desc}
+                                                </p>
+                                            </div>
+                                        </Card>
                                     </m.div>
                                 ))}
                             </div>
